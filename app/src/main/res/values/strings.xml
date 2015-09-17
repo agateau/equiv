@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Equiv</string>
+
+    <string name="activity_title_add_product">Add Product</string>
+
+    <string name="action_settings">Settings</string>
+
+    <string name="action_search">Search</string>
+
+    <string name="meal_breakfast">Breakfast</string>
+    <string name="meal_lunch">Lunch</string>
+    <string name="meal_snack">Snack</string>
+    <string name="meal_dinner">Dinner</string>
+</resources>
