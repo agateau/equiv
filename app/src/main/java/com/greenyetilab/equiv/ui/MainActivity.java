@@ -51,10 +51,21 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void setupDay() {
-        mDay.getMeals()[0].add(new MealItem(mProductList.getItems().get(1), 0.5));
-        mDay.getMeals()[1].add(new MealItem(mProductList.getItems().get(0), 100));
-        mDay.getMeals()[2].add(new MealItem(mProductList.getItems().get(1), 1));
-        mDay.getMeals()[3].add(new MealItem(mProductList.getItems().get(0), 100));
+        Meal meal = new Meal(getString(R.string.meal_breakfast));
+        meal.add(new MealItem(mProductList.getItems().get(1), 0.5));
+        mDay.add(meal);
+
+        meal = new Meal(getString(R.string.meal_lunch));
+        meal.add(new MealItem(mProductList.getItems().get(0), 100));
+        mDay.add(meal);
+
+        meal = new Meal(getString(R.string.meal_snack));
+        meal.add(new MealItem(mProductList.getItems().get(1), 1));
+        mDay.add(meal);
+
+        meal = new Meal(getString(R.string.meal_dinner));
+        meal.add(new MealItem(mProductList.getItems().get(0), 100));
+        mDay.add(meal);
     }
 
     private void createTabSpec(TabHost tabHost, Meal meal) {

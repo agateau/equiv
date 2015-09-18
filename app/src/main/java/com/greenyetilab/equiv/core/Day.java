@@ -2,20 +2,18 @@ package com.greenyetilab.equiv.core;
 
 import com.greenyetilab.equiv.R;
 
+import java.util.ArrayList;
+
 /**
  * A day of meals
  */
 public class Day {
-    final Meal[] mMeals = new Meal[4];
+    final ArrayList<Meal> mMeals = new ArrayList<>();
 
     public Day() {
-        mMeals[0] = new Meal("R.string.meal_breakfast");
-        mMeals[1] = new Meal("R.string.meal_lunch");
-        mMeals[2] = new Meal("R.string.meal_snack");
-        mMeals[3] = new Meal("R.string.meal_dinner");
     }
 
-    public Meal[] getMeals() {
+    public ArrayList<Meal> getMeals() {
         return mMeals;
     }
 
@@ -31,5 +29,9 @@ public class Day {
         for (Meal meal : mMeals) {
             meal.clear();
         }
+    }
+
+    public void add(Meal meal) {
+        mMeals.add(meal);
     }
 }
