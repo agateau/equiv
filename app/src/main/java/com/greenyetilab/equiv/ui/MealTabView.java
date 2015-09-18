@@ -31,7 +31,7 @@ public class MealTabView extends LinearLayout implements Meal.Listener {
     }
 
     public void updateFromMeal() {
-        mProtideView.setText(String.format("%.1g g", mMeal.getProtideWeight()));
+        mProtideView.setText(String.format("%.1f g", mMeal.getProtideWeight()));
     }
 
     @Override
