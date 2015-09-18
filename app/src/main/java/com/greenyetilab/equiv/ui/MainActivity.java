@@ -1,14 +1,12 @@
 package com.greenyetilab.equiv.ui;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TabHost;
-import android.widget.TabWidget;
-import android.widget.TextView;
 
 import com.greenyetilab.equiv.R;
 import com.greenyetilab.equiv.core.Day;
@@ -18,10 +16,9 @@ import com.greenyetilab.equiv.core.Product;
 import com.greenyetilab.equiv.core.ProductList;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends AppCompatActivity {
     private final Day mDay = new Day();
     private final ProductList mProductList = new ProductList();
 
@@ -50,7 +47,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void setupProductList() {
-        ArrayList<Product> products = new ArrayList<Product>();
+        ArrayList<Product> products = new ArrayList<>();
         products.add(new Product("Pommes de terre", "g", 0.02));
         products.add(new Product("Ballisto", "", 1.5));
         mProductList.setItems(products);
