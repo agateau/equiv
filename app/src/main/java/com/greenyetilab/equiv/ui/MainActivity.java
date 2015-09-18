@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.TabHost;
 
 import com.greenyetilab.equiv.R;
+import com.greenyetilab.equiv.core.Consumer;
 import com.greenyetilab.equiv.core.Day;
 import com.greenyetilab.equiv.core.Meal;
 import com.greenyetilab.equiv.core.MealItem;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 
 
 public class MainActivity extends AppCompatActivity {
+    private final Consumer mConsumer = new Consumer();
     private final Day mDay = new Day();
     private final ProductList mProductList = new ProductList();
 
@@ -28,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
         setupProductList();
         setupDay();
+        setupConsumer();
 
         setContentView(R.layout.activity_main);
 
@@ -69,6 +72,11 @@ public class MainActivity extends AppCompatActivity {
         meal = new Meal(getString(R.string.meal_dinner));
         meal.add(new MealItem(mProductList.getItems().get(0), 100));
         mDay.add(meal);
+    }
+
+    private void setupConsumer() {
+        mConsumer.setName("Clara");
+        mConsumer.setMaxProtidePerDay(4f);
     }
 
     private void setupTabs() {
@@ -116,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateTitle() {
-        String title = String.format("Equiv %.1f gP", mDay.getProtideWeight());
+        String title = String.format("Equiv %.1f / %.1f gP", mDay.getProtideWeight(), mConsumer.getMaxProtidePerDay());
         getSupportActionBar().setTitle(title);
     }
 }
