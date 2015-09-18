@@ -2,8 +2,6 @@ package com.greenyetilab.equiv.core;
 
 import android.text.TextUtils;
 
-import java.lang.ref.WeakReference;
-
 /**
  * An item in a meal
  */
@@ -33,11 +31,10 @@ public class MealItem {
     }
 
     public String toString() {
-        double protides = mProduct.getProtides() * mQuantity;
         String unit = mProduct.getUnit();
         if (!TextUtils.isEmpty(unit)) {
             unit = " " + unit;
         }
-        return String.format("%s (%.1f%s): %.1f gP", mProduct.getName(), mQuantity, unit, protides);
+        return String.format("%s (%.1f%s)", mProduct.getName(), mQuantity, unit);
     }
 }

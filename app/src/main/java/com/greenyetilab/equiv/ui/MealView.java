@@ -2,10 +2,12 @@ package com.greenyetilab.equiv.ui;
 
 import android.content.Context;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.greenyetilab.equiv.R;
 import com.greenyetilab.equiv.core.Meal;
@@ -28,7 +30,16 @@ public class MealView extends LinearLayout {
         mMeal = meal;
         mProductList = productList;
 
-        mAdapter = new ArrayAdapter<>(context, R.layout.meal_item, mMeal.getItems());
+        mAdapter = new ArrayAdapter<MealItem>(context, R.layout.meal_item, R.id.meal_item_text, mMeal.getItems()) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                TextView protideTextView = (TextView) view.findViewById(R.id.meal_item_protide_text);
+                float protides = mMeal.getItems().get(position).getProtideWeight();
+                protideTextView.setText(String.format("%.1f gP", protides));
+                return view;
+            }
+        };
         ListView listView = (ListView) findViewById(R.id.meal_list_view);
         listView.setAdapter(mAdapter);
 
