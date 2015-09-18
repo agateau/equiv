@@ -1,16 +1,14 @@
 package com.greenyetilab.equiv.ui;
 
-import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TabHost;
+import android.widget.TabWidget;
+import android.widget.TextView;
 
 import com.greenyetilab.equiv.R;
 import com.greenyetilab.equiv.core.Day;
@@ -18,9 +16,9 @@ import com.greenyetilab.equiv.core.Meal;
 import com.greenyetilab.equiv.core.MealItem;
 import com.greenyetilab.equiv.core.Product;
 import com.greenyetilab.equiv.core.ProductList;
-import com.greenyetilab.equiv.ui.AddProductActivity;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -38,9 +36,17 @@ public class MainActivity extends ActionBarActivity {
 
         TabHost tabHost = (TabHost) findViewById(R.id.meal_tab_host);
         tabHost.setup();
+        Meal.Listener listener = new Meal.Listener() {
+            @Override
+            public void onMealChanged() {
+                updateTitle();
+            }
+        };
         for (Meal meal : mDay.getMeals()) {
             createTabSpec(tabHost, meal);
+            meal.registerListener(listener);
         }
+        updateTitle();
     }
 
     private void setupProductList() {
@@ -69,9 +75,10 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void createTabSpec(TabHost tabHost, Meal meal) {
-        final MealView view = new MealView(this, meal);
+        final MealView view = new MealView(this, meal, mProductList);
+        MealTabView tabView = new MealTabView(this, meal);
         TabHost.TabSpec tabSpec = tabHost.newTabSpec(meal.getName());
-        tabSpec.setIndicator(meal.getName());
+        tabSpec.setIndicator(tabView);
         tabSpec.setContent(new TabHost.TabContentFactory() {
             @Override
             public View createTabContent(String tag) {
@@ -101,5 +108,8 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void updateTitle() {
     }
 }

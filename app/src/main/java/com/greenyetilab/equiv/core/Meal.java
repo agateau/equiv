@@ -1,6 +1,7 @@
 package com.greenyetilab.equiv.core;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 /**
  * A meal in a day
@@ -8,6 +9,11 @@ import java.util.ArrayList;
 public class Meal {
     final String mName;
     final ArrayList<MealItem> mItems = new ArrayList<>();
+    private LinkedList<Listener> mListeners = new LinkedList<>();
+
+    public interface Listener {
+        void onMealChanged();
+    }
 
     public Meal(String name) {
         mName = name;
@@ -27,9 +33,10 @@ public class Meal {
 
     public void add(MealItem item) {
         mItems.add(item);
+        notifyChanged();
     }
 
-    float getProtideWeight() {
+    public float getProtideWeight() {
         float weight = 0;
         for(MealItem item : mItems) {
             weight += item.getQuantity() * item.getProduct().getProtides();
@@ -39,5 +46,20 @@ public class Meal {
 
     void clear() {
         mItems.clear();
+        notifyChanged();
+    }
+
+    public void registerListener(Listener listener) {
+        mListeners.add(listener);
+    }
+
+    public void unregisterListener(Listener listener) {
+        mListeners.remove(listener);
+    }
+
+    private void notifyChanged() {
+        for (Listener listener : mListeners) {
+            listener.onMealChanged();
+        }
     }
 }
