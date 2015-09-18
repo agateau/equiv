@@ -9,9 +9,9 @@ import java.lang.ref.WeakReference;
  */
 public class MealItem {
     Product mProduct;
-    double mQuantity;
+    float mQuantity;
 
-    public MealItem(Product product, double quantity) {
+    public MealItem(Product product, float quantity) {
         mProduct = product;
         mQuantity = quantity;
     }
@@ -20,7 +20,7 @@ public class MealItem {
         return mProduct;
     }
 
-    public double getQuantity() {
+    public float getQuantity() {
         return mQuantity;
     }
 

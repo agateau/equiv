@@ -6,9 +6,9 @@ package com.greenyetilab.equiv.core;
 public class Product {
     final String mName;
     private final String mUnit;
-    final double mProtides;
+    final float mProtides;
 
-    public Product(String name, String unit, double protides) {
+    public Product(String name, String unit, float protides) {
         mName = name;
         mUnit = unit;
         mProtides = protides;
@@ -22,7 +22,7 @@ public class Product {
         return mUnit;
     }
 
-    public double getProtides() {
+    public float getProtides() {
         return mProtides;
     }
 }

@@ -51,14 +51,14 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupProductList() {
         ArrayList<Product> products = new ArrayList<>();
-        products.add(new Product("Pommes de terre", "g", 0.02));
-        products.add(new Product("Ballisto", "", 1.5));
+        products.add(new Product("Pommes de terre", "g", 0.02f));
+        products.add(new Product("Ballisto", "", 1.5f));
         mProductList.setItems(products);
     }
 
     private void setupDay() {
         Meal meal = new Meal(getString(R.string.meal_breakfast));
-        meal.add(new MealItem(mProductList.getItems().get(1), 0.5));
+        meal.add(new MealItem(mProductList.getItems().get(1), 0.5f));
         mDay.add(meal);
 
         meal = new Meal(getString(R.string.meal_lunch));
