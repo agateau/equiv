@@ -108,5 +108,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateTitle() {
+        String title = String.format("Equiv %.1f gP", mDay.getProtideWeight());
+        getSupportActionBar().setTitle(title);
     }
 }
