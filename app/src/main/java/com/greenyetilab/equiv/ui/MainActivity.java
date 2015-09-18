@@ -31,8 +31,8 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        TabHost tabHost = (TabHost) findViewById(R.id.meal_tab_host);
-        tabHost.setup();
+        setupTabs();
+
         Meal.Listener listener = new Meal.Listener() {
             @Override
             public void onMealChanged() {
@@ -40,9 +40,9 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         for (Meal meal : mDay.getMeals()) {
-            createTabSpec(tabHost, meal);
             meal.registerListener(listener);
         }
+
         updateTitle();
     }
 
@@ -69,6 +69,14 @@ public class MainActivity extends AppCompatActivity {
         meal = new Meal(getString(R.string.meal_dinner));
         meal.add(new MealItem(mProductList.getItems().get(0), 100));
         mDay.add(meal);
+    }
+
+    private void setupTabs() {
+        TabHost tabHost = (TabHost) findViewById(R.id.meal_tab_host);
+        tabHost.setup();
+        for (Meal meal : mDay.getMeals()) {
+            createTabSpec(tabHost, meal);
+        }
     }
 
     private void createTabSpec(TabHost tabHost, Meal meal) {
