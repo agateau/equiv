@@ -28,6 +28,10 @@ public class MealItem {
         mQuantity = quantity;
     }
 
+    public float getProtideWeight() {
+        return mQuantity * mProduct.getProtides();
+    }
+
     public String toString() {
         double protides = mProduct.getProtides() * mQuantity;
         String unit = mProduct.getUnit();

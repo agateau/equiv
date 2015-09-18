@@ -39,7 +39,7 @@ public class Meal {
     public float getProtideWeight() {
         float weight = 0;
         for(MealItem item : mItems) {
-            weight += item.getQuantity() * item.getProduct().getProtides();
+            weight += item.getProtideWeight();
         }
         return weight;
     }
