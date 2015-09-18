@@ -32,6 +32,13 @@ public class MealView extends LinearLayout {
         ListView listView = (ListView) findViewById(R.id.meal_list_view);
         listView.setAdapter(mAdapter);
 
+        mMeal.registerListener(new Meal.Listener() {
+            @Override
+            public void onMealChanged() {
+                mAdapter.notifyDataSetChanged();
+            }
+        });
+
         Button button = (Button) findViewById(R.id.add_meal_item_button);
         button.setOnClickListener(new OnClickListener() {
             @Override
@@ -44,6 +51,5 @@ public class MealView extends LinearLayout {
     public void addMealItem() {
         MealItem item = new MealItem(mProductList.getItems().get(0), 100);
         mMeal.add(item);
-        mAdapter.notifyDataSetChanged();
     }
 }
