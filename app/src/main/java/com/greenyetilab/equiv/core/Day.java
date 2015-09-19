@@ -1,7 +1,5 @@
 package com.greenyetilab.equiv.core;
 
-import com.greenyetilab.equiv.R;
-
 import java.util.ArrayList;
 
 /**
@@ -33,5 +31,14 @@ public class Day {
 
     public void add(Meal meal) {
         mMeals.add(meal);
+    }
+
+    public Meal getMealByTag(String tag) {
+        for (Meal meal: mMeals) {
+            if (meal.getTag().equals(tag)) {
+                return meal;
+            }
+        }
+        throw new RuntimeException("No meal with tag " + tag);
     }
 }

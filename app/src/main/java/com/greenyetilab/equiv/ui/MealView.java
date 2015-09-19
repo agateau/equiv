@@ -1,6 +1,7 @@
 package com.greenyetilab.equiv.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -60,7 +61,8 @@ public class MealView extends LinearLayout {
     }
 
     public void addMealItem() {
-        MealItem item = new MealItem(mProductList.getItems().get(0), 100);
-        mMeal.add(item);
+        Intent intent = new Intent(getContext(), AddMealItemActivity.class);
+        intent.putExtra(AddMealItemActivity.EXTRA_MEAL_TAG, mMeal.getTag());
+        getContext().startActivity(intent);
     }
 }

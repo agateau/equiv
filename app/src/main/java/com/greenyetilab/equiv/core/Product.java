@@ -25,4 +25,8 @@ public class Product {
     public float getProtides() {
         return mProtides;
     }
+
+    public String toString() {
+        return getName();
+    }
 }

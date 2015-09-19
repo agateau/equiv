@@ -9,28 +9,21 @@ import android.view.View;
 import android.widget.TabHost;
 
 import com.greenyetilab.equiv.R;
+import com.greenyetilab.equiv.core.Kernel;
 import com.greenyetilab.equiv.core.Consumer;
 import com.greenyetilab.equiv.core.Day;
 import com.greenyetilab.equiv.core.Meal;
-import com.greenyetilab.equiv.core.MealItem;
-import com.greenyetilab.equiv.core.Product;
 import com.greenyetilab.equiv.core.ProductList;
-
-import java.util.ArrayList;
 
 
 public class MainActivity extends AppCompatActivity {
-    private final Consumer mConsumer = new Consumer();
-    private final Day mDay = new Day();
-    private final ProductList mProductList = new ProductList();
+    private final Consumer mConsumer = Kernel.getInstance().getConsumer();
+    private final Day mDay = Kernel.getInstance().getDay();
+    private final ProductList mProductList = Kernel.getInstance().getProductList();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        setupProductList();
-        setupDay();
-        setupConsumer();
 
         setContentView(R.layout.activity_main);
 
@@ -49,36 +42,6 @@ public class MainActivity extends AppCompatActivity {
         updateTitle();
     }
 
-    private void setupProductList() {
-        ArrayList<Product> products = new ArrayList<>();
-        products.add(new Product("Pommes de terre", "g", 0.02f));
-        products.add(new Product("Ballisto", "", 1.5f));
-        mProductList.setItems(products);
-    }
-
-    private void setupDay() {
-        Meal meal = new Meal(getString(R.string.meal_breakfast));
-        meal.add(new MealItem(mProductList.getItems().get(1), 0.5f));
-        mDay.add(meal);
-
-        meal = new Meal(getString(R.string.meal_lunch));
-        meal.add(new MealItem(mProductList.getItems().get(0), 100));
-        mDay.add(meal);
-
-        meal = new Meal(getString(R.string.meal_snack));
-        meal.add(new MealItem(mProductList.getItems().get(1), 1));
-        mDay.add(meal);
-
-        meal = new Meal(getString(R.string.meal_dinner));
-        meal.add(new MealItem(mProductList.getItems().get(0), 100));
-        mDay.add(meal);
-    }
-
-    private void setupConsumer() {
-        mConsumer.setName("Clara");
-        mConsumer.setMaxProtidePerDay(4f);
-    }
-
     private void setupTabs() {
         TabHost tabHost = (TabHost) findViewById(R.id.meal_tab_host);
         tabHost.setup();
@@ -90,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
     private void createTabSpec(TabHost tabHost, Meal meal) {
         final MealView view = new MealView(this, meal, mProductList);
         MealTabView tabView = new MealTabView(this, meal);
-        TabHost.TabSpec tabSpec = tabHost.newTabSpec(meal.getName());
+        TabHost.TabSpec tabSpec = tabHost.newTabSpec(meal.getTag());
         tabSpec.setIndicator(tabView);
         tabSpec.setContent(new TabHost.TabContentFactory() {
             @Override

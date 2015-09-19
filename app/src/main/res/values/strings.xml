@@ -7,9 +7,9 @@
 
     <string name="action_search">Search</string>
 
-    <string name="meal_breakfast">Breakfast</string>
-    <string name="meal_lunch">Lunch</string>
-    <string name="meal_snack">Snack</string>
-    <string name="meal_dinner">Dinner</string>
+    <string name="meal_name_breakfast">Breakfast</string>
+    <string name="meal_name_lunch">Lunch</string>
+    <string name="meal_name_snack">Snack</string>
+    <string name="meal_name_dinner">Dinner</string>
     <string name="add_meal_item_button">Add</string>
 </resources>

@@ -17,7 +17,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.AddProductActivity"
+            android:name=".ui.AddMealItemActivity"
             android:label="@string/activity_title_add_product"
             android:parentActivityName=".ui.MainActivity" >
             <meta-data

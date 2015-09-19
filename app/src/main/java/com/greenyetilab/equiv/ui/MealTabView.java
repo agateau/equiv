@@ -18,8 +18,11 @@ public class MealTabView extends LinearLayout implements Meal.Listener {
         mMeal = meal;
         mMeal.registerListener(this);
 
+        int nameId = context.getResources().getIdentifier("meal_name_" + mMeal.getTag(), "string", context.getPackageName());
+        String name = context.getString(nameId);
+
         TextView nameView = new TextView(context);
-        nameView.setText(meal.getName());
+        nameView.setText(name);
 
         mProtideView = new TextView(context);
 

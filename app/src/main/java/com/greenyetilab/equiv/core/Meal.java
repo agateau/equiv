@@ -7,7 +7,7 @@ import java.util.LinkedList;
  * A meal in a day
  */
 public class Meal {
-    final String mName;
+    final String mTag;
     final ArrayList<MealItem> mItems = new ArrayList<>();
     private LinkedList<Listener> mListeners = new LinkedList<>();
 
@@ -15,16 +15,16 @@ public class Meal {
         void onMealChanged();
     }
 
-    public Meal(String name) {
-        mName = name;
+    public Meal(String tag) {
+        mTag = tag;
     }
 
-    public String getName() {
-        return mName;
+    public String getTag() {
+        return mTag;
     }
 
     public String toString() {
-        return getName();
+        return getTag();
     }
 
     public ArrayList<MealItem> getItems() {
