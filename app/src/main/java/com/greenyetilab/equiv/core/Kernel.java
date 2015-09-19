@@ -11,6 +11,7 @@ public class Kernel {
     private final ProductList mProductList = new ProductList();
 
     private static Kernel sInstance = null;
+    private int mCurrentTab = -1;
 
     Kernel() {
         setupProductList();
@@ -35,6 +36,14 @@ public class Kernel {
 
     public ProductList getProductList() {
         return mProductList;
+    }
+
+    public int getCurrentTab() {
+        return mCurrentTab;
+    }
+
+    public void setCurrentTab(int currentTab) {
+        mCurrentTab = currentTab;
     }
 
     private void setupProductList() {
@@ -66,5 +75,4 @@ public class Kernel {
         mConsumer.setName("Clara");
         mConsumer.setMaxProteinPerDay(4f);
     }
-
 }

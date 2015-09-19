@@ -1,7 +1,7 @@
 package com.greenyetilab.equiv.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -49,7 +49,6 @@ public class AddMealItemActivity extends AppCompatActivity {
         MealItem item = new MealItem(product, quantity);
         mMeal.add(item);
 
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
+        NavUtils.navigateUpFromSameTask(this);
     }
 }

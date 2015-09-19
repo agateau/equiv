@@ -21,14 +21,18 @@ public class MainActivity extends AppCompatActivity {
     private final Consumer mConsumer = Kernel.getInstance().getConsumer();
     private final Day mDay = Kernel.getInstance().getDay();
     private final ProductList mProductList = Kernel.getInstance().getProductList();
+    private TabHost mTabHost;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
 
         setupTabs();
+        int tab = Kernel.getInstance().getCurrentTab();
+        if (tab >= 0) {
+            mTabHost.setCurrentTab(tab);
+        }
 
         Meal.Listener listener = new Meal.Listener() {
             @Override
@@ -44,10 +48,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupTabs() {
-        TabHost tabHost = (TabHost) findViewById(R.id.meal_tab_host);
-        tabHost.setup();
+        mTabHost = (TabHost) findViewById(R.id.meal_tab_host);
+        mTabHost.setup();
         for (Meal meal : mDay.getMeals()) {
-            createTabSpec(tabHost, meal);
+            createTabSpec(mTabHost, meal);
         }
     }
 
@@ -72,6 +76,13 @@ public class MainActivity extends AppCompatActivity {
         };
         meal.registerListener(listener);
         updateTab(meal, mealTabIndex);
+    }
+
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Kernel.getInstance().setCurrentTab(mTabHost.getCurrentTab());
     }
 
     @Override
@@ -106,8 +117,7 @@ public class MainActivity extends AppCompatActivity {
         String name = getString(nameId);
         String title = String.format("%s\n%.1f gP", name, meal.getProteinWeight());
 
-        TabHost tabHost = (TabHost) findViewById(R.id.meal_tab_host);
-        TextView view = (TextView) tabHost.getTabWidget().getChildAt(tabIndex).findViewById(android.R.id.title);
+        TextView view = (TextView) mTabHost.getTabWidget().getChildAt(tabIndex).findViewById(android.R.id.title);
         view.setText(title);
     }
 }
