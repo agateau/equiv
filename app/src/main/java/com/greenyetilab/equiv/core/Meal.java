@@ -36,10 +36,10 @@ public class Meal {
         notifyChanged();
     }
 
-    public float getProtideWeight() {
+    public float getProteinWeight() {
         float weight = 0;
         for(MealItem item : mItems) {
-            weight += item.getProtideWeight();
+            weight += item.getProteinWeight();
         }
         return weight;
     }

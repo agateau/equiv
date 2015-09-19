@@ -11,7 +11,7 @@
         android:layout_height="wrap_content">
     </TextView>
     <TextView
-        android:id="@+id/meal_item_protide_text"
+        android:id="@+id/meal_item_protein_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 </LinearLayout>

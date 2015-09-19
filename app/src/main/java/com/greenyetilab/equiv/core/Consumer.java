@@ -5,7 +5,7 @@ package com.greenyetilab.equiv.core;
  */
 public class Consumer {
     private String mName;
-    private float mMaxProtidePerDay;
+    private float mMaxProteinPerDay;
 
     public String getName() {
         return mName;
@@ -15,11 +15,11 @@ public class Consumer {
         mName = name;
     }
 
-    public float getMaxProtidePerDay() {
-        return mMaxProtidePerDay;
+    public float getMaxProteinPerDay() {
+        return mMaxProteinPerDay;
     }
 
-    public void setMaxProtidePerDay(float maxProtidePerDay) {
-        mMaxProtidePerDay = maxProtidePerDay;
+    public void setMaxProteinPerDay(float maxProteinPerDay) {
+        mMaxProteinPerDay = maxProteinPerDay;
     }
 }

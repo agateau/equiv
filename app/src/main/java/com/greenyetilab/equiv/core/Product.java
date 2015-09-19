@@ -6,12 +6,12 @@ package com.greenyetilab.equiv.core;
 public class Product {
     final String mName;
     private final String mUnit;
-    final float mProtides;
+    final float mProteins;
 
-    public Product(String name, String unit, float protides) {
+    public Product(String name, String unit, float proteins) {
         mName = name;
         mUnit = unit;
-        mProtides = protides;
+        mProteins = proteins;
     }
 
     public String getName() {
@@ -22,8 +22,8 @@ public class Product {
         return mUnit;
     }
 
-    public float getProtides() {
-        return mProtides;
+    public float getProteins() {
+        return mProteins;
     }
 
     public String toString() {

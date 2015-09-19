@@ -26,8 +26,8 @@ public class MealItem {
         mQuantity = quantity;
     }
 
-    public float getProtideWeight() {
-        return mQuantity * mProduct.getProtides();
+    public float getProteinWeight() {
+        return mQuantity * mProduct.getProteins();
     }
 
     public String toString() {

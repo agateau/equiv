@@ -15,10 +15,10 @@ public class Day {
         return mMeals;
     }
 
-    public float getProtideWeight() {
+    public float getProteinWeight() {
         float weight = 0;
         for (Meal meal : mMeals) {
-            weight += meal.getProtideWeight();
+            weight += meal.getProteinWeight();
         }
         return weight;
     }

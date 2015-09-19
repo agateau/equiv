@@ -7,11 +7,11 @@ import android.widget.TextView;
 import com.greenyetilab.equiv.core.Meal;
 
 /**
- * Custom tab showing meal_view name and protide weight
+ * Custom tab showing meal_view name and protein weight
  */
 public class MealTabView extends LinearLayout implements Meal.Listener {
     private final Meal mMeal;
-    private final TextView mProtideView;
+    private final TextView mProteinView;
 
     public MealTabView(Context context, Meal meal) {
         super(context);
@@ -24,17 +24,17 @@ public class MealTabView extends LinearLayout implements Meal.Listener {
         TextView nameView = new TextView(context);
         nameView.setText(name);
 
-        mProtideView = new TextView(context);
+        mProteinView = new TextView(context);
 
         setOrientation(VERTICAL);
         addView(nameView);
-        addView(mProtideView);
+        addView(mProteinView);
 
         updateFromMeal();
     }
 
     public void updateFromMeal() {
-        mProtideView.setText(String.format("%.1f g", mMeal.getProtideWeight()));
+        mProteinView.setText(String.format("%.1f g", mMeal.getProteinWeight()));
     }
 
     @Override

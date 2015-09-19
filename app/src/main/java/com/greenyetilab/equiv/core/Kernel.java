@@ -64,7 +64,7 @@ public class Kernel {
 
     private void setupConsumer() {
         mConsumer.setName("Clara");
-        mConsumer.setMaxProtidePerDay(4f);
+        mConsumer.setMaxProteinPerDay(4f);
     }
 
 }

@@ -35,9 +35,9 @@ public class MealView extends LinearLayout {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
-                TextView protideTextView = (TextView) view.findViewById(R.id.meal_item_protide_text);
-                float protides = mMeal.getItems().get(position).getProtideWeight();
-                protideTextView.setText(String.format("%.1f gP", protides));
+                TextView proteinTextView = (TextView) view.findViewById(R.id.meal_item_protein_text);
+                float proteins = mMeal.getItems().get(position).getProteinWeight();
+                proteinTextView.setText(String.format("%.1f gP", proteins));
                 return view;
             }
         };
