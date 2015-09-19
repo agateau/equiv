@@ -51,7 +51,7 @@ public class MealView extends LinearLayout {
             }
         });
 
-        Button button = (Button) findViewById(R.id.add_meal_item_button);
+        Button button = (Button) findViewById(R.id.show_add_meal_item_activity_button);
         button.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {

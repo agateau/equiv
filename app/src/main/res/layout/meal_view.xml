@@ -9,7 +9,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"/>
     <Button
-        android:id="@+id/add_meal_item_button"
+        android:id="@+id/show_add_meal_item_activity_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
