@@ -13,4 +13,6 @@
     <string name="add_meal_item_button">Add</string>
     <string name="start_new_day">Discard all meals?</string>
     <string name="start_new_day_button">Discard all</string>
+    <string name="quantity_edit_hint">Quantity</string>
+    <string name="action_save">Save</string>
 </resources>

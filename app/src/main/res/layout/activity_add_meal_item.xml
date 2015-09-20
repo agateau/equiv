@@ -6,5 +6,20 @@
     <ListView
         android:id="@+id/product_list_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/quantity_edit"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:hint="@string/quantity_edit_hint"
+            android:inputType="numberDecimal"/>
+        <TextView
+            android:id="@+id/quantity_unit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
 </LinearLayout>
