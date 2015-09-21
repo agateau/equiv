@@ -102,7 +102,6 @@ public class MealItemDetailActivity extends AppCompatActivity {
         mProduct = mealItem.getProduct();
         initQuantityFromProduct();
         mQuantityEdit.setText(String.valueOf(mealItem.getQuantity()));
-        mQuantityEdit.requestFocus();
     }
 
     private void initQuantityFromProduct() {
