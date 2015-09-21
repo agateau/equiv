@@ -17,4 +17,5 @@
     <string name="action_save">Save</string>
     <string name="quantity_text">Quantity:</string>
     <string name="edit_meal_item_title">Edit product</string>
+    <string name="action_remove">Remove</string>
 </resources>

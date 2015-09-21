@@ -85,6 +85,10 @@ public class MealItemDetailActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.meal_item_detail_activity_actions, menu);
+        if (mMealItemPosition == -1) {
+            MenuItem removeMenuItem = menu.findItem(R.id.action_remove);
+            removeMenuItem.setVisible(false);
+        }
         mSaveMenuItem = menu.findItem(R.id.action_save);
         return super.onCreateOptionsMenu(menu);
     }
@@ -94,6 +98,9 @@ public class MealItemDetailActivity extends AppCompatActivity {
         int id = item.getItemId();
         if (id == R.id.action_save) {
             save();
+            return true;
+        } else if (id == R.id.action_remove) {
+            remove();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -135,6 +142,11 @@ public class MealItemDetailActivity extends AppCompatActivity {
             mMeal.set(mMealItemPosition, item);
         }
 
+        NavUtils.navigateUpFromSameTask(this);
+    }
+
+    private void remove() {
+        mMeal.remove(mMealItemPosition);
         NavUtils.navigateUpFromSameTask(this);
     }
 
