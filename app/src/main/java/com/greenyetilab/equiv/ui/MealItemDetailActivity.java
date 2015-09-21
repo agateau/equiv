@@ -28,11 +28,13 @@ public class MealItemDetailActivity extends AppCompatActivity {
     public static final String EXTRA_MEAL_TAG = "com.greenyetilab.equiv.MEAL_TAG";
     public static final String EXTRA_MEAL_ITEM_POSITION = "com.greenyetilab.equiv.MEAL_ITEM_POSITION";
 
+    private static final int NEW_MEAL_ITEM_POSITION = -1;
+
     private ProductList mProductList;
     private Meal mMeal;
     private Product mProduct = null;
     private MenuItem mSaveMenuItem;
-    private int mMealItemPosition;
+    private int mMealItemPosition = NEW_MEAL_ITEM_POSITION;
     private EditText mQuantityEdit;
     private TextView mUnitView;
 
@@ -75,7 +77,7 @@ public class MealItemDetailActivity extends AppCompatActivity {
             }
         });
 
-        if (mMealItemPosition != -1) {
+        if (mMealItemPosition != NEW_MEAL_ITEM_POSITION) {
             initFromMealItem(mMeal.getItems().get(mMealItemPosition));
             setTitle(R.string.edit_meal_item_title);
         }
@@ -85,7 +87,7 @@ public class MealItemDetailActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.meal_item_detail_activity_actions, menu);
-        if (mMealItemPosition == -1) {
+        if (mMealItemPosition == NEW_MEAL_ITEM_POSITION) {
             MenuItem removeMenuItem = menu.findItem(R.id.action_remove);
             removeMenuItem.setVisible(false);
         }
