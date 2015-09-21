@@ -1,5 +1,7 @@
 package com.greenyetilab.equiv.ui;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
@@ -23,21 +25,43 @@ import com.greenyetilab.equiv.core.ProductList;
 
 
 public class MealItemDetailActivity extends AppCompatActivity {
-
     public static final String EXTRA_MEAL_TAG = "com.greenyetilab.equiv.MEAL_TAG";
+    public static final String EXTRA_MEAL_ITEM_POSITION = "com.greenyetilab.equiv.MEAL_ITEM_POSITION";
+
     private ProductList mProductList;
     private Meal mMeal;
     private Product mProduct = null;
     private MenuItem mSaveMenuItem;
+    private int mMealItemPosition;
+    private EditText mQuantityEdit;
+    private TextView mUnitView;
+
+    public static void addMealItem(Context context, Meal meal) {
+        Intent intent = new Intent(context, MealItemDetailActivity.class);
+        intent.putExtra(EXTRA_MEAL_TAG, meal.getTag());
+        context.startActivity(intent);
+    }
+
+    public static void editMealItem(Context context, Meal meal, int position) {
+        Intent intent = new Intent(context, MealItemDetailActivity.class);
+        intent.putExtra(EXTRA_MEAL_TAG, meal.getTag());
+        intent.putExtra(EXTRA_MEAL_ITEM_POSITION, position);
+        context.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.meal_item_detail_activity);
+        mQuantityEdit = (EditText) findViewById(R.id.quantity_edit);
+        mUnitView = (TextView) findViewById(R.id.quantity_unit);
+
+        mProductList = Kernel.getInstance().getProductList();
 
         String mealTag = getIntent().getStringExtra(EXTRA_MEAL_TAG);
         mMeal = Kernel.getInstance().getDay().getMealByTag(mealTag);
-        mProductList = Kernel.getInstance().getProductList();
+
+        mMealItemPosition = getIntent().getIntExtra(EXTRA_MEAL_ITEM_POSITION, -1);
 
         ListView listView = (ListView) findViewById(R.id.product_list_view);
         ArrayAdapter<Product> adapter = new ArrayAdapter<>(this, R.layout.product_item, mProductList.getItems());
@@ -47,9 +71,13 @@ public class MealItemDetailActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Product product = mProductList.getItems().get(position);
-                selectProduct(product);
+                onSelectProduct(product);
             }
         });
+
+        if (mMealItemPosition != -1) {
+            initFromMealItem(mMeal.getItems().get(mMealItemPosition));
+        }
     }
 
     @Override
@@ -57,14 +85,12 @@ public class MealItemDetailActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.meal_item_detail_activity_actions, menu);
         mSaveMenuItem = menu.findItem(R.id.action_save);
-        mSaveMenuItem.setEnabled(false);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
         if (id == R.id.action_save) {
             save();
             return true;
@@ -72,32 +98,47 @@ public class MealItemDetailActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void selectProduct(Product product) {
-        mProduct = product;
-        TextView unitView = (TextView) findViewById(R.id.quantity_unit);
-        EditText quantityEdit = (EditText) findViewById(R.id.quantity_edit);
+    private void initFromMealItem(MealItem mealItem) {
+        mProduct = mealItem.getProduct();
+        initQuantityFromProduct();
+        mQuantityEdit.setText(String.valueOf(mealItem.getQuantity()));
+        mQuantityEdit.requestFocus();
+    }
 
+    private void initQuantityFromProduct() {
         String unit = mProduct.getUnit();
         if (TextUtils.isEmpty(unit)) {
-            unitView.setVisibility(View.GONE);
+            mUnitView.setVisibility(View.GONE);
         } else {
-            unitView.setVisibility(View.VISIBLE);
-            unitView.setText(unit);
+            mUnitView.setVisibility(View.VISIBLE);
+            mUnitView.setText(unit);
         }
 
-        float quantity = product.getDefaultQuantity();
-        quantityEdit.setText(String.format("%f", quantity));
-        quantityEdit.requestFocus();
+        float quantity = mProduct.getDefaultQuantity();
+        mQuantityEdit.setText(String.format("%f", quantity));
+    }
 
-        mSaveMenuItem.setEnabled(true);
+    private void onSelectProduct(Product product) {
+        mProduct = product;
+        initQuantityFromProduct();
+        mQuantityEdit.requestFocus();
+        updateMenuItems();
     }
 
     private void save() {
         EditText quantityEdit = (EditText) findViewById(R.id.quantity_edit);
         float quantity = Float.valueOf(quantityEdit.getText().toString());
         MealItem item = new MealItem(mProduct, quantity);
-        mMeal.add(item);
+        if (mMealItemPosition == -1) {
+            mMeal.add(item);
+        } else {
+            mMeal.set(mMealItemPosition, item);
+        }
 
         NavUtils.navigateUpFromSameTask(this);
+    }
+
+    private void updateMenuItems() {
+        mSaveMenuItem.setEnabled(mProduct != null && !TextUtils.isEmpty(mQuantityEdit.getText()));
     }
 }

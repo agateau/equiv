@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -55,14 +56,15 @@ public class MealView extends LinearLayout {
         button.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                addMealItem();
+                MealItemDetailActivity.addMealItem(getContext(), mMeal);
             }
         });
-    }
 
-    public void addMealItem() {
-        Intent intent = new Intent(getContext(), MealItemDetailActivity.class);
-        intent.putExtra(MealItemDetailActivity.EXTRA_MEAL_TAG, mMeal.getTag());
-        getContext().startActivity(intent);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                MealItemDetailActivity.editMealItem(getContext(), mMeal, position);
+            }
+        });
     }
 }

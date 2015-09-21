@@ -36,6 +36,11 @@ public class Meal {
         notifyChanged();
     }
 
+    public void set(int position, MealItem item) {
+        mItems.set(position, item);
+        notifyChanged();
+    }
+
     public float getProteinWeight() {
         float weight = 0;
         for(MealItem item : mItems) {
