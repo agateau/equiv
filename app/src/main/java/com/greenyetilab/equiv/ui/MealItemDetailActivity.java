@@ -77,6 +77,7 @@ public class MealItemDetailActivity extends AppCompatActivity {
 
         if (mMealItemPosition != -1) {
             initFromMealItem(mMeal.getItems().get(mMealItemPosition));
+            setTitle(R.string.edit_meal_item_title);
         }
     }
 
