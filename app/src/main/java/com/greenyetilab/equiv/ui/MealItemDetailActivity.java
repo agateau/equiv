@@ -22,7 +22,7 @@ import com.greenyetilab.equiv.core.Product;
 import com.greenyetilab.equiv.core.ProductList;
 
 
-public class AddMealItemActivity extends AppCompatActivity {
+public class MealItemDetailActivity extends AppCompatActivity {
 
     public static final String EXTRA_MEAL_TAG = "com.greenyetilab.equiv.MEAL_TAG";
     private ProductList mProductList;
@@ -33,7 +33,7 @@ public class AddMealItemActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_meal_item);
+        setContentView(R.layout.meal_item_detail_activity);
 
         String mealTag = getIntent().getStringExtra(EXTRA_MEAL_TAG);
         mMeal = Kernel.getInstance().getDay().getMealByTag(mealTag);
@@ -55,7 +55,7 @@ public class AddMealItemActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.add_meal_item_activity_actions, menu);
+        inflater.inflate(R.menu.meal_item_detail_activity_actions, menu);
         mSaveMenuItem = menu.findItem(R.id.action_save);
         mSaveMenuItem.setEnabled(false);
         return super.onCreateOptionsMenu(menu);

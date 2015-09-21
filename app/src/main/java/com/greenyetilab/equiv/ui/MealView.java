@@ -61,8 +61,8 @@ public class MealView extends LinearLayout {
     }
 
     public void addMealItem() {
-        Intent intent = new Intent(getContext(), AddMealItemActivity.class);
-        intent.putExtra(AddMealItemActivity.EXTRA_MEAL_TAG, mMeal.getTag());
+        Intent intent = new Intent(getContext(), MealItemDetailActivity.class);
+        intent.putExtra(MealItemDetailActivity.EXTRA_MEAL_TAG, mMeal.getTag());
         getContext().startActivity(intent);
     }
 }
