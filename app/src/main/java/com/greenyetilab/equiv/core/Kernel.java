@@ -49,7 +49,7 @@ public class Kernel {
     private void setupProductList() {
         ArrayList<Product> products = new ArrayList<>();
         products.add(new Product("Pommes de terre", "g", 0.02f));
-        products.add(new Product("Ballisto", "", 1.5f));
+        products.add(new Product("Balisto", "", 1.5f));
         mProductList.setItems(products);
     }
 
