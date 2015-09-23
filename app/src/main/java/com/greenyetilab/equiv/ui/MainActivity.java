@@ -1,6 +1,5 @@
 package com.greenyetilab.equiv.ui;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -14,41 +13,24 @@ import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.greenyetilab.equiv.R;
-import com.greenyetilab.equiv.core.Consumer;
-import com.greenyetilab.equiv.core.Day;
-import com.greenyetilab.equiv.core.DayJsonIO;
-import com.greenyetilab.equiv.core.Kernel;
 import com.greenyetilab.equiv.core.Meal;
-import com.greenyetilab.equiv.core.ProductList;
 import com.greenyetilab.utils.log.NLog;
-
-import org.json.JSONException;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 
 
 public class MainActivity extends AppCompatActivity {
-    private static final String DAY_JSON = "day.json";
-    private final Consumer mConsumer = Kernel.getInstance().getConsumer();
-    private final Day mDay = Kernel.getInstance().getDay();
-    private final ProductList mProductList = Kernel.getInstance().getProductList();
+    private Kernel mKernel;
     private TabHost mTabHost;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         NLog.i("");
-        if (mDay.isEmpty()) {
-            loadDay();
-        }
+        mKernel = Kernel.getInstance(this);
 
         setContentView(R.layout.activity_main);
 
         setupTabs();
-        int tab = Kernel.getInstance().getCurrentTab();
+        int tab = mKernel.getCurrentTab();
         if (tab >= 0) {
             mTabHost.setCurrentTab(tab);
         }
@@ -57,54 +39,20 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onMealChanged() {
                 updateTitle();
-                saveDay();
+                mKernel.saveDay();
             }
         };
-        for (Meal meal : mDay.getMeals()) {
+        for (Meal meal : mKernel.getDay().getMeals()) {
             meal.registerListener(listener);
         }
 
         updateTitle();
     }
 
-    private void loadDay() {
-        NLog.i("");
-        FileInputStream stream;
-        try {
-            stream = openFileInput(DAY_JSON);
-        } catch (FileNotFoundException e) {
-            return;
-        }
-        try {
-            DayJsonIO.read(stream, mDay, mProductList);
-            stream.close();
-        } catch (IOException | JSONException e) {
-            NLog.e("Failed to load day: %s", e);
-        }
-    }
-
-    private void saveDay() {
-        NLog.i("");
-        FileOutputStream stream;
-        try {
-            stream = openFileOutput(DAY_JSON, Context.MODE_PRIVATE);
-        } catch (FileNotFoundException e) {
-            NLog.e("Failed to open %s for writing: %s", DAY_JSON, e);
-            return;
-        }
-        try {
-            DayJsonIO.write(stream, mDay);
-            stream.flush();
-            stream.close();
-        } catch (IOException e) {
-            NLog.e("Failed to save day: %s", e);
-        }
-    }
-
     private void setupTabs() {
         mTabHost = (TabHost) findViewById(R.id.meal_tab_host);
         mTabHost.setup();
-        for (Meal meal : mDay.getMeals()) {
+        for (Meal meal : mKernel.getDay().getMeals()) {
             createTabSpec(mTabHost, meal);
         }
     }
@@ -136,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        Kernel.getInstance().setCurrentTab(mTabHost.getCurrentTab());
+        mKernel.setCurrentTab(mTabHost.getCurrentTab());
     }
 
     @Override
@@ -165,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
                 .setPositiveButton(R.string.start_new_day_button, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        mDay.clear();
+                        mKernel.getDay().clear();
                     }
                 })
                 .setNegativeButton(android.R.string.cancel, null)
@@ -177,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
         if (bar == null) {
             return;
         }
-        String title = String.format("Equiv %.1f / %.1f gP", mDay.getProteinWeight(), mConsumer.getMaxProteinPerDay());
+        String title = String.format("Equiv %.1f / %.1f gP", mKernel.getDay().getProteinWeight(), mKernel.getConsumer().getMaxProteinPerDay());
         bar.setTitle(title);
     }
 

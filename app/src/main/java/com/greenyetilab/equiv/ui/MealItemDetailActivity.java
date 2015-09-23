@@ -17,7 +17,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.greenyetilab.equiv.R;
-import com.greenyetilab.equiv.core.Kernel;
 import com.greenyetilab.equiv.core.Meal;
 import com.greenyetilab.equiv.core.MealItem;
 import com.greenyetilab.equiv.core.Product;
@@ -58,10 +57,11 @@ public class MealItemDetailActivity extends AppCompatActivity {
         mQuantityEdit = (EditText) findViewById(R.id.quantity_edit);
         mUnitView = (TextView) findViewById(R.id.quantity_unit);
 
-        mProductList = Kernel.getInstance().getProductList();
+        Kernel kernel = Kernel.getInstance(this);
+        mProductList = kernel.getProductList();
 
         String mealTag = getIntent().getStringExtra(EXTRA_MEAL_TAG);
-        mMeal = Kernel.getInstance().getDay().getMealByTag(mealTag);
+        mMeal = kernel.getDay().getMealByTag(mealTag);
 
         mMealItemPosition = getIntent().getIntExtra(EXTRA_MEAL_ITEM_POSITION, -1);
 
