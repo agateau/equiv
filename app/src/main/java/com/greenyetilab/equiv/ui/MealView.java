@@ -23,14 +23,12 @@ public class MealView extends LinearLayout {
     private static final String TAG = "Meal";
 
     private final Meal mMeal;
-    private final ProductList mProductList;
     private final ArrayAdapter<MealItem> mAdapter;
 
-    public MealView(Context context, Meal meal, ProductList productList) {
+    public MealView(Context context, Meal meal) {
         super(context);
         inflate(context, R.layout.meal_view, this);
         mMeal = meal;
-        mProductList = productList;
 
         mAdapter = new ArrayAdapter<MealItem>(context, R.layout.meal_item, R.id.meal_item_text, mMeal.getItems()) {
             @Override

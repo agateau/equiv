@@ -3,6 +3,7 @@ package com.greenyetilab.equiv.ui;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -109,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void createTabSpec(TabHost tabHost, final Meal meal) {
-        final MealView view = new MealView(this, meal, mProductList);
+        final MealView view = new MealView(this, meal);
         TabHost.TabSpec tabSpec = tabHost.newTabSpec(meal.getTag());
         tabSpec.setIndicator(""); // Set by updateTab
         tabSpec.setContent(new TabHost.TabContentFactory() {
