@@ -55,19 +55,15 @@ public class Kernel {
 
     private void setupDay() {
         Meal meal = new Meal("breakfast");
-        meal.add(new MealItem(mProductList.getItems().get(1), 0.5f));
         mDay.add(meal);
 
         meal = new Meal("lunch");
-        meal.add(new MealItem(mProductList.getItems().get(0), 100));
         mDay.add(meal);
 
         meal = new Meal("snack");
-        meal.add(new MealItem(mProductList.getItems().get(1), 1));
         mDay.add(meal);
 
         meal = new Meal("dinner");
-        meal.add(new MealItem(mProductList.getItems().get(0), 100));
         mDay.add(meal);
     }
 
