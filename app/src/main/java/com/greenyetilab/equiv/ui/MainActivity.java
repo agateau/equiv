@@ -172,8 +172,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateTitle() {
+        ActionBar bar = getSupportActionBar();
+        if (bar == null) {
+            return;
+        }
         String title = String.format("Equiv %.1f / %.1f gP", mDay.getProteinWeight(), mConsumer.getMaxProteinPerDay());
-        getSupportActionBar().setTitle(title);
+        bar.setTitle(title);
     }
 
     private void updateTab(Meal meal, int tabIndex) {
