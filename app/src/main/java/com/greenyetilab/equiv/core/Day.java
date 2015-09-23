@@ -41,4 +41,13 @@ public class Day {
         }
         throw new RuntimeException("No meal with tag " + tag);
     }
+
+    public boolean isEmpty() {
+        for (Meal meal: mMeals) {
+            if (!meal.isEmpty()) {
+                return false;
+            }
+        }
+        return true;
+    }
 }

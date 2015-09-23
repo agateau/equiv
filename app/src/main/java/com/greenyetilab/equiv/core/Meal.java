@@ -59,6 +59,10 @@ public class Meal {
         notifyChanged();
     }
 
+    public boolean isEmpty() {
+        return mItems.isEmpty();
+    }
+
     public void registerListener(Listener listener) {
         mListeners.add(listener);
     }
