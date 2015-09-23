@@ -1,7 +1,6 @@
 package com.greenyetilab.equiv.ui;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -14,14 +13,11 @@ import android.widget.TextView;
 import com.greenyetilab.equiv.R;
 import com.greenyetilab.equiv.core.Meal;
 import com.greenyetilab.equiv.core.MealItem;
-import com.greenyetilab.equiv.core.ProductList;
 
 /**
  * Shows the meal items for a view
  */
 public class MealView extends LinearLayout {
-    private static final String TAG = "Meal";
-
     private final Meal mMeal;
     private final ArrayAdapter<MealItem> mAdapter;
 
