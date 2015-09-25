@@ -11,11 +11,12 @@ import java.io.InputStreamReader;
 public class CsvStreamReader {
     private final InputStream mStream;
     private final Listener mListener;
+    private static final char CELL_SEPARATOR = ';';
 
     public interface Listener {
         void onCell(int row, int column, String value);
-        void onStartRow();
-        void onEndRow();
+        void onStartRow(int row);
+        void onEndRow(int row);
     }
 
     public CsvStreamReader(InputStream in, Listener listener) {
@@ -31,12 +32,21 @@ public class CsvStreamReader {
             if (line == null) {
                 break;
             }
-            mListener.onStartRow();
-            String[] cells = line.split(";");
-            for (int col = 0; col < cells.length; ++col) {
-                mListener.onCell(row, col, cells[col]);
+            mListener.onStartRow(row);
+            int start = 0;
+            int idx = 0;
+            int col = 0;
+            while (idx < line.length()) {
+                if (line.charAt(idx) == CELL_SEPARATOR) {
+                    mListener.onCell(row, col, line.substring(start, idx));
+                    start = idx + 1;
+                    ++col;
+                }
+                ++idx;
             }
-            mListener.onEndRow();
+            // Emit last cell (which does not end with CELL_SEPARATOR)
+            mListener.onCell(row, col, line.substring(start, idx));
+            mListener.onEndRow(row);
             ++row;
         }
     }

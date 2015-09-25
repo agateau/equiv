@@ -34,15 +34,17 @@ public class ProductListCsvIO {
                 }
             }
             @Override
-            public void onStartRow() {
+            public void onStartRow(int row) {
                 mValid = false;
             }
 
             @Override
-            public void onEndRow() {
+            public void onEndRow(int row) {
                 if (mValid) {
                     Product product = new Product(mName, mUnit, mProtein);
                     items.add(product);
+                } else {
+                    NLog.e("Invalid row %d", row + 1);
                 }
             }
         };
