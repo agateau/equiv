@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.greenyetilab.equiv.R;
 import com.greenyetilab.equiv.core.Meal;
+import com.greenyetilab.equiv.core.FormatUtils;
 import com.greenyetilab.utils.log.NLog;
 
 
@@ -58,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void createTabSpec(TabHost tabHost, final Meal meal) {
-        final MealView view = new MealView(this, meal);
+        final MealView view = new MealView(this, meal, mKernel.getProteinUnit());
         TabHost.TabSpec tabSpec = tabHost.newTabSpec(meal.getTag());
         tabSpec.setIndicator(""); // Set by updateTab
         tabSpec.setContent(new TabHost.TabContentFactory() {
@@ -125,14 +126,17 @@ public class MainActivity extends AppCompatActivity {
         if (bar == null) {
             return;
         }
-        String title = String.format("Equiv %.1f / %.1f gP", mKernel.getDay().getProteinWeight(), mKernel.getConsumer().getMaxProteinPerDay());
+        String total = FormatUtils.formatProteinWeight(mKernel.getDay().getProteinWeight(), mKernel.getProteinUnit(), FormatUtils.UnitFormat.NONE);
+        String maxAllowed = FormatUtils.formatProteinWeight(mKernel.getConsumer().getMaxProteinPerDay(), mKernel.getProteinUnit());
+        String title = String.format("Equiv %s / %s", total, maxAllowed);
         bar.setTitle(title);
     }
 
     private void updateTab(Meal meal, int tabIndex) {
         int nameId = getResources().getIdentifier("meal_name_" + meal.getTag(), "string", getPackageName());
         String name = getString(nameId);
-        String title = String.format("%s\n%.1f gP", name, meal.getProteinWeight());
+        String total = FormatUtils.formatProteinWeight(meal.getProteinWeight(), mKernel.getProteinUnit(), FormatUtils.UnitFormat.SHORT);
+        String title = String.format("%s\n%s", name, total);
 
         TextView view = (TextView) mTabHost.getTabWidget().getChildAt(tabIndex).findViewById(android.R.id.title);
         view.setText(title);

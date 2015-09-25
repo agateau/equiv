@@ -8,6 +8,7 @@ import com.greenyetilab.equiv.core.DayJsonIO;
 import com.greenyetilab.equiv.core.Meal;
 import com.greenyetilab.equiv.core.ProductList;
 import com.greenyetilab.equiv.core.ProductListCsvIO;
+import com.greenyetilab.equiv.core.FormatUtils;
 import com.greenyetilab.utils.log.NLog;
 
 import org.json.JSONException;
@@ -31,6 +32,7 @@ public class Kernel {
     private final Context mContext;
     private ProductList mProductList = null;
     private int mCurrentTab = -1;
+    private FormatUtils.ProteinFormat mProteinUnit = FormatUtils.ProteinFormat.POTATO;
 
     Kernel(Context context) {
         mContext = context;
@@ -132,5 +134,9 @@ public class Kernel {
     private void setupConsumer() {
         mConsumer.setName("Clara");
         mConsumer.setMaxProteinPerDay(4f);
+    }
+
+    public FormatUtils.ProteinFormat getProteinUnit() {
+        return mProteinUnit;
     }
 }

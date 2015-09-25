@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -17,6 +18,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.greenyetilab.equiv.R;
+import com.greenyetilab.equiv.core.FormatUtils;
 import com.greenyetilab.equiv.core.Meal;
 import com.greenyetilab.equiv.core.MealItem;
 import com.greenyetilab.equiv.core.Product;
@@ -66,7 +68,26 @@ public class MealItemDetailActivity extends AppCompatActivity {
         mMealItemPosition = getIntent().getIntExtra(EXTRA_MEAL_ITEM_POSITION, -1);
 
         ListView listView = (ListView) findViewById(R.id.product_list_view);
-        ArrayAdapter<Product> adapter = new ArrayAdapter<>(this, R.layout.product_item, mProductList.getItems());
+        ArrayAdapter<Product> adapter = new ArrayAdapter<Product>(this, R.layout.product_item, R.id.product_item_text, mProductList.getItems()) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+
+                TextView equivTextView = (TextView) view.findViewById(R.id.product_item_equiv_text);
+                Product product = mProductList.getItems().get(position);
+                float proteins = product.getProteins();
+                String equiv = String.valueOf(proteins);
+                if (product.getUnit().equals("g")) {
+                    String txt = FormatUtils.formatProteinWeight(100 * proteins, FormatUtils.ProteinFormat.POTATO);
+                    equiv = String.format("100g = %s", txt);
+                } else {
+                    String txt = FormatUtils.formatProteinWeight(proteins, FormatUtils.ProteinFormat.POTATO);
+                    equiv = String.format("1u = %s", txt);
+                }
+                equivTextView.setText(equiv);
+                return view;
+            }
+        };
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -123,8 +144,7 @@ public class MealItemDetailActivity extends AppCompatActivity {
             mUnitView.setText(unit);
         }
 
-        float quantity = mProduct.getDefaultQuantity();
-        mQuantityEdit.setText(String.format("%f", quantity));
+        mQuantityEdit.setText("1");
     }
 
     private void onSelectProduct(Product product) {

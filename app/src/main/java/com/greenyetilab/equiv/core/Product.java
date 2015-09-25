@@ -29,8 +29,4 @@ public class Product {
     public String toString() {
         return getName();
     }
-
-    public float getDefaultQuantity() {
-        return mUnit.equals("g") ? 100 : 1;
-    }
 }
