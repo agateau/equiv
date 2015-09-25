@@ -32,9 +32,6 @@ public class MealItem {
 
     public String toString() {
         String unit = mProduct.getUnit();
-        if (!TextUtils.isEmpty(unit)) {
-            unit = " " + unit;
-        }
-        return String.format("%s (%.1f%s)", mProduct.getName(), mQuantity, unit);
+        return String.format("%s (%s%s)", mProduct.getName(), FormatUtils.naturalRound(mQuantity), unit);
     }
 }

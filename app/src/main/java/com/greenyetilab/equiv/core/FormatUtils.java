@@ -35,7 +35,7 @@ public class FormatUtils {
             case NONE:
                 break;
             case SHORT:
-                unit = " g";
+                unit = "g";
                 break;
             case FULL:
                 unit = proteinFormat == ProteinFormat.POTATO ? "g PDT" : "g P";
@@ -43,4 +43,14 @@ public class FormatUtils {
         }
         return txt + unit;
     }
+
+    public static String naturalRound(float value) {
+        int rounded = Math.round(value);
+        if (Math.abs(value - rounded) < 0.2) {
+            return String.valueOf(rounded);
+        } else {
+            return String.format("%.1f", value);
+        }
+    }
+
 }
