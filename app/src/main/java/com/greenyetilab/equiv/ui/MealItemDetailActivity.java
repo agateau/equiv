@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,6 +20,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.greenyetilab.equiv.R;
+import com.greenyetilab.equiv.core.Constants;
 import com.greenyetilab.equiv.core.FormatUtils;
 import com.greenyetilab.equiv.core.Meal;
 import com.greenyetilab.equiv.core.MealItem;
@@ -38,6 +41,8 @@ public class MealItemDetailActivity extends AppCompatActivity {
     private int mMealItemPosition = NEW_MEAL_ITEM_POSITION;
     private EditText mQuantityEdit;
     private TextView mUnitView;
+    private EditText mQuantityEquivEdit;
+    private boolean mUpdating = false;
 
     public static void addMealItem(Context context, Meal meal) {
         Intent intent = new Intent(context, MealItemDetailActivity.class);
@@ -57,7 +62,38 @@ public class MealItemDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.meal_item_detail_activity);
         mQuantityEdit = (EditText) findViewById(R.id.quantity_edit);
+        mQuantityEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                updateQuantityEquivEdit();
+            }
+        });
+
         mUnitView = (TextView) findViewById(R.id.quantity_unit);
+
+        mQuantityEquivEdit = (EditText) findViewById(R.id.quantity_equiv_edit);
+        mQuantityEquivEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                updateQuantityEdit();
+            }
+        });
 
         Kernel kernel = Kernel.getInstance(this);
         mProductList = kernel.getProductList();
@@ -76,14 +112,8 @@ public class MealItemDetailActivity extends AppCompatActivity {
                 TextView equivTextView = (TextView) view.findViewById(R.id.product_item_equiv_text);
                 Product product = mProductList.getItems().get(position);
                 float proteins = product.getProteins();
-                String equiv = String.valueOf(proteins);
-                if (product.getUnit().equals("g")) {
-                    String txt = FormatUtils.formatProteinWeight(100 * proteins, FormatUtils.ProteinFormat.POTATO);
-                    equiv = String.format("100g = %s", txt);
-                } else {
-                    String txt = FormatUtils.formatProteinWeight(proteins, FormatUtils.ProteinFormat.POTATO);
-                    equiv = String.format("1u = %s", txt);
-                }
+                String equivValue = FormatUtils.naturalRound(100 * Constants.PROTEIN_FOR_POTATO / proteins);
+                String equiv = String.format("%s%s = 100g PDT", equivValue, product.getUnit());
                 equivTextView.setText(equiv);
                 return view;
             }
@@ -137,13 +167,7 @@ public class MealItemDetailActivity extends AppCompatActivity {
 
     private void initQuantityFromProduct() {
         String unit = mProduct.getUnit();
-        if (TextUtils.isEmpty(unit)) {
-            mUnitView.setVisibility(View.GONE);
-        } else {
-            mUnitView.setVisibility(View.VISIBLE);
-            mUnitView.setText(unit);
-        }
-
+        mUnitView.setText(unit);
         mQuantityEdit.setText("1");
     }
 
@@ -155,8 +179,7 @@ public class MealItemDetailActivity extends AppCompatActivity {
     }
 
     private void save() {
-        EditText quantityEdit = (EditText) findViewById(R.id.quantity_edit);
-        float quantity = Float.valueOf(quantityEdit.getText().toString());
+        float quantity = Float.valueOf(mQuantityEdit.getText().toString());
         MealItem item = new MealItem(mProduct, quantity);
         if (mMealItemPosition == -1) {
             mMeal.add(item);
@@ -174,5 +197,45 @@ public class MealItemDetailActivity extends AppCompatActivity {
 
     private void updateMenuItems() {
         mSaveMenuItem.setEnabled(mProduct != null && !TextUtils.isEmpty(mQuantityEdit.getText()));
+    }
+
+    private void updateQuantityEquivEdit() {
+        if (mUpdating) {
+            return;
+        }
+        mUpdating = true;
+        try {
+            float quantity;
+            try {
+                quantity = Float.valueOf(mQuantityEdit.getText().toString());
+            } catch (NumberFormatException e) {
+                mQuantityEquivEdit.setText("");
+                return;
+            }
+            String txt = String.format("%.1f", quantity * mProduct.getProteins() / Constants.PROTEIN_FOR_POTATO);
+            mQuantityEquivEdit.setText(txt);
+        } finally {
+            mUpdating = false;
+        }
+    }
+
+    private void updateQuantityEdit() {
+        if (mUpdating) {
+            return;
+        }
+        mUpdating = true;
+        try {
+            float quantity;
+            try {
+                quantity = Float.valueOf(mQuantityEquivEdit.getText().toString());
+            } catch (NumberFormatException e) {
+                mQuantityEdit.setText("");
+                return;
+            }
+            String txt = String.format("%.1f", quantity / mProduct.getProteins() * Constants.PROTEIN_FOR_POTATO);
+            mQuantityEdit.setText(txt);
+        } finally {
+            mUpdating = false;
+        }
     }
 }
