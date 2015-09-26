@@ -1,26 +1,29 @@
-Féculents;Pâtes cuites;40;g
-Féculents;Riz blanc cuit;80;g
-Féculents;Semoule cuite;50;g
-Féculents;Polenta;140;g
-Féculents;Baguette;20;g
-Féculents;Pain de mie;25;g
-Féculents;Biscotte;2;u
+Féculents;Pâtes cuites;40.0;g
+Féculents;Riz blanc cuit;80.0;g
+Féculents;Semoule cuite;50.0;g
+Féculents;Polenta;140.0;g
+Féculents;Baguette;20.0;g
+Féculents;Pain de mie;25.0;g
+Féculents;Biscotte;2.0;u
 Féculents;Cracotte Froment;2.5;u
-Féculents;Craquinette Fraise / Framboise;2;u
+Féculents;Craquinette Fraise / Framboise;2.0;u
 Viande Poisson Œuf;Knacki Original;0.5;u
-Viande Poisson Œuf;Knacki Ball Original (1u = 1 ball);3;u
-Produits Laitiers;Apéricube Nature (1u = 1 cube);3;u
-Produits Laitiers;Kiri crème de lait;1;u
-Produits Laitiers;Kiri au chèvre doux;1;u
-Produits Laitiers;Ma p'tite VQR;1;u
-Produits Laitiers;Toastinette VQR pour croque Mr;1;u
-Produits Laitiers;VQR Nature 16 portions;1;u
-Produits Laitiers;VQR au Leerdammer;1;u
-Viennoiseries;Beignet nature;30;g
-Viennoiseries;Brioche;25;g
-Viennoiseries;Chausson aux pommes;60;g
-Viennoiseries;Chouquettes;20;g
-Viennoiseries;Croissant ordinaire;20;g
-Viennoiseries;Croissant au beurre;20;g
-Viennoiseries;Pain au chocolat;30;g
-Viennoiseries;Pitch fraise;1;u
+Viande Poisson Œuf;Knacki Ball Original (1u = 1 ball);3.0;u
+Produits Laitiers;Apéricube Nature (1u = 1 cube);3.0;u
+Produits Laitiers;Kiri crème de lait;1.0;u
+Produits Laitiers;Kiri au chèvre doux;1.0;u
+Produits Laitiers;Ma p'tite VQR;1.0;u
+Produits Laitiers;Toastinette VQR pour croque Mr;1.0;u
+Produits Laitiers;VQR Nature 16 portions;1.0;u
+Produits Laitiers;VQR au Leerdammer;1.0;u
+Viennoiseries;Beignet nature;30.0;g
+Viennoiseries;Brioche;25.0;g
+Viennoiseries;Chausson aux pommes;60.0;g
+Viennoiseries;Chouquettes;20.0;g
+Viennoiseries;Croissant ordinaire;20.0;g
+Viennoiseries;Croissant au beurre;20.0;g
+Viennoiseries;Pain au chocolat;30.0;g
+Viennoiseries;Pitch fraise;1.0;u
+Viennoiseries;Pain au lait;20.0;g
+Viennoiseries;Pain aux raisins;30.0;g
+Viennoiseries;Pain viennois;25.0;g
