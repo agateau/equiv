@@ -113,7 +113,7 @@ public class MealItemDetailActivity extends AppCompatActivity {
                 Product product = mProductList.getItems().get(position);
                 float proteins = product.getProteins();
                 String equivValue = FormatUtils.naturalRound(100 * Constants.PROTEIN_FOR_POTATO / proteins);
-                String equiv = String.format("%s%s = 100g PDT", equivValue, product.getUnit());
+                String equiv = String.format("%s%s = \n100g PDT", equivValue, product.getUnit());
                 equivTextView.setText(equiv);
                 return view;
             }
