@@ -175,7 +175,6 @@ public class MealItemDetailActivity extends AppCompatActivity {
     private void onSelectProduct(Product product) {
         mProduct = product;
         updateDetailsLayout();
-        mQuantityEdit.requestFocus();
         updateMenuItems();
     }
 
@@ -246,6 +245,6 @@ public class MealItemDetailActivity extends AppCompatActivity {
 
         String unit = mProduct.getUnit();
         mUnitView.setText(unit);
-        mQuantityEdit.setText("1");
+        mQuantityEdit.setText("");
     }
 }
