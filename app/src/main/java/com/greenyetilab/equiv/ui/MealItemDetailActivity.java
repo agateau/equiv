@@ -28,6 +28,8 @@ import com.greenyetilab.equiv.core.MealItem;
 import com.greenyetilab.equiv.core.Product;
 import com.greenyetilab.equiv.core.ProductList;
 
+import java.util.Locale;
+
 
 public class MealItemDetailActivity extends AppCompatActivity {
     public static final String EXTRA_MEAL_TAG = "com.greenyetilab.equiv.MEAL_TAG";
@@ -211,7 +213,7 @@ public class MealItemDetailActivity extends AppCompatActivity {
                 mQuantityEquivEdit.setText("");
                 return;
             }
-            String txt = String.format("%.1f", quantity * mProduct.getProteins() / Constants.PROTEIN_FOR_POTATO);
+            String txt = String.format(Locale.ENGLISH, "%.1f", quantity * mProduct.getProteins() / Constants.PROTEIN_FOR_POTATO);
             mQuantityEquivEdit.setText(txt);
         } finally {
             mUpdating = false;
@@ -231,7 +233,7 @@ public class MealItemDetailActivity extends AppCompatActivity {
                 mQuantityEdit.setText("");
                 return;
             }
-            String txt = String.format("%.1f", quantity / mProduct.getProteins() * Constants.PROTEIN_FOR_POTATO);
+            String txt = String.format(Locale.ENGLISH, "%.1f", quantity / mProduct.getProteins() * Constants.PROTEIN_FOR_POTATO);
             mQuantityEdit.setText(txt);
         } finally {
             mUpdating = false;
