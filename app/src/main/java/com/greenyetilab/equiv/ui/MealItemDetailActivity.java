@@ -150,6 +150,7 @@ public class MealItemDetailActivity extends AppCompatActivity {
             removeMenuItem.setVisible(false);
         }
         mSaveMenuItem = menu.findItem(R.id.action_save);
+        updateMenuItems();
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -196,6 +197,9 @@ public class MealItemDetailActivity extends AppCompatActivity {
     }
 
     private void updateMenuItems() {
+        if (mSaveMenuItem == null) {
+            return;
+        }
         mSaveMenuItem.setEnabled(mProduct != null && !TextUtils.isEmpty(mQuantityEdit.getText()));
     }
 
@@ -215,6 +219,7 @@ public class MealItemDetailActivity extends AppCompatActivity {
             String txt = String.format(Locale.ENGLISH, "%.1f", quantity * mProduct.getProteins() / Constants.PROTEIN_FOR_POTATO);
             mQuantityEquivEdit.setText(txt);
         } finally {
+            updateMenuItems();
             mUpdating = false;
         }
     }
@@ -235,6 +240,7 @@ public class MealItemDetailActivity extends AppCompatActivity {
             String txt = String.format(Locale.ENGLISH, "%.1f", quantity / mProduct.getProteins() * Constants.PROTEIN_FOR_POTATO);
             mQuantityEdit.setText(txt);
         } finally {
+            updateMenuItems();
             mUpdating = false;
         }
     }
