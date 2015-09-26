@@ -133,7 +133,7 @@ public class Kernel {
 
     private void setupConsumer() {
         mConsumer.setName("Clara");
-        mConsumer.setMaxProteinPerDay(4f);
+        mConsumer.setMaxProteinPerDay(5f);
     }
 
     public FormatUtils.ProteinFormat getProteinUnit() {
