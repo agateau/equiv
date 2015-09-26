@@ -28,6 +28,8 @@ import com.greenyetilab.equiv.core.MealItem;
 import com.greenyetilab.equiv.core.Product;
 import com.greenyetilab.equiv.core.ProductList;
 
+import java.text.ParseException;
+
 
 public class MealItemDetailActivity extends AppCompatActivity {
     public static final String EXTRA_MEAL_TAG = "com.greenyetilab.equiv.MEAL_TAG";
@@ -178,7 +180,12 @@ public class MealItemDetailActivity extends AppCompatActivity {
     }
 
     private void save() {
-        float quantity = Float.valueOf(mQuantityEdit.getText().toString());
+        float quantity = 0;
+        try {
+            quantity = FormatUtils.parseFloat(mQuantityEdit.getText().toString());
+        } catch (ParseException e) {
+            return;
+        }
         MealItem item = new MealItem(mProduct, quantity);
         if (mMealItemPosition == -1) {
             mMeal.add(item);
@@ -206,12 +213,12 @@ public class MealItemDetailActivity extends AppCompatActivity {
         try {
             float quantity;
             try {
-                quantity = Float.valueOf(mQuantityEdit.getText().toString());
-            } catch (NumberFormatException e) {
+                quantity = FormatUtils.parseFloat(mQuantityEdit.getText().toString());
+            } catch (ParseException e) {
                 mQuantityEquivEdit.setText("");
                 return;
             }
-            String txt = String.format("%.1f", quantity * mProduct.getProteins() / Constants.PROTEIN_FOR_POTATO);
+            String txt = FormatUtils.naturalRound(quantity * mProduct.getProteins() / Constants.PROTEIN_FOR_POTATO);
             mQuantityEquivEdit.setText(txt);
         } finally {
             mUpdating = false;
@@ -226,12 +233,12 @@ public class MealItemDetailActivity extends AppCompatActivity {
         try {
             float quantity;
             try {
-                quantity = Float.valueOf(mQuantityEquivEdit.getText().toString());
-            } catch (NumberFormatException e) {
+                quantity = FormatUtils.parseFloat(mQuantityEquivEdit.getText().toString());
+            } catch (ParseException e) {
                 mQuantityEdit.setText("");
                 return;
             }
-            String txt = String.format("%.1f", quantity / mProduct.getProteins() * Constants.PROTEIN_FOR_POTATO);
+            String txt = FormatUtils.naturalRound(quantity / mProduct.getProteins() * Constants.PROTEIN_FOR_POTATO);
             mQuantityEdit.setText(txt);
         } finally {
             mUpdating = false;

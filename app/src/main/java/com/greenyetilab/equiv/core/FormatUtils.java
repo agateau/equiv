@@ -1,9 +1,21 @@
 package com.greenyetilab.equiv.core;
 
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.util.Locale;
+
 /**
  * Text utilities
  */
 public class FormatUtils {
+    public static DecimalFormat getDecimalFormat() {
+        return (DecimalFormat) DecimalFormat.getInstance(Locale.getDefault());
+    }
+
+    public static float parseFloat(String s) throws ParseException {
+        return getDecimalFormat().parse(s).floatValue();
+    }
+
     public enum ProteinFormat {
         PROTEIN,
         POTATO
@@ -20,13 +32,13 @@ public class FormatUtils {
     public static final String formatProteinWeight(float protein, ProteinFormat proteinFormat, UnitFormat unitFormat) {
         String txt;
         if (proteinFormat == ProteinFormat.PROTEIN) {
-            txt = String.format("%.1f", protein);
+            txt = getDecimalFormat().format(protein);
         } else {
             float value = protein / Constants.PROTEIN_FOR_POTATO;
             if (value >= 1 || value == 0) {
                 txt = String.format("%d", Math.round(value));
             } else {
-                txt = String.format("%.1f", value);
+                txt = getDecimalFormat().format(value);
             }
         }
 
@@ -49,7 +61,7 @@ public class FormatUtils {
         if (Math.abs(value - rounded) < 0.2) {
             return String.valueOf(rounded);
         } else {
-            return String.format("%.1f", value);
+            return getDecimalFormat().format(value);
         }
     }
 
