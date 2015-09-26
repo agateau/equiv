@@ -6,6 +6,8 @@ import com.greenyetilab.utils.log.NLog;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * Load a ProductList from a CSV file
@@ -54,6 +56,12 @@ public class ProductListCsvIO {
         };
         CsvStreamReader reader = new CsvStreamReader(in, listener);
         reader.read();
+        Collections.sort(items, new Comparator<Product>() {
+            @Override
+            public int compare(Product lhs, Product rhs) {
+                return lhs.getName().compareToIgnoreCase(rhs.getName());
+            }
+        });
         productList.setItems(items);
         return productList;
     }
