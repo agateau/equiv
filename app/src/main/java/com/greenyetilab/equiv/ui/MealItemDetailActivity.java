@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -39,6 +40,8 @@ public class MealItemDetailActivity extends AppCompatActivity {
     private Product mProduct = null;
     private MenuItem mSaveMenuItem;
     private int mMealItemPosition = NEW_MEAL_ITEM_POSITION;
+    private TextView mProductNameView;
+    private LinearLayout mDetailsLayout;
     private EditText mQuantityEdit;
     private TextView mUnitView;
     private EditText mQuantityEquivEdit;
@@ -61,6 +64,8 @@ public class MealItemDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.meal_item_detail_activity);
+        mProductNameView = (TextView) findViewById(R.id.product_name_view);
+        mDetailsLayout = (LinearLayout) findViewById(R.id.details_layout);
         mQuantityEdit = (EditText) findViewById(R.id.quantity_edit);
         mQuantityEdit.addTextChangedListener(new TextWatcher() {
             @Override
@@ -129,8 +134,8 @@ public class MealItemDetailActivity extends AppCompatActivity {
         });
 
         if (mMealItemPosition != NEW_MEAL_ITEM_POSITION) {
-            initFromMealItem(mMeal.getItems().get(mMealItemPosition));
             setTitle(R.string.edit_meal_item_title);
+            initFromMealItem(mMeal.getItems().get(mMealItemPosition));
         }
     }
 
@@ -161,19 +166,13 @@ public class MealItemDetailActivity extends AppCompatActivity {
 
     private void initFromMealItem(MealItem mealItem) {
         mProduct = mealItem.getProduct();
-        initQuantityFromProduct();
+        updateDetailsLayout();
         mQuantityEdit.setText(String.valueOf(mealItem.getQuantity()));
-    }
-
-    private void initQuantityFromProduct() {
-        String unit = mProduct.getUnit();
-        mUnitView.setText(unit);
-        mQuantityEdit.setText("1");
     }
 
     private void onSelectProduct(Product product) {
         mProduct = product;
-        initQuantityFromProduct();
+        updateDetailsLayout();
         mQuantityEdit.requestFocus();
         updateMenuItems();
     }
@@ -237,5 +236,14 @@ public class MealItemDetailActivity extends AppCompatActivity {
         } finally {
             mUpdating = false;
         }
+    }
+
+    private void updateDetailsLayout() {
+        mDetailsLayout.setVisibility(View.VISIBLE);
+        mProductNameView.setText(mProduct.getName());
+
+        String unit = mProduct.getUnit();
+        mUnitView.setText(unit);
+        mQuantityEdit.setText("1");
     }
 }

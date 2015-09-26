@@ -8,30 +8,46 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"/>
-    <TextView
+    <LinearLayout
+        android:id="@+id/details_layout"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/quantity_text"/>
-    <LinearLayout android:layout_width="match_parent"
-                  android:layout_height="wrap_content">
-        <EditText
-            android:id="@+id/quantity_edit"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:inputType="numberDecimal"/>
+        android:divider="@android:drawable/divider_horizontal_bright"
+        android:showDividers="beginning"
+        android:visibility="gone">
         <TextView
-            android:id="@+id/quantity_unit"
-            android:layout_width="wrap_content"
+            android:id="@+id/product_name_view"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=" = "/>
-        <EditText
-            android:id="@+id/quantity_equiv_edit"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/quantity_edit"
+                android:gravity="end"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"/>
+            <TextView
+                android:id="@+id/quantity_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" = "/>
+            <EditText
+                android:id="@+id/quantity_equiv_edit"
+                android:gravity="end"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="g PDT"/>
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>
