@@ -216,7 +216,7 @@ public class MealItemDetailActivity extends AppCompatActivity {
                 mQuantityEquivEdit.setText("");
                 return;
             }
-            String txt = String.format(Locale.ENGLISH, "%.1f", quantity * mProduct.getProteins() / Constants.PROTEIN_FOR_POTATO);
+            String txt = String.format(Locale.ENGLISH, "%.2f", quantity * mProduct.getProteins() / Constants.PROTEIN_FOR_POTATO);
             mQuantityEquivEdit.setText(txt);
         } finally {
             updateMenuItems();
@@ -237,7 +237,7 @@ public class MealItemDetailActivity extends AppCompatActivity {
                 mQuantityEdit.setText("");
                 return;
             }
-            String txt = String.format(Locale.ENGLISH, "%.1f", quantity / mProduct.getProteins() * Constants.PROTEIN_FOR_POTATO);
+            String txt = String.format(Locale.ENGLISH, "%.2f", quantity / mProduct.getProteins() * Constants.PROTEIN_FOR_POTATO);
             mQuantityEdit.setText(txt);
         } finally {
             updateMenuItems();
