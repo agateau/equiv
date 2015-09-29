@@ -102,7 +102,7 @@ public class MealItemDetailActivity extends AppCompatActivity {
             }
         });
 
-        Kernel kernel = Kernel.getInstance(this);
+        Kernel kernel = Kernel.getExistingInstance();
         mProductList = kernel.getProductList();
 
         String mealTag = getIntent().getStringExtra(EXTRA_MEAL_TAG);

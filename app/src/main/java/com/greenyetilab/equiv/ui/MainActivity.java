@@ -2,6 +2,7 @@ package com.greenyetilab.equiv.ui;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -13,8 +14,8 @@ import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.greenyetilab.equiv.R;
-import com.greenyetilab.equiv.core.Meal;
 import com.greenyetilab.equiv.core.FormatUtils;
+import com.greenyetilab.equiv.core.Meal;
 import com.greenyetilab.utils.log.NLog;
 
 
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         NLog.i("");
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         mKernel = Kernel.getInstance(this);
 
         setContentView(R.layout.activity_main);
@@ -40,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onMealChanged() {
                 updateTitle();
-                mKernel.saveDay();
+                mKernel.saveDay(MainActivity.this);
             }
         };
         for (Meal meal : mKernel.getDay().getMeals()) {
@@ -100,12 +102,17 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_settings) {
+            showSettings();
             return true;
         } else if (id == R.id.action_new_day) {
             onNewDay();
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showSettings() {
+        SettingsActivity.start(this);
     }
 
     private void onNewDay() {

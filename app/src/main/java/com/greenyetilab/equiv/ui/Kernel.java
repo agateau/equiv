@@ -1,14 +1,16 @@
 package com.greenyetilab.equiv.ui;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import com.greenyetilab.equiv.core.Consumer;
 import com.greenyetilab.equiv.core.Day;
 import com.greenyetilab.equiv.core.DayJsonIO;
+import com.greenyetilab.equiv.core.FormatUtils;
 import com.greenyetilab.equiv.core.Meal;
 import com.greenyetilab.equiv.core.ProductList;
 import com.greenyetilab.equiv.core.ProductListCsvIO;
-import com.greenyetilab.equiv.core.FormatUtils;
 import com.greenyetilab.utils.log.NLog;
 
 import org.json.JSONException;
@@ -29,31 +31,38 @@ public class Kernel {
 
     private final Consumer mConsumer = new Consumer();
     private final Day mDay = new Day();
-    private final Context mContext;
     private ProductList mProductList = null;
     private int mCurrentTab = -1;
     private FormatUtils.ProteinFormat mProteinUnit = FormatUtils.ProteinFormat.POTATO;
 
-    Kernel(Context context) {
-        mContext = context;
+    Kernel() {
         setupDay();
-        setupConsumer();
     }
 
     public static Kernel getInstance(Context context) {
         if (sInstance == null) {
-            sInstance = new Kernel(context);
-            sInstance.loadProductList();
-            sInstance.loadDay();
+            sInstance = new Kernel();
+            sInstance.loadProductList(context);
+            sInstance.loadDay(context);
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+            sInstance.updateFromPreferences(prefs);
         }
         return sInstance;
     }
 
-    private void loadDay() {
+    public static Kernel getExistingInstance() {
+        return sInstance;
+    }
+
+    public void updateFromPreferences(SharedPreferences prefs) {
+        loadConsumer(prefs);
+    }
+
+    private void loadDay(Context context) {
         NLog.i("");
         FileInputStream stream;
         try {
-            stream = mContext.openFileInput(DAY_JSON);
+            stream = context.openFileInput(DAY_JSON);
         } catch (FileNotFoundException e) {
             return;
         }
@@ -65,11 +74,11 @@ public class Kernel {
         }
     }
 
-    public void saveDay() {
+    public void saveDay(Context context) {
         NLog.i("");
         FileOutputStream stream;
         try {
-            stream = mContext.openFileOutput(DAY_JSON, Context.MODE_PRIVATE);
+            stream = context.openFileOutput(DAY_JSON, Context.MODE_PRIVATE);
         } catch (FileNotFoundException e) {
             NLog.e("Failed to open %s for writing: %s", DAY_JSON, e);
             return;
@@ -103,10 +112,10 @@ public class Kernel {
         mCurrentTab = currentTab;
     }
 
-    private void loadProductList() {
+    private void loadProductList(Context context) {
         InputStream stream;
         try {
-            stream = mContext.getAssets().open("products.csv");
+            stream = context.getAssets().open("products.csv");
         } catch (IOException e) {
             throw new RuntimeException("Failed to open products.csv.", e);
         }
@@ -131,9 +140,10 @@ public class Kernel {
         mDay.add(meal);
     }
 
-    private void setupConsumer() {
+    private void loadConsumer(SharedPreferences prefs) {
         mConsumer.setName("Clara");
-        mConsumer.setMaxProteinPerDay(5f);
+        float maxProtein = PreferenceUtils.getFloat(prefs, "max_protein_per_day", 5f);
+        mConsumer.setMaxProteinPerDay(maxProtein);
     }
 
     public FormatUtils.ProteinFormat getProteinUnit() {
