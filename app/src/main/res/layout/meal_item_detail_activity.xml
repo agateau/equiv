@@ -46,9 +46,9 @@
                 android:layout_height="wrap_content"
                 android:inputType="numberDecimal"/>
             <TextView
+                android:id="@+id/quantity_equiv_unit"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="g PDT"/>
+                android:layout_height="wrap_content"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

@@ -45,8 +45,9 @@ public class MealItemDetailActivity extends AppCompatActivity {
     private TextView mProductNameView;
     private LinearLayout mDetailsLayout;
     private EditText mQuantityEdit;
-    private TextView mUnitView;
+    private TextView mQuantityUnitView;
     private EditText mQuantityEquivEdit;
+    private TextView mQuantityEquivUnitView;
     private boolean mUpdating = false;
 
     public static void addMealItem(Context context, Meal meal) {
@@ -84,7 +85,7 @@ public class MealItemDetailActivity extends AppCompatActivity {
             }
         });
 
-        mUnitView = (TextView) findViewById(R.id.quantity_unit);
+        mQuantityUnitView = (TextView) findViewById(R.id.quantity_unit);
 
         mQuantityEquivEdit = (EditText) findViewById(R.id.quantity_equiv_edit);
         mQuantityEquivEdit.addTextChangedListener(new TextWatcher() {
@@ -101,6 +102,8 @@ public class MealItemDetailActivity extends AppCompatActivity {
                 updateQuantityEdit();
             }
         });
+
+        mQuantityEquivUnitView = (TextView) findViewById(R.id.quantity_equiv_unit);
 
         Kernel kernel = Kernel.getExistingInstance();
         mProductList = kernel.getProductList();
@@ -249,8 +252,11 @@ public class MealItemDetailActivity extends AppCompatActivity {
         mDetailsLayout.setVisibility(View.VISIBLE);
         mProductNameView.setText(mProduct.getName());
 
-        String unit = mProduct.getUnit();
-        mUnitView.setText(unit);
         mQuantityEdit.setText("");
+        String unit = mProduct.getUnit();
+        mQuantityUnitView.setText(unit);
+
+        unit = "g PDT"; // FIXME
+        mQuantityEquivUnitView.setText(unit);
     }
 }
