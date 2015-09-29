@@ -206,28 +206,19 @@ public class MealItemDetailActivity extends AppCompatActivity {
         mSaveMenuItem.setEnabled(mProduct != null && !TextUtils.isEmpty(mQuantityEdit.getText()));
     }
 
+    private float getEquivRatio() {
+        return mProduct.getProteins() / Constants.PROTEIN_FOR_POTATO;
+    }
+
     private void updateQuantityEquivEdit() {
-        if (mUpdating) {
-            return;
-        }
-        mUpdating = true;
-        try {
-            float quantity;
-            try {
-                quantity = Float.valueOf(mQuantityEdit.getText().toString());
-            } catch (NumberFormatException e) {
-                mQuantityEquivEdit.setText("");
-                return;
-            }
-            String txt = String.format(Locale.ENGLISH, "%.2f", quantity * mProduct.getProteins() / Constants.PROTEIN_FOR_POTATO);
-            mQuantityEquivEdit.setText(txt);
-        } finally {
-            updateMenuItems();
-            mUpdating = false;
-        }
+        updateQuantityEdits(mQuantityEdit, mQuantityEquivEdit, getEquivRatio());
     }
 
     private void updateQuantityEdit() {
+        updateQuantityEdits(mQuantityEquivEdit, mQuantityEdit, 1 / getEquivRatio());
+    }
+
+    private void updateQuantityEdits(TextView from, TextView to, float ratio) {
         if (mUpdating) {
             return;
         }
@@ -235,13 +226,13 @@ public class MealItemDetailActivity extends AppCompatActivity {
         try {
             float quantity;
             try {
-                quantity = Float.valueOf(mQuantityEquivEdit.getText().toString());
+                quantity = Float.valueOf(from.getText().toString());
             } catch (NumberFormatException e) {
-                mQuantityEdit.setText("");
+                to.setText("");
                 return;
             }
-            String txt = String.format(Locale.ENGLISH, "%.2f", quantity / mProduct.getProteins() * Constants.PROTEIN_FOR_POTATO);
-            mQuantityEdit.setText(txt);
+            String txt = String.format(Locale.ENGLISH, "%.2f", quantity * ratio);
+            to.setText(txt);
         } finally {
             updateMenuItems();
             mUpdating = false;
