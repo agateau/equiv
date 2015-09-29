@@ -10,6 +10,7 @@ import com.greenyetilab.equiv.core.DayJsonIO;
 import com.greenyetilab.equiv.core.Meal;
 import com.greenyetilab.equiv.core.ProductList;
 import com.greenyetilab.equiv.core.ProductListCsvIO;
+import com.greenyetilab.equiv.core.ProteinWeightUnit;
 import com.greenyetilab.utils.log.NLog;
 
 import org.json.JSONException;
@@ -32,8 +33,8 @@ public class Kernel {
     private final Day mDay = new Day();
     private ProductList mProductList = null;
     private int mCurrentTab = -1;
-    private WeightFormatter.ProteinFormat mProteinUnit = WeightFormatter.ProteinFormat.PROTEIN;
-    //private WeightFormatter.ProteinFormat mProteinUnit = WeightFormatter.ProteinFormat.POTATO;
+    private ProteinWeightUnit mProteinUnit = ProteinWeightUnit.PROTEIN;
+    //private ProteinWeightUnit mProteinUnit = ProteinWeightUnit.POTATO;
     private final WeightFormatter mWeightFormater;
 
     Kernel(Context context) {
@@ -153,7 +154,7 @@ public class Kernel {
         mConsumer.setMaxProteinPerDay(maxProtein);
     }
 
-    public WeightFormatter.ProteinFormat getProteinUnit() {
+    public ProteinWeightUnit getProteinUnit() {
         return mProteinUnit;
     }
 }

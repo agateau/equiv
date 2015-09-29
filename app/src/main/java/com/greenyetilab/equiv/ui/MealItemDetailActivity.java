@@ -27,6 +27,7 @@ import com.greenyetilab.equiv.core.Meal;
 import com.greenyetilab.equiv.core.MealItem;
 import com.greenyetilab.equiv.core.Product;
 import com.greenyetilab.equiv.core.ProductList;
+import com.greenyetilab.equiv.core.ProteinWeightUnit;
 
 import java.util.Locale;
 
@@ -128,7 +129,7 @@ public class MealItemDetailActivity extends AppCompatActivity {
                 float equiv;
                 String equivUnit = product.getUnit();
                 int ref;
-                if (kernel.getProteinUnit() == WeightFormatter.ProteinFormat.POTATO) {
+                if (kernel.getProteinUnit() == ProteinWeightUnit.POTATO) {
                     equiv = 100 / (proteins / Constants.PROTEIN_FOR_POTATO);
                     ref = 100;
                 } else {
@@ -224,7 +225,7 @@ public class MealItemDetailActivity extends AppCompatActivity {
     }
 
     private float getEquivRatio() {
-        if (Kernel.getExistingInstance().getProteinUnit() == WeightFormatter.ProteinFormat.POTATO) {
+        if (Kernel.getExistingInstance().getProteinUnit() == ProteinWeightUnit.POTATO) {
             return mProduct.getProteins() / Constants.PROTEIN_FOR_POTATO;
         } else {
             return mProduct.getProteins();

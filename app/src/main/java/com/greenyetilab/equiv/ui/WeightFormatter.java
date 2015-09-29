@@ -4,6 +4,7 @@ import android.content.res.Resources;
 
 import com.greenyetilab.equiv.R;
 import com.greenyetilab.equiv.core.Constants;
+import com.greenyetilab.equiv.core.ProteinWeightUnit;
 
 /**
  * Format weight strings according to units and locale
@@ -15,19 +16,14 @@ public class WeightFormatter {
         FULL
     }
 
-    public enum ProteinFormat {
-        PROTEIN,
-        POTATO
-    }
-
-    private ProteinFormat mProteinFormat = ProteinFormat.POTATO;
+    private ProteinWeightUnit mProteinFormat = ProteinWeightUnit.POTATO;
     private final Resources mResources;
 
     public WeightFormatter(Resources resources) {
         mResources = resources;
     }
 
-    public void setProteinFormat(ProteinFormat proteinFormat) {
+    public void setProteinFormat(ProteinWeightUnit proteinFormat) {
         mProteinFormat = proteinFormat;
     }
 
@@ -37,7 +33,7 @@ public class WeightFormatter {
 
     public String format(float protein, UnitFormat unitFormat) {
         String txt;
-        if (mProteinFormat == ProteinFormat.PROTEIN) {
+        if (mProteinFormat == ProteinWeightUnit.PROTEIN) {
             txt = String.format("%.1f", protein);
         } else {
             float value = protein / Constants.PROTEIN_FOR_POTATO;
@@ -60,7 +56,7 @@ public class WeightFormatter {
                 unit = mResources.getText(R.string.weight_unit).toString();
                 break;
             case FULL:
-                unit = mResources.getText(mProteinFormat == ProteinFormat.POTATO ?  R.string.potato_weight_unit : R.string.protein_weight_unit).toString();
+                unit = mResources.getText(mProteinFormat == ProteinWeightUnit.POTATO ?  R.string.potato_weight_unit : R.string.protein_weight_unit).toString();
                 break;
         }
         return unit;
