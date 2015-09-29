@@ -13,7 +13,6 @@ import android.widget.TextView;
 import com.greenyetilab.equiv.R;
 import com.greenyetilab.equiv.core.Meal;
 import com.greenyetilab.equiv.core.MealItem;
-import com.greenyetilab.equiv.core.FormatUtils;
 
 /**
  * Shows the meal items for a view
@@ -22,7 +21,7 @@ public class MealView extends LinearLayout {
     private final Meal mMeal;
     private final ArrayAdapter<MealItem> mAdapter;
 
-    public MealView(Context context, Meal meal, final FormatUtils.ProteinFormat proteinFormat) {
+    public MealView(Context context, Meal meal, final WeightFormatter weightFormatter) {
         super(context);
         inflate(context, R.layout.meal_view, this);
         mMeal = meal;
@@ -33,7 +32,7 @@ public class MealView extends LinearLayout {
                 View view = super.getView(position, convertView, parent);
                 TextView proteinTextView = (TextView) view.findViewById(R.id.meal_item_protein_text);
                 float proteins = mMeal.getItems().get(position).getProteinWeight();
-                proteinTextView.setText(FormatUtils.formatProteinWeight(proteins, proteinFormat));
+                proteinTextView.setText(weightFormatter.format(proteins));
                 return view;
             }
         };

@@ -17,4 +17,7 @@
     <string name="action_remove">Suppr.</string>
     <string name="title_activity_settings">Réglages</string>
     <string name="max_protein_per_day_title">Protéines maximum par jour</string>
+    <string name="potato_weight_unit">g PDT</string>
+    <string name="protein_weight_unit">g P</string>
+    <string name="weight_unit">g</string>
 </resources>

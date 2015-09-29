@@ -7,7 +7,6 @@ import android.preference.PreferenceManager;
 import com.greenyetilab.equiv.core.Consumer;
 import com.greenyetilab.equiv.core.Day;
 import com.greenyetilab.equiv.core.DayJsonIO;
-import com.greenyetilab.equiv.core.FormatUtils;
 import com.greenyetilab.equiv.core.Meal;
 import com.greenyetilab.equiv.core.ProductList;
 import com.greenyetilab.equiv.core.ProductListCsvIO;
@@ -33,15 +32,18 @@ public class Kernel {
     private final Day mDay = new Day();
     private ProductList mProductList = null;
     private int mCurrentTab = -1;
-    private FormatUtils.ProteinFormat mProteinUnit = FormatUtils.ProteinFormat.POTATO;
+    private WeightFormatter.ProteinFormat mProteinUnit = WeightFormatter.ProteinFormat.PROTEIN;
+    //private WeightFormatter.ProteinFormat mProteinUnit = WeightFormatter.ProteinFormat.POTATO;
+    private final WeightFormatter mWeightFormater;
 
-    Kernel() {
+    Kernel(Context context) {
         setupDay();
+        mWeightFormater = new WeightFormatter(context.getResources());
     }
 
     public static Kernel getInstance(Context context) {
         if (sInstance == null) {
-            sInstance = new Kernel();
+            sInstance = new Kernel(context);
             sInstance.loadProductList(context);
             sInstance.loadDay(context);
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -54,8 +56,13 @@ public class Kernel {
         return sInstance;
     }
 
+    public WeightFormatter getWeightFormater() {
+        return mWeightFormater;
+    }
+
     public void updateFromPreferences(SharedPreferences prefs) {
         loadConsumer(prefs);
+        mWeightFormater.setProteinFormat(mProteinUnit);
     }
 
     private void loadDay(Context context) {
@@ -146,7 +153,7 @@ public class Kernel {
         mConsumer.setMaxProteinPerDay(maxProtein);
     }
 
-    public FormatUtils.ProteinFormat getProteinUnit() {
+    public WeightFormatter.ProteinFormat getProteinUnit() {
         return mProteinUnit;
     }
 }

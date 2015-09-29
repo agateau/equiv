@@ -14,7 +14,6 @@ import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.greenyetilab.equiv.R;
-import com.greenyetilab.equiv.core.FormatUtils;
 import com.greenyetilab.equiv.core.Meal;
 import com.greenyetilab.utils.log.NLog;
 
@@ -61,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void createTabSpec(TabHost tabHost, final Meal meal) {
-        final MealView view = new MealView(this, meal, mKernel.getProteinUnit());
+        final MealView view = new MealView(this, meal, mKernel.getWeightFormater());
         TabHost.TabSpec tabSpec = tabHost.newTabSpec(meal.getTag());
         tabSpec.setIndicator(""); // Set by updateTab
         tabSpec.setContent(new TabHost.TabContentFactory() {
@@ -133,8 +132,9 @@ public class MainActivity extends AppCompatActivity {
         if (bar == null) {
             return;
         }
-        String total = FormatUtils.formatProteinWeight(mKernel.getDay().getProteinWeight(), mKernel.getProteinUnit(), FormatUtils.UnitFormat.NONE);
-        String maxAllowed = FormatUtils.formatProteinWeight(mKernel.getConsumer().getMaxProteinPerDay(), mKernel.getProteinUnit());
+        WeightFormatter formatter = mKernel.getWeightFormater();
+        String total = formatter.format(mKernel.getDay().getProteinWeight(), WeightFormatter.UnitFormat.NONE);
+        String maxAllowed = formatter.format(mKernel.getConsumer().getMaxProteinPerDay());
         String title = String.format("Equiv %s / %s", total, maxAllowed);
         bar.setTitle(title);
     }
@@ -142,7 +142,8 @@ public class MainActivity extends AppCompatActivity {
     private void updateTab(Meal meal, int tabIndex) {
         int nameId = getResources().getIdentifier("meal_name_" + meal.getTag(), "string", getPackageName());
         String name = getString(nameId);
-        String total = FormatUtils.formatProteinWeight(meal.getProteinWeight(), mKernel.getProteinUnit(), FormatUtils.UnitFormat.SHORT);
+        WeightFormatter formatter = mKernel.getWeightFormater();
+        String total = formatter.format(meal.getProteinWeight(), WeightFormatter.UnitFormat.SHORT);
         String title = String.format("%s\n%s", name, total);
 
         TextView view = (TextView) mTabHost.getTabWidget().getChildAt(tabIndex).findViewById(android.R.id.title);

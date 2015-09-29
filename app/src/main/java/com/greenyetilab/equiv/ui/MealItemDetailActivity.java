@@ -105,7 +105,7 @@ public class MealItemDetailActivity extends AppCompatActivity {
 
         mQuantityEquivUnitView = (TextView) findViewById(R.id.quantity_equiv_unit);
 
-        Kernel kernel = Kernel.getExistingInstance();
+        final Kernel kernel = Kernel.getExistingInstance();
         mProductList = kernel.getProductList();
 
         String mealTag = getIntent().getStringExtra(EXTRA_MEAL_TAG);
@@ -122,9 +122,26 @@ public class MealItemDetailActivity extends AppCompatActivity {
                 TextView equivTextView = (TextView) view.findViewById(R.id.product_item_equiv_text);
                 Product product = mProductList.getItems().get(position);
                 float proteins = product.getProteins();
-                String equivValue = FormatUtils.naturalRound(100 * Constants.PROTEIN_FOR_POTATO / proteins);
-                String equiv = String.format("%s%s = \n100g PDT", equivValue, product.getUnit());
-                equivTextView.setText(equiv);
+
+                WeightFormatter formatter = kernel.getWeightFormater();
+
+                float equiv;
+                String equivUnit = product.getUnit();
+                int ref;
+                if (kernel.getProteinUnit() == WeightFormatter.ProteinFormat.POTATO) {
+                    equiv = 100 / (proteins / Constants.PROTEIN_FOR_POTATO);
+                    ref = 100;
+                } else {
+                    equiv = 1 / proteins;
+                    ref = 1;
+                }
+
+                String equivText = String.format("%s%s = %d%s",
+                        FormatUtils.naturalRound(equiv),
+                        equivUnit,
+                        ref,
+                        formatter.getUnitString(WeightFormatter.UnitFormat.FULL));
+                equivTextView.setText(equivText);
                 return view;
             }
         };
@@ -207,7 +224,11 @@ public class MealItemDetailActivity extends AppCompatActivity {
     }
 
     private float getEquivRatio() {
-        return mProduct.getProteins() / Constants.PROTEIN_FOR_POTATO;
+        if (Kernel.getExistingInstance().getProteinUnit() == WeightFormatter.ProteinFormat.POTATO) {
+            return mProduct.getProteins() / Constants.PROTEIN_FOR_POTATO;
+        } else {
+            return mProduct.getProteins();
+        }
     }
 
     private void updateQuantityEquivEdit() {
@@ -247,7 +268,7 @@ public class MealItemDetailActivity extends AppCompatActivity {
         String unit = mProduct.getUnit();
         mQuantityUnitView.setText(unit);
 
-        unit = "g PDT"; // FIXME
+        unit = Kernel.getExistingInstance().getWeightFormater().getUnitString(WeightFormatter.UnitFormat.FULL);
         mQuantityEquivUnitView.setText(unit);
     }
 }
