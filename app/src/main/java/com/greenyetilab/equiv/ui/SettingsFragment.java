@@ -7,7 +7,6 @@ import android.preference.ListPreference;
 import android.preference.PreferenceFragment;
 
 import com.greenyetilab.equiv.R;
-import com.greenyetilab.equiv.core.FormatUtils;
 import com.greenyetilab.equiv.core.ProteinWeightUnit;
 
 /**
@@ -17,10 +16,14 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     private ListPreference mProteinWeightUnitPreference;
     private EditTextPreference mProteinPerDayPreference;
     private SharedPreferences mPreferences;
+    private WeightFormatter mProteinFormatter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mProteinFormatter = new WeightFormatter(getResources());
+        mProteinFormatter.setProteinFormat(ProteinWeightUnit.PROTEIN);
+
         addPreferencesFromResource(R.xml.preferences);
         mPreferences = getPreferenceManager().getSharedPreferences();
         mPreferences.registerOnSharedPreferenceChangeListener(this);
@@ -42,6 +45,12 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         mPreferences.unregisterOnSharedPreferenceChangeListener(this);
     }
 
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
+        Kernel.getExistingInstance().updateFromPreferences(prefs);
+        updateSummaries();
+    }
+
     private void updateSummaries() {
         Kernel kernel = Kernel.getExistingInstance();
         String summary;
@@ -50,13 +59,13 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         mProteinWeightUnitPreference.setSummary(summary);
 
         float maxProtein = kernel.getConsumer().getMaxProteinPerDay();
-        summary = String.format("%sg", FormatUtils.naturalRound(maxProtein));
+        if (kernel.getProteinUnit() == ProteinWeightUnit.POTATO) {
+            String proteinSummary = mProteinFormatter.format(maxProtein, WeightFormatter.UnitFormat.SHORT);
+            String potatoSummary = kernel.getWeightFormater().format(maxProtein);
+            summary = String.format("%s (= %s)", proteinSummary, potatoSummary);
+        } else {
+            summary = kernel.getWeightFormater().format(maxProtein, WeightFormatter.UnitFormat.SHORT);
+        }
         mProteinPerDayPreference.setSummary(summary);
-    }
-
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-        Kernel.getExistingInstance().updateFromPreferences(prefs);
-        updateSummaries();
     }
 }
