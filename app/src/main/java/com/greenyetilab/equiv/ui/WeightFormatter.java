@@ -4,6 +4,7 @@ import android.content.res.Resources;
 
 import com.greenyetilab.equiv.R;
 import com.greenyetilab.equiv.core.Constants;
+import com.greenyetilab.equiv.core.FormatUtils;
 import com.greenyetilab.equiv.core.ProteinWeightUnit;
 
 /**
@@ -34,13 +35,13 @@ public class WeightFormatter {
     public String format(float protein, UnitFormat unitFormat) {
         String txt;
         if (mProteinFormat == ProteinWeightUnit.PROTEIN) {
-            txt = String.format("%.1f", protein);
+            txt = FormatUtils.naturalRound(protein);
         } else {
             float value = protein / Constants.PROTEIN_FOR_POTATO;
-            if (value >= 1 || value == 0) {
+            if (value >= 10 || value == 0) {
                 txt = String.format("%d", Math.round(value));
             } else {
-                txt = String.format("%.1f", value);
+                txt = FormatUtils.naturalRound(value);
             }
         }
 
