@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="protein_weight_unit_entries">
+        <item>Pommes de terre (100g)</item>
+        <item>Protéines</item>
+    </string-array>
+</resources>

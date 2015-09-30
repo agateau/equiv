@@ -20,4 +20,5 @@
     <string name="potato_weight_unit">g PDT</string>
     <string name="protein_weight_unit">g P</string>
     <string name="weight_unit">g</string>
+    <string name="protein_weight_unit_title">Unité de référence</string>
 </resources>

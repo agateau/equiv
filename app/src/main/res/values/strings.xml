@@ -21,6 +21,6 @@
     <string name="weight_unit">g</string>
     <string name="protein_weight_unit">g P</string>
     <string name="potato_weight_unit">g PTT</string>
-    <string name="protein_weight_unit_default">POTATO</string>
+    <string name="protein_weight_unit_default" translatable="false">POTATO</string>
     <string name="protein_weight_unit_title">Reference unit</string>
 </resources>
