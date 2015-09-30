@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <ListPreference
+        android:key="protein_weight_unit"
+        android:title="@string/protein_weight_unit_title"
+        android:defaultValue="@string/protein_weight_unit_default"
+        android:entries="@array/protein_weight_unit_entries"
+        android:entryValues="@array/protein_weight_unit_values"
+        />
     <EditTextPreference
         android:key="max_protein_per_day"
         android:title="@string/max_protein_per_day_title"

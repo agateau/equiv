@@ -33,8 +33,7 @@ public class Kernel {
     private final Day mDay = new Day();
     private ProductList mProductList = null;
     private int mCurrentTab = -1;
-    private ProteinWeightUnit mProteinUnit = ProteinWeightUnit.PROTEIN;
-    //private ProteinWeightUnit mProteinUnit = ProteinWeightUnit.POTATO;
+    private ProteinWeightUnit mProteinUnit = ProteinWeightUnit.POTATO;
     private final WeightFormatter mWeightFormater;
 
     Kernel(Context context) {
@@ -63,6 +62,7 @@ public class Kernel {
 
     public void updateFromPreferences(SharedPreferences prefs) {
         loadConsumer(prefs);
+        mProteinUnit = PreferenceUtils.getProteinWeightUnit(prefs, "protein_weight_unit", ProteinWeightUnit.PROTEIN);
         mWeightFormater.setProteinFormat(mProteinUnit);
     }
 

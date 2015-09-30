@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="protein_weight_unit_entries">
+        <item>Potatoes (100g)</item>
+        <item>Proteins</item>
+    </string-array>
+    <string-array name="protein_weight_unit_values">
+        <item>POTATO</item>
+        <item>PROTEIN</item>
+    </string-array>
+</resources>

@@ -3,15 +3,18 @@ package com.greenyetilab.equiv.ui;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
+import android.preference.ListPreference;
 import android.preference.PreferenceFragment;
 
 import com.greenyetilab.equiv.R;
 import com.greenyetilab.equiv.core.FormatUtils;
+import com.greenyetilab.equiv.core.ProteinWeightUnit;
 
 /**
  * Fragment storing all the settings
  */
 public class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
+    private ListPreference mProteinWeightUnitPreference;
     private EditTextPreference mProteinPerDayPreference;
     private SharedPreferences mPreferences;
 
@@ -22,6 +25,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         mPreferences = getPreferenceManager().getSharedPreferences();
         mPreferences.registerOnSharedPreferenceChangeListener(this);
 
+        mProteinWeightUnitPreference = (ListPreference) findPreference("protein_weight_unit");
         mProteinPerDayPreference = (EditTextPreference) findPreference("max_protein_per_day");
         updateSummaries();
     }
@@ -39,8 +43,14 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     }
 
     private void updateSummaries() {
-        float maxProtein = Kernel.getExistingInstance().getConsumer().getMaxProteinPerDay();
-        String summary = String.format("%sg", FormatUtils.naturalRound(maxProtein));
+        Kernel kernel = Kernel.getExistingInstance();
+        String summary;
+
+        summary = mProteinWeightUnitPreference.getEntry().toString();
+        mProteinWeightUnitPreference.setSummary(summary);
+
+        float maxProtein = kernel.getConsumer().getMaxProteinPerDay();
+        summary = String.format("%sg", FormatUtils.naturalRound(maxProtein));
         mProteinPerDayPreference.setSummary(summary);
     }
 
