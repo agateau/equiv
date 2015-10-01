@@ -163,6 +163,26 @@ public class MealItemDetailActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onRestoreInstanceState(Bundle bundle) {
+        super.onRestoreInstanceState(bundle);
+        String productName = bundle.getString("product", "");
+        if (!TextUtils.equals(productName, "")) {
+            Product product = mProductList.findByName(productName);
+            onSelectProduct(product);
+            mQuantityEquivEdit.setText(bundle.getString("quantityEquiv"));
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle bundle) {
+        super.onSaveInstanceState(bundle);
+        if (mProduct != null) {
+            bundle.putString("product", mProduct.getName());
+            bundle.putString("quantityEquiv", mQuantityEquivEdit.getText().toString());
+        }
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.meal_item_detail_activity_actions, menu);
