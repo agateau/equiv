@@ -233,10 +233,16 @@ public class MealItemDetailActivity extends AppCompatActivity {
     }
 
     private void updateQuantityEquivEdit() {
+        if (mProduct == null) {
+            return;
+        }
         updateQuantityEdits(mQuantityEdit, mQuantityEquivEdit, getEquivRatio());
     }
 
     private void updateQuantityEdit() {
+        if (mProduct == null) {
+            return;
+        }
         updateQuantityEdits(mQuantityEquivEdit, mQuantityEdit, 1 / getEquivRatio());
     }
 
