@@ -21,4 +21,5 @@
     <string name="protein_weight_unit">g P</string>
     <string name="weight_unit">g</string>
     <string name="protein_weight_unit_title">Unité de référence</string>
+    <string name="action_about">À propos</string>
 </resources>

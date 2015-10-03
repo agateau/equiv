@@ -23,4 +23,22 @@
     <string name="potato_weight_unit">g PTT</string>
     <string name="protein_weight_unit_default" translatable="false">POTATO</string>
     <string name="protein_weight_unit_title">Reference unit</string>
+    <string name="action_about">About</string>
+    <string name="title_activity_about">About Equiv</string>
+
+    <string name="about_description">Track your protein consumption during the day.\n
+
+        \nDisclaimer: Equiv comes without any warranty. Use it with discernment.\n
+
+        \nThe product list is currently only in French and based on products available
+        in France. If you are interested in contributing a product list for your
+        country, <a href="mailto:mail@agateau.com">contact me</a>.\n
+
+        \n<a href="">Rate this application</a>.\n
+
+        \nEquiv is licensed under the <a href="http://gnu.org/licenses/gpl.html">GNU GPL v3 or later</a> license.\n
+
+        \nYou can fork the project on <a href="http://github.com/agateau/equiv">GitHub</a>.
+    </string>
+    <string name="about_author">By Aurélien Gâteau</string>
 </resources>

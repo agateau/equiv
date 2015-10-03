@@ -103,6 +103,9 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             showSettings();
             return true;
+        } else if (id == R.id.action_about) {
+            showAbout();
+            return true;
         } else if (id == R.id.action_new_day) {
             onNewDay();
             return true;
@@ -112,6 +115,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void showSettings() {
         SettingsActivity.start(this);
+    }
+
+    private void showAbout() {
+        AboutActivity.start(this);
     }
 
     private void onNewDay() {
