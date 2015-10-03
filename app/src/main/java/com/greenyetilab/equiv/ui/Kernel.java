@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.greenyetilab.equiv.core.Constants;
 import com.greenyetilab.equiv.core.Consumer;
 import com.greenyetilab.equiv.core.Day;
 import com.greenyetilab.equiv.core.DayJsonIO;
@@ -61,8 +62,8 @@ public class Kernel {
     }
 
     public void updateFromPreferences(SharedPreferences prefs) {
-        loadConsumer(prefs);
         mProteinUnit = PreferenceUtils.getProteinWeightUnit(prefs, "protein_weight_unit", ProteinWeightUnit.PROTEIN);
+        loadConsumer(prefs);
         mWeightFormater.setProteinFormat(mProteinUnit);
     }
 
@@ -150,7 +151,13 @@ public class Kernel {
 
     private void loadConsumer(SharedPreferences prefs) {
         mConsumer.setName("Clara");
-        float maxProtein = PreferenceUtils.getFloat(prefs, "max_protein_per_day", 5f);
+        float maxPerDay = PreferenceUtils.getFloat(prefs, "max_per_day", 250f);
+        float maxProtein;
+        if (mProteinUnit == ProteinWeightUnit.POTATO) {
+            maxProtein = maxPerDay * Constants.PROTEIN_FOR_POTATO;
+        } else {
+            maxProtein = maxPerDay;
+        }
         mConsumer.setMaxProteinPerDay(maxProtein);
     }
 

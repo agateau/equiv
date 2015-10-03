@@ -8,9 +8,9 @@
         android:entryValues="@array/protein_weight_unit_values"
         />
     <EditTextPreference
-        android:key="max_protein_per_day"
-        android:title="@string/max_protein_per_day_title"
-        android:defaultValue="2"
+        android:key="max_per_day"
+        android:title="@string/max_potato_per_day_title"
+        android:defaultValue="250"
         android:numeric="decimal"
         />
 </PreferenceScreen>

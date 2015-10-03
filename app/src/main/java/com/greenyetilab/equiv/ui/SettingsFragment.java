@@ -5,8 +5,11 @@ import android.os.Bundle;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.PreferenceFragment;
+import android.text.TextUtils;
 
 import com.greenyetilab.equiv.R;
+import com.greenyetilab.equiv.core.Constants;
+import com.greenyetilab.equiv.core.FormatUtils;
 import com.greenyetilab.equiv.core.ProteinWeightUnit;
 
 /**
@@ -14,22 +17,19 @@ import com.greenyetilab.equiv.core.ProteinWeightUnit;
  */
 public class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
     private ListPreference mProteinWeightUnitPreference;
-    private EditTextPreference mProteinPerDayPreference;
+    private EditTextPreference mMaxPerDayPreference;
     private SharedPreferences mPreferences;
-    private WeightFormatter mProteinFormatter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mProteinFormatter = new WeightFormatter(getResources());
-        mProteinFormatter.setProteinFormat(ProteinWeightUnit.PROTEIN);
 
         addPreferencesFromResource(R.xml.preferences);
         mPreferences = getPreferenceManager().getSharedPreferences();
         mPreferences.registerOnSharedPreferenceChangeListener(this);
 
         mProteinWeightUnitPreference = (ListPreference) findPreference("protein_weight_unit");
-        mProteinPerDayPreference = (EditTextPreference) findPreference("max_protein_per_day");
+        mMaxPerDayPreference = (EditTextPreference) findPreference("max_per_day");
         updateSummaries();
     }
 
@@ -47,7 +47,19 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-        Kernel.getExistingInstance().updateFromPreferences(prefs);
+        Kernel kernel = Kernel.getExistingInstance();
+        if (TextUtils.equals(key, mProteinWeightUnitPreference.getKey())) {
+            float maxProteinPerDay = kernel.getConsumer().getMaxProteinPerDay();
+            ProteinWeightUnit unit = PreferenceUtils.getProteinWeightUnit(prefs, "protein_weight_unit", ProteinWeightUnit.PROTEIN);
+            float maxPerDay;
+            if (unit == ProteinWeightUnit.POTATO) {
+                maxPerDay = maxProteinPerDay / Constants.PROTEIN_FOR_POTATO;
+            } else {
+                maxPerDay = maxProteinPerDay;
+            }
+            mMaxPerDayPreference.setText(FormatUtils.naturalRound(maxPerDay));
+        }
+        kernel.updateFromPreferences(prefs);
         updateSummaries();
     }
 
@@ -58,14 +70,13 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         summary = mProteinWeightUnitPreference.getEntry().toString();
         mProteinWeightUnitPreference.setSummary(summary);
 
-        float maxProtein = kernel.getConsumer().getMaxProteinPerDay();
         if (kernel.getProteinUnit() == ProteinWeightUnit.POTATO) {
-            String proteinSummary = mProteinFormatter.format(maxProtein, WeightFormatter.UnitFormat.SHORT);
-            String potatoSummary = kernel.getWeightFormater().format(maxProtein);
-            summary = String.format("%s (= %s)", proteinSummary, potatoSummary);
+            mMaxPerDayPreference.setTitle(R.string.max_potato_per_day_title);
         } else {
-            summary = kernel.getWeightFormater().format(maxProtein, WeightFormatter.UnitFormat.SHORT);
+            mMaxPerDayPreference.setTitle(R.string.max_protein_per_day_title);
         }
-        mProteinPerDayPreference.setSummary(summary);
+        float maxProtein = kernel.getConsumer().getMaxProteinPerDay();
+        summary = kernel.getWeightFormater().format(maxProtein, WeightFormatter.UnitFormat.SHORT);
+        mMaxPerDayPreference.setSummary(summary);
     }
 }
