@@ -28,11 +28,15 @@
 
     <string name="about_description">Track your protein consumption during the day.\n
 
-        \nDisclaimer: Equiv comes without any warranty. Use it with discernment.\n
+        \nThis app is primarily designed for people suffering from Phenylketonuria, but
+        might be useful for other people.\n
+
+        \nDisclaimer: Equiv comes without any warranty and should not be used as medical
+        advice. Use it with discernment.\n
 
         \nThe product list is currently only in French and based on products available
         in France. If you are interested in contributing a product list for your
-        country, <a href="mailto:mail@agateau.com">contact me</a>.\n
+        country, contact me: .\n
 
         \n<a href="">Rate this application</a>.\n
 
