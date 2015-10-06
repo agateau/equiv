@@ -32,7 +32,6 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/about_description"
             android:id="@+id/descriptionTextView"
             android:layout_marginTop="18dp" />
     </LinearLayout>

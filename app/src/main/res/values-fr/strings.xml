@@ -27,17 +27,22 @@
     <string name="title_activity_about">À propos d\'Equiv</string>
     <string name="about_description">Equiv vous aide à suivre votre consommation journalière de protéines.\n
 
-    \nCette app a été conçue pour aider les personnes atteintes de
-    Phénylcétonurie, mais peut être utilie pour d\'autres usages.\n
+    \nCette application a été conçue pour aider les personnes atteintes de
+    Phénylcétonurie.\n
 
-    \nAvertissement : Equiv n\'est accompagnée d\'aucune garantie et ne devrait
-    pas être utilisée à la place d\'un avis médical. Utilisez cette app avec
+    \nAvertissement : Equiv est fournie sans aucune garantie et ne peut pas se
+    substituer à un avis médical. Utilisez cette application avec
     discernement.\n
 
-    \n<a href="$rateUrl">Noter cette application</a>.\n
+    \nContact: <a href="mailto:{email}">{email}</a>\n
 
-    \nEquiv est publiée sous la licence <a href="http://gnu.org/licenses/gpl.html">GNU GPL v3 ou plus</a>.\n
+    \n<a href="{rate_url}">Noter Equiv sur Google Play</a>\n
 
-    \nRetrouvez le projet sur <a href="http://github.com/agateau/equiv">GitHub</a>.
+    \nEquiv est publiée sous la licence <a href="{gpl_url}">GNU GPL v3 ou
+    plus</a>.\n
+
+    \nVous trouverez les sources de l\'application sur <a
+    href="{github_url}">GitHub</a>.
+
     </string>
 </resources>

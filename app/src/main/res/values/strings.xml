@@ -28,21 +28,22 @@
 
     <string name="about_description">Track your protein consumption during the day.\n
 
-        \nThis app is primarily designed for people suffering from Phenylketonuria, but
-        might be useful for other people.\n
+        \nThis app is primarily designed for people suffering from
+        Phenylketonuria.\n
 
-        \nDisclaimer: Equiv comes without any warranty and should not be used as medical
-        advice. Use it with discernment.\n
+        \nDisclaimer: Equiv comes without any warranty and should not be used as
+        medical advice. Use it with discernment.\n
 
-        \nThe product list is currently only in French and based on products available
-        in France. If you are interested in contributing a product list for your
-        country, contact me: .\n
+        \nThe product list is currently only in French and based on products
+        available in France. If you are interested in contributing a product
+        list for your country, contact me: <a href="mailto:{email}">{email}</a>.\n
 
-        \n<a href="">Rate this application</a>.\n
+        \n<a href="{rate_url}">Rate this application</a>.\n
 
-        \nEquiv is licensed under the <a href="http://gnu.org/licenses/gpl.html">GNU GPL v3 or later</a> license.\n
+        \nEquiv is licensed under the <a href="{gpl_url}">GNU GPL v3 or
+        later</a> license.\n
 
-        \nYou can fork the project on <a href="http://github.com/agateau/equiv">GitHub</a>.
+        \nYou can fork the project on <a href="{github_url}">GitHub</a>.
     </string>
     <string name="about_author">By Aurélien Gâteau</string>
     <string name="max_potato_per_day_title">Max potatoes per day</string>
