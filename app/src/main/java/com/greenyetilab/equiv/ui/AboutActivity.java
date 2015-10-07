@@ -27,10 +27,13 @@ public class AboutActivity extends AppCompatActivity {
         template.put("email", Constants.AUTHOR_EMAIL)
                 .put("rate_url", Constants.GPLAY_URL)
                 .put("gpl_url", Constants.GPL_URL)
-                .put("github_url", Constants.GITHUB_URL );
+                .put("github_url", Constants.GITHUB_URL);
 
         TextView view = (TextView) findViewById(R.id.descriptionTextView);
         view.setText(template.toSpanned());
         view.setMovementMethod(LinkMovementMethod.getInstance());
+
+        view = (TextView) findViewById(R.id.versionTextView);
+        view.setText(Constants.VERSION_NAME);
     }
 }
