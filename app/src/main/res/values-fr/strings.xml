@@ -36,8 +36,6 @@
 
     \nContact : <a href="mailto:{email}">{email}</a>\n
 
-    \n<a href="{rate_url}">Noter Equiv sur Google Play</a>\n
-
     \nEquiv est publiée sous la licence <a href="{gpl_url}">GNU GPL v3 ou
     plus</a>.\n
 
@@ -45,4 +43,7 @@
     href="{github_url}">GitHub</a>.
 
     </string>
+    <!--
+    \n<a href="{rate_url}">Noter Equiv sur Google Play</a>\n
+    -->
 </resources>
