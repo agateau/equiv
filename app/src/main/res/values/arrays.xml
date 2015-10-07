@@ -4,7 +4,7 @@
         <item>Potatoes (100g)</item>
         <item>Proteins</item>
     </string-array>
-    <string-array name="protein_weight_unit_values">
+    <string-array name="protein_weight_unit_values" translatable="false">
         <item>POTATO</item>
         <item>PROTEIN</item>
     </string-array>
