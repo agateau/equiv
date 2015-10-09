@@ -5,8 +5,8 @@
 - Check working tree is clean
 
 - Bump version numbers:
-    AndroidManifest.xml versionCode
-    AndroidManifest.xml versionName
+    app/build.gradle versionCode
+    app/build.gradle versionName
     Constants
 
 - Check translations are up to date
