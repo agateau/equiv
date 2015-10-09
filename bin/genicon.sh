@@ -2,7 +2,6 @@
 
 cd $(dirname $0)/..
 
-EXTRA_DIR=extra
 RES_DIR=app/src/main/res
 
 SVG_FILE=icons/ic_launcher.svg
@@ -23,4 +22,5 @@ done <<EOF
  72 $RES_DIR/mipmap-hdpi
  96 $RES_DIR/mipmap-xhdpi
 144 $RES_DIR/mipmap-xxhdpi
+512 gplay
 EOF
