@@ -33,8 +33,8 @@ import java.util.Locale;
 
 
 public class MealItemDetailActivity extends AppCompatActivity {
-    public static final String EXTRA_MEAL_TAG = "com.com.agateau.equiv.MEAL_TAG";
-    public static final String EXTRA_MEAL_ITEM_POSITION = "com.com.agateau.equiv.MEAL_ITEM_POSITION";
+    public static final String EXTRA_MEAL_TAG = "com.agateau.equiv.MEAL_TAG";
+    public static final String EXTRA_MEAL_ITEM_POSITION = "com.agateau.equiv.MEAL_ITEM_POSITION";
 
     private static final int NEW_MEAL_ITEM_POSITION = -1;
 
