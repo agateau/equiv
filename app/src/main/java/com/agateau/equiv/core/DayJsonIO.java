@@ -24,11 +24,11 @@ import java.io.OutputStreamWriter;
  *             tag: breakfast
  *             items: [
  *                 {
- *                     productName: "Foo",
+ *                     productUuid: "aaa-bbb-ccc",
  *                     quantity: 1.0
  *                 },
  *                 {
- *                     productName: "Bar",
+ *                     productUuid: "ddd-eee-fff",
  *                     quantity: 2.0
  *                 },
  *             ]
@@ -68,7 +68,7 @@ public class DayJsonIO {
         writer.beginArray();
         for (MealItem mealItem : meal.getItems()) {
             writer.beginObject();
-            writer.name("productName").value(mealItem.getProduct().getName());
+            writer.name("productUuid").value(mealItem.getProduct().getUuid());
             writer.name("quantity").value(mealItem.getQuantity());
             writer.endObject();
         }
@@ -97,10 +97,10 @@ public class DayJsonIO {
         for (int i = 0; i < mealItemsJs.length(); ++i) {
             JSONObject mealItemJs = mealItemsJs.getJSONObject(i);
 
-            String productName = mealItemJs.getString("productName");
-            Product product = productList.findByName(productName);
+            String uuid = mealItemJs.getString("productUuid");
+            Product product = productList.findByUuid(uuid);
             if (product == null) {
-                NLog.e("Unknown product " + productName);
+                NLog.e("No product with uuid " + uuid);
                 continue;
             }
 

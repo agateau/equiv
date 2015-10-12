@@ -18,6 +18,7 @@ public class ProductListCsvIO {
         final ArrayList<Product> items = new ArrayList<>();
         CsvStreamReader.Listener listener = new CsvStreamReader.Listener() {
             boolean mValid = false;
+            String mUuid;
             String mCategory;
             String mName;
             String mUnit;
@@ -25,12 +26,14 @@ public class ProductListCsvIO {
             @Override
             public void onCell(int row, int column, String value) {
                 if (column == 0) {
-                    mCategory = value;
+                    mUuid = value;
                 } else if (column == 1) {
-                    mName = value;
+                    mCategory = value;
                 } else if (column == 2) {
-                    mPotatoWeight = Float.parseFloat(value);
+                    mName = value;
                 } else if (column == 3) {
+                    mPotatoWeight = Float.parseFloat(value);
+                } else if (column == 4) {
                     mUnit = value;
                     mValid = true;
                 } else {
@@ -47,7 +50,7 @@ public class ProductListCsvIO {
             public void onEndRow(int row) {
                 if (mValid) {
                     float protein = Constants.PROTEIN_FOR_POTATO * (100 / mPotatoWeight);
-                    Product product = new Product(mName, mUnit, protein);
+                    Product product = new Product(mUuid, mName, mUnit, protein);
                     items.add(product);
                 } else {
                     NLog.e("Invalid row %d", row + 1);
