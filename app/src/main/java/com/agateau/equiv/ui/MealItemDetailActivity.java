@@ -2,9 +2,7 @@ package com.agateau.equiv.ui;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -200,8 +198,7 @@ public class MealItemDetailActivity extends AppCompatActivity {
             bundle.putString("product", mProduct.getName());
             bundle.putString("quantityEquiv", mQuantityEquivEdit.getText().toString());
         }
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        mKernel.writeFavorites(prefs);
+        mKernel.writeFavorites(this);
     }
 
     @Override

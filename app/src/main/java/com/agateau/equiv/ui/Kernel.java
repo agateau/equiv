@@ -22,7 +22,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -181,13 +180,9 @@ public class Kernel {
         }
     }
 
-    public void writeFavorites(SharedPreferences prefs) {
-        Set<String> favorites = new HashSet<>();
-        for (Product product : mProductList.getItems()) {
-            if (product.isFavorite()) {
-                favorites.add(product.getUuid());
-            }
-        }
+    public void writeFavorites(Context context) {
+        Set<String> favorites = mProductList.getFavoriteUuids();
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         prefs.edit().putStringSet("favorites", favorites).apply();
     }
 }
