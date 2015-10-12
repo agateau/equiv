@@ -2,7 +2,9 @@ package com.agateau.equiv.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -15,6 +17,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -52,6 +56,14 @@ public class MealItemDetailActivity extends AppCompatActivity {
     private EditText mQuantityEquivEdit;
     private TextView mQuantityEquivUnitView;
     private boolean mUpdating = false;
+
+    private static final CompoundButton.OnCheckedChangeListener sOnFavoriteCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            Product product = (Product) buttonView.getTag();
+            product.setFavorite(isChecked);
+        }
+    };
 
     public static void addMealItem(Context context, Meal meal) {
         Intent intent = new Intent(context, MealItemDetailActivity.class);
@@ -121,9 +133,10 @@ public class MealItemDetailActivity extends AppCompatActivity {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
+                Product product = mProductList.getItems().get(position);
 
                 TextView equivTextView = (TextView) view.findViewById(R.id.product_item_equiv_text);
-                Product product = mProductList.getItems().get(position);
+
                 float proteins = product.getProteins();
 
                 WeightFormatter formatter = mKernel.getWeightFormater();
@@ -145,6 +158,11 @@ public class MealItemDetailActivity extends AppCompatActivity {
                         ref,
                         formatter.getUnitString(WeightFormatter.UnitFormat.FULL));
                 equivTextView.setText(equivText);
+
+                CheckBox favoriteCheckBox = (CheckBox) view.findViewById(R.id.product_item_favorite);
+                favoriteCheckBox.setChecked(product.isFavorite());
+                favoriteCheckBox.setOnCheckedChangeListener(sOnFavoriteCheckedChangeListener);
+                favoriteCheckBox.setTag(product);
                 return view;
             }
         };
@@ -182,6 +200,8 @@ public class MealItemDetailActivity extends AppCompatActivity {
             bundle.putString("product", mProduct.getName());
             bundle.putString("quantityEquiv", mQuantityEquivEdit.getText().toString());
         }
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        mKernel.writeFavorites(prefs);
     }
 
     @Override

@@ -9,6 +9,7 @@ import com.agateau.equiv.core.Consumer;
 import com.agateau.equiv.core.Day;
 import com.agateau.equiv.core.DayJsonIO;
 import com.agateau.equiv.core.Meal;
+import com.agateau.equiv.core.Product;
 import com.agateau.equiv.core.ProductList;
 import com.agateau.equiv.core.ProductListCsvIO;
 import com.agateau.equiv.core.ProteinWeightUnit;
@@ -21,6 +22,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Holds all the data
@@ -44,11 +47,12 @@ public class Kernel {
 
     public static Kernel getInstance(Context context) {
         if (sInstance == null) {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
             sInstance = new Kernel(context);
             sInstance.loadProductList(context);
             sInstance.loadDay(context);
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
             sInstance.updateFromPreferences(prefs);
+            sInstance.readFavorites(prefs);
         }
         return sInstance;
     }
@@ -163,5 +167,27 @@ public class Kernel {
 
     public ProteinWeightUnit getProteinUnit() {
         return mProteinUnit;
+    }
+
+    private void readFavorites(SharedPreferences prefs) {
+        Set<String> favorites = prefs.getStringSet("favorites", null);
+        if (favorites == null) {
+            return;
+        }
+        for (Product product : mProductList.getItems()) {
+            if (favorites.contains(product.getUuid())) {
+                product.setFavorite(true);
+            }
+        }
+    }
+
+    public void writeFavorites(SharedPreferences prefs) {
+        Set<String> favorites = new HashSet<>();
+        for (Product product : mProductList.getItems()) {
+            if (product.isFavorite()) {
+                favorites.add(product.getUuid());
+            }
+        }
+        prefs.edit().putStringSet("favorites", favorites).apply();
     }
 }
