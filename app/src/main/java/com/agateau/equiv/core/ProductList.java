@@ -1,6 +1,8 @@
 package com.agateau.equiv.core;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Contains all available products
@@ -32,5 +34,15 @@ public class ProductList {
             }
         }
         return null;
+    }
+
+    public Set<String> getFavoriteUuids() {
+        Set<String> set = new HashSet<>();
+        for (Product product : mItems) {
+            if (product.isFavorite()) {
+                set.add(product.getUuid());
+            }
+        }
+        return set;
     }
 }
