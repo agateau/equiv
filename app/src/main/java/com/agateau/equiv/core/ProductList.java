@@ -9,13 +9,27 @@ import java.util.Set;
  */
 public class ProductList {
     ArrayList<Product> mItems;
+    ArrayList<Product> mFavoriteItems;
 
     public ArrayList<Product> getItems() {
         return mItems;
     }
 
+    public ArrayList<Product> getFavoriteItems() {
+        mFavoriteItems.clear();
+        for (Product product : mItems) {
+            if (product.isFavorite()) {
+                mFavoriteItems.add(product);
+            }
+        }
+        return mFavoriteItems;
+    }
+
     public void setItems(ArrayList<Product> items) {
         mItems = items;
+
+        // Allocate ArrayList only once, with a reasonable default capacity
+        mFavoriteItems = new ArrayList<>(mItems.size());
     }
 
     public Product findByUuid(String uuid) {
