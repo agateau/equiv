@@ -16,6 +16,15 @@ public class ProductList {
         mItems = items;
     }
 
+    public Product findByUuid(String uuid) {
+        for (Product product : mItems) {
+            if (product.getUuid().equals(uuid)) {
+                return product;
+            }
+        }
+        return null;
+    }
+
     public Product findByName(String productName) {
         for (Product product : mItems) {
             if (product.getName().equals(productName)) {

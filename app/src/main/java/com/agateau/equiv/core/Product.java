@@ -4,14 +4,20 @@ package com.agateau.equiv.core;
  * A product from the ProductList
  */
 public class Product {
-    final String mName;
+    private final String mUuid;
+    private final String mName;
     private final String mUnit;
-    final float mProteins;
+    private final float mProteins;
 
-    public Product(String name, String unit, float proteins) {
+    public Product(String uuid, String name, String unit, float proteins) {
+        mUuid = uuid;
         mName = name;
         mUnit = unit;
         mProteins = proteins;
+    }
+
+    public String getUuid() {
+        return mUuid;
     }
 
     public String getName() {
