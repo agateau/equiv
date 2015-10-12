@@ -31,6 +31,7 @@ import com.agateau.equiv.core.Product;
 import com.agateau.equiv.core.ProductList;
 import com.agateau.equiv.core.ProteinWeightUnit;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 
@@ -40,7 +41,59 @@ public class MealItemDetailActivity extends AppCompatActivity {
 
     private static final int NEW_MEAL_ITEM_POSITION = -1;
 
+    private static class ProductListAdapter extends ArrayAdapter<Product> {
+        private final ArrayList<Product> mItems;
+        private final Kernel mKernel;
+
+        public ProductListAdapter(Context context, Kernel kernel, ArrayList<Product> items) {
+            super(context, R.layout.product_item, R.id.product_item_text, items);
+            mKernel = kernel;
+            mItems = items;
+        }
+
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View view = super.getView(position, convertView, parent);
+
+            Product product = mItems.get(position);
+            view.setTag(product);
+
+            TextView equivTextView = (TextView) view.findViewById(R.id.product_item_equiv_text);
+
+            float proteins = product.getProteins();
+
+            WeightFormatter formatter = mKernel.getWeightFormater();
+
+            float equiv;
+            String equivUnit = product.getUnit();
+            int ref;
+            if (mKernel.getProteinUnit() == ProteinWeightUnit.POTATO) {
+                equiv = 100 / (proteins / Constants.PROTEIN_FOR_POTATO);
+                ref = 100;
+            } else {
+                equiv = 1 / proteins;
+                ref = 1;
+            }
+
+            String equivText = String.format("%s%s = %d%s",
+                    FormatUtils.naturalRound(equiv),
+                    equivUnit,
+                    ref,
+                    formatter.getUnitString(WeightFormatter.UnitFormat.FULL));
+            equivTextView.setText(equivText);
+
+            CheckBox favoriteCheckBox = (CheckBox) view.findViewById(R.id.product_item_favorite);
+            favoriteCheckBox.setChecked(product.isFavorite());
+            favoriteCheckBox.setOnCheckedChangeListener(sOnFavoriteCheckedChangeListener);
+            favoriteCheckBox.setTag(product);
+            return view;
+        }
+    }
+
+
     private Kernel mKernel;
+
+    ProductListAdapter mFullListAdapter;
+    ProductListAdapter mFavoritesAdapter;
 
     private ProductList mProductList;
     private Meal mMeal;
@@ -126,50 +179,17 @@ public class MealItemDetailActivity extends AppCompatActivity {
 
         mMealItemPosition = getIntent().getIntExtra(EXTRA_MEAL_ITEM_POSITION, -1);
 
+        mFullListAdapter = new ProductListAdapter(this, mKernel, mProductList.getItems());
+        mFavoritesAdapter = new ProductListAdapter(this, mKernel, mProductList.getFavoriteItems());
+
         ListView listView = (ListView) findViewById(R.id.product_list_view);
-        ArrayAdapter<Product> adapter = new ArrayAdapter<Product>(this, R.layout.product_item, R.id.product_item_text, mProductList.getItems()) {
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                View view = super.getView(position, convertView, parent);
-                Product product = mProductList.getItems().get(position);
-
-                TextView equivTextView = (TextView) view.findViewById(R.id.product_item_equiv_text);
-
-                float proteins = product.getProteins();
-
-                WeightFormatter formatter = mKernel.getWeightFormater();
-
-                float equiv;
-                String equivUnit = product.getUnit();
-                int ref;
-                if (mKernel.getProteinUnit() == ProteinWeightUnit.POTATO) {
-                    equiv = 100 / (proteins / Constants.PROTEIN_FOR_POTATO);
-                    ref = 100;
-                } else {
-                    equiv = 1 / proteins;
-                    ref = 1;
-                }
-
-                String equivText = String.format("%s%s = %d%s",
-                        FormatUtils.naturalRound(equiv),
-                        equivUnit,
-                        ref,
-                        formatter.getUnitString(WeightFormatter.UnitFormat.FULL));
-                equivTextView.setText(equivText);
-
-                CheckBox favoriteCheckBox = (CheckBox) view.findViewById(R.id.product_item_favorite);
-                favoriteCheckBox.setChecked(product.isFavorite());
-                favoriteCheckBox.setOnCheckedChangeListener(sOnFavoriteCheckedChangeListener);
-                favoriteCheckBox.setTag(product);
-                return view;
-            }
-        };
-        listView.setAdapter(adapter);
+        listView.setAdapter(mFullListAdapter);
+        //listView.setAdapter(mFavoritesAdapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Product product = mProductList.getItems().get(position);
+                Product product = (Product) view.getTag();
                 onSelectProduct(product);
             }
         });
