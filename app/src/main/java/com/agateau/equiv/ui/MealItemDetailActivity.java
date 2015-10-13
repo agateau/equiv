@@ -45,6 +45,14 @@ public class MealItemDetailActivity extends AppCompatActivity {
         private final ArrayList<Product> mItems;
         private final Kernel mKernel;
 
+        private final CompoundButton.OnCheckedChangeListener mOnFavoriteCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Product product = (Product) buttonView.getTag();
+                mKernel.getProductList().setFavorite(product, isChecked);
+            }
+        };
+
         public ProductListAdapter(Context context, Kernel kernel, ArrayList<Product> items) {
             super(context, R.layout.product_item, R.id.product_item_text, items);
             mKernel = kernel;
@@ -82,13 +90,12 @@ public class MealItemDetailActivity extends AppCompatActivity {
             equivTextView.setText(equivText);
 
             CheckBox favoriteCheckBox = (CheckBox) view.findViewById(R.id.product_item_favorite);
-            favoriteCheckBox.setChecked(product.isFavorite());
-            favoriteCheckBox.setOnCheckedChangeListener(sOnFavoriteCheckedChangeListener);
+            favoriteCheckBox.setChecked(mKernel.getProductList().isFavorite(product));
+            favoriteCheckBox.setOnCheckedChangeListener(mOnFavoriteCheckedChangeListener);
             favoriteCheckBox.setTag(product);
             return view;
         }
     }
-
 
     private Kernel mKernel;
 
@@ -107,14 +114,6 @@ public class MealItemDetailActivity extends AppCompatActivity {
     private EditText mQuantityEquivEdit;
     private TextView mQuantityEquivUnitView;
     private boolean mUpdating = false;
-
-    private static final CompoundButton.OnCheckedChangeListener sOnFavoriteCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
-        @Override
-        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            Product product = (Product) buttonView.getTag();
-            product.setFavorite(isChecked);
-        }
-    };
 
     public static void addMealItem(Context context, Meal meal) {
         Intent intent = new Intent(context, MealItemDetailActivity.class);
@@ -180,7 +179,9 @@ public class MealItemDetailActivity extends AppCompatActivity {
         mMealItemPosition = getIntent().getIntExtra(EXTRA_MEAL_ITEM_POSITION, -1);
 
         mFullListAdapter = new ProductListAdapter(this, mKernel, mProductList.getItems());
-        mFavoritesAdapter = new ProductListAdapter(this, mKernel, mProductList.getFavoriteItems());
+        ArrayList<Product> favoriteItems = new ArrayList<>();
+        favoriteItems.addAll(mProductList.getFavoriteItems());
+        mFavoritesAdapter = new ProductListAdapter(this, mKernel, favoriteItems);
 
         ListView listView = (ListView) findViewById(R.id.product_list_view);
         listView.setAdapter(mFullListAdapter);
