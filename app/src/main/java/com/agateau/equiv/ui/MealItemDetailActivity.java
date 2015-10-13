@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -30,6 +32,7 @@ import com.agateau.equiv.core.MealItem;
 import com.agateau.equiv.core.Product;
 import com.agateau.equiv.core.ProductList;
 import com.agateau.equiv.core.ProteinWeightUnit;
+import com.agateau.utils.ui.ActionBarViewTabBuilder;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -99,9 +102,6 @@ public class MealItemDetailActivity extends AppCompatActivity {
 
     private Kernel mKernel;
 
-    ProductListAdapter mFullListAdapter;
-    ProductListAdapter mFavoritesAdapter;
-
     private ProductList mProductList;
     private Meal mMeal;
     private Product mProduct = null;
@@ -132,6 +132,38 @@ public class MealItemDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.meal_item_detail_activity);
+
+        mKernel = Kernel.getInstance(this);
+        mProductList = mKernel.getProductList();
+
+        ListView fullListView = new ListView(this);
+        ProductListAdapter fullListAdapter = new ProductListAdapter(this, mKernel, mProductList.getItems());
+        fullListView.setAdapter(fullListAdapter);
+
+        ListView favoriteListView = new ListView(this);
+        ArrayList<Product> favoriteItems = new ArrayList<>();
+        favoriteItems.addAll(mProductList.getFavoriteItems());
+        ProductListAdapter favoritesListAdapter = new ProductListAdapter(this, mKernel, favoriteItems);
+        favoriteListView.setAdapter(favoritesListAdapter);
+
+        AdapterView.OnItemClickListener listener = new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Product product = (Product) view.getTag();
+                onSelectProduct(product);
+            }
+        };
+        fullListView.setOnItemClickListener(listener);
+        favoriteListView.setOnItemClickListener(listener);
+
+        final ActionBar actionBar = getSupportActionBar();
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
+        ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+        ActionBarViewTabBuilder builder = new ActionBarViewTabBuilder(actionBar, viewPager);
+        builder.addTab(getString(R.string.add_meal_item_tab_all), fullListView);
+        builder.addTab(getString(R.string.add_meal_item_tab_favorites), favoriteListView);
+
         mProductNameView = (TextView) findViewById(R.id.product_name_view);
         mDetailsLayout = (LinearLayout) findViewById(R.id.details_layout);
         mQuantityEdit = (EditText) findViewById(R.id.quantity_edit);
@@ -170,30 +202,10 @@ public class MealItemDetailActivity extends AppCompatActivity {
 
         mQuantityEquivUnitView = (TextView) findViewById(R.id.quantity_equiv_unit);
 
-        mKernel = Kernel.getInstance(this);
-        mProductList = mKernel.getProductList();
-
         String mealTag = getIntent().getStringExtra(EXTRA_MEAL_TAG);
         mMeal = mKernel.getDay().getMealByTag(mealTag);
 
         mMealItemPosition = getIntent().getIntExtra(EXTRA_MEAL_ITEM_POSITION, -1);
-
-        mFullListAdapter = new ProductListAdapter(this, mKernel, mProductList.getItems());
-        ArrayList<Product> favoriteItems = new ArrayList<>();
-        favoriteItems.addAll(mProductList.getFavoriteItems());
-        mFavoritesAdapter = new ProductListAdapter(this, mKernel, favoriteItems);
-
-        ListView listView = (ListView) findViewById(R.id.product_list_view);
-        listView.setAdapter(mFullListAdapter);
-        //listView.setAdapter(mFavoritesAdapter);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Product product = (Product) view.getTag();
-                onSelectProduct(product);
-            }
-        });
 
         if (mMealItemPosition != NEW_MEAL_ITEM_POSITION) {
             setTitle(R.string.edit_meal_item_title);
