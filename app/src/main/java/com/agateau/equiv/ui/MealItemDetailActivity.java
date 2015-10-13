@@ -36,8 +36,8 @@ import java.util.Locale;
 
 
 public class MealItemDetailActivity extends AppCompatActivity {
-    public static final String EXTRA_MEAL_TAG = "com.com.agateau.equiv.MEAL_TAG";
-    public static final String EXTRA_MEAL_ITEM_POSITION = "com.com.agateau.equiv.MEAL_ITEM_POSITION";
+    public static final String EXTRA_MEAL_TAG = "com.agateau.equiv.MEAL_TAG";
+    public static final String EXTRA_MEAL_ITEM_POSITION = "com.agateau.equiv.MEAL_ITEM_POSITION";
 
     private static final int NEW_MEAL_ITEM_POSITION = -1;
 
@@ -204,9 +204,9 @@ public class MealItemDetailActivity extends AppCompatActivity {
     @Override
     public void onRestoreInstanceState(Bundle bundle) {
         super.onRestoreInstanceState(bundle);
-        String productName = bundle.getString("product", "");
-        if (!TextUtils.equals(productName, "")) {
-            Product product = mProductList.findByName(productName);
+        String productUuid = bundle.getString("productUuid", "");
+        if (!TextUtils.equals(productUuid, "")) {
+            Product product = mProductList.findByUuid(productUuid);
             onSelectProduct(product);
             mQuantityEquivEdit.setText(bundle.getString("quantityEquiv"));
         }
@@ -216,7 +216,7 @@ public class MealItemDetailActivity extends AppCompatActivity {
     public void onSaveInstanceState(Bundle bundle) {
         super.onSaveInstanceState(bundle);
         if (mProduct != null) {
-            bundle.putString("product", mProduct.getName());
+            bundle.putString("productUuid", mProduct.getUuid());
             bundle.putString("quantityEquiv", mQuantityEquivEdit.getText().toString());
         }
         mKernel.writeFavorites(this);
