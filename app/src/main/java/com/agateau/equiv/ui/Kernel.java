@@ -175,7 +175,7 @@ public class Kernel {
         }
         for (Product product : mProductList.getItems()) {
             if (favorites.contains(product.getUuid())) {
-                product.setFavorite(true);
+                mProductList.setFavorite(product, true);
             }
         }
     }
