@@ -167,9 +167,9 @@ public class MealItemDetailActivity extends AppCompatActivity {
     @Override
     public void onRestoreInstanceState(Bundle bundle) {
         super.onRestoreInstanceState(bundle);
-        String productName = bundle.getString("product", "");
-        if (!TextUtils.equals(productName, "")) {
-            Product product = mProductList.findByName(productName);
+        String productUuid = bundle.getString("productUuid", "");
+        if (!TextUtils.equals(productUuid, "")) {
+            Product product = mProductList.findByUuid(productUuid);
             onSelectProduct(product);
             mQuantityEquivEdit.setText(bundle.getString("quantityEquiv"));
         }
@@ -179,7 +179,7 @@ public class MealItemDetailActivity extends AppCompatActivity {
     public void onSaveInstanceState(Bundle bundle) {
         super.onSaveInstanceState(bundle);
         if (mProduct != null) {
-            bundle.putString("product", mProduct.getName());
+            bundle.putString("productUuid", mProduct.getUuid());
             bundle.putString("quantityEquiv", mQuantityEquivEdit.getText().toString());
         }
     }
