@@ -45,7 +45,6 @@ public class MealItemDetailActivity extends AppCompatActivity {
     private static final int NEW_MEAL_ITEM_POSITION = -1;
 
     private static class ProductListAdapter extends ArrayAdapter<Product> {
-        private final ArrayList<Product> mItems;
         private final Kernel mKernel;
 
         private final CompoundButton.OnCheckedChangeListener mOnFavoriteCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
@@ -59,13 +58,12 @@ public class MealItemDetailActivity extends AppCompatActivity {
         public ProductListAdapter(Context context, Kernel kernel, ArrayList<Product> items) {
             super(context, R.layout.product_item, R.id.product_item_text, items);
             mKernel = kernel;
-            mItems = items;
         }
 
         public View getView(int position, View convertView, ViewGroup parent) {
             View view = super.getView(position, convertView, parent);
 
-            Product product = mItems.get(position);
+            Product product = getItem(position);
             view.setTag(product);
 
             TextView equivTextView = (TextView) view.findViewById(R.id.product_item_equiv_text);
