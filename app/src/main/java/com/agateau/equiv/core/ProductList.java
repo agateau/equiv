@@ -10,6 +10,11 @@ import java.util.Set;
 public class ProductList {
     ArrayList<Product> mItems;
     Set<Product> mFavoriteItems = new HashSet<>();
+    FavoriteChangedListener mFavoriteChangedListener;
+
+    public interface FavoriteChangedListener {
+        void onFavoriteChanged();
+    }
 
     public ArrayList<Product> getItems() {
         return mItems;
@@ -24,6 +29,9 @@ public class ProductList {
             mFavoriteItems.add(product);
         } else {
             mFavoriteItems.remove(product);
+        }
+        if (mFavoriteChangedListener != null) {
+            mFavoriteChangedListener.onFavoriteChanged();
         }
     }
 
@@ -59,5 +67,9 @@ public class ProductList {
             set.add(product.getUuid());
         }
         return set;
+    }
+
+    public void setFavoriteChangedListener(FavoriteChangedListener favoriteChangedListener) {
+        mFavoriteChangedListener = favoriteChangedListener;
     }
 }
