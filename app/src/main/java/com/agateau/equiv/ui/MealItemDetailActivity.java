@@ -136,6 +136,15 @@ public class MealItemDetailActivity extends AppCompatActivity {
         mKernel = Kernel.getInstance(this);
         mProductList = mKernel.getProductList();
 
+        String mealTag = getIntent().getStringExtra(EXTRA_MEAL_TAG);
+        mMeal = mKernel.getDay().getMealByTag(mealTag);
+        mMealItemPosition = getIntent().getIntExtra(EXTRA_MEAL_ITEM_POSITION, -1);
+
+        setupTabs();
+        setupMealEditor();
+    }
+
+    private void setupTabs() {
         ListView fullListView = new ListView(this);
         ProductListAdapter fullListAdapter = new ProductListAdapter(this, mKernel, mProductList.getItems());
         fullListView.setAdapter(fullListAdapter);
@@ -163,7 +172,9 @@ public class MealItemDetailActivity extends AppCompatActivity {
         ActionBarViewTabBuilder builder = new ActionBarViewTabBuilder(actionBar, viewPager);
         builder.addTab(fullListView).setText(R.string.add_meal_item_tab_all);
         builder.addTab(favoriteListView).setText(R.string.add_meal_item_tab_favorites);
+    }
 
+    private void setupMealEditor() {
         mProductNameView = (TextView) findViewById(R.id.product_name_view);
         mDetailsLayout = (LinearLayout) findViewById(R.id.details_layout);
         mQuantityEdit = (EditText) findViewById(R.id.quantity_edit);
@@ -201,11 +212,6 @@ public class MealItemDetailActivity extends AppCompatActivity {
         });
 
         mQuantityEquivUnitView = (TextView) findViewById(R.id.quantity_equiv_unit);
-
-        String mealTag = getIntent().getStringExtra(EXTRA_MEAL_TAG);
-        mMeal = mKernel.getDay().getMealByTag(mealTag);
-
-        mMealItemPosition = getIntent().getIntExtra(EXTRA_MEAL_ITEM_POSITION, -1);
 
         if (mMealItemPosition != NEW_MEAL_ITEM_POSITION) {
             setTitle(R.string.edit_meal_item_title);
