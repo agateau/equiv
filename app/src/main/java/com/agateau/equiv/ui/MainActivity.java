@@ -3,24 +3,22 @@ package com.agateau.equiv.ui;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.TabHost;
-import android.widget.TextView;
 
 import com.agateau.equiv.R;
 import com.agateau.equiv.core.Meal;
 import com.agateau.utils.log.NLog;
+import com.agateau.utils.ui.ActionBarViewTabBuilder;
 
 
 public class MainActivity extends AppCompatActivity {
     private Kernel mKernel;
-    private TabHost mTabHost;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         setupTabs();
         int tab = mKernel.getCurrentTab();
         if (tab >= 0) {
-            mTabHost.setCurrentTab(tab);
+            getSupportActionBar().getTabAt(tab).select();
         }
 
         Meal.Listener listener = new Meal.Listener() {
@@ -52,27 +50,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupTabs() {
-        mTabHost = (TabHost) findViewById(R.id.meal_tab_host);
-        mTabHost.setup();
+        final ActionBar actionBar = getSupportActionBar();
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
+        ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+        ActionBarViewTabBuilder builder = new ActionBarViewTabBuilder(actionBar, viewPager);
+
         for (Meal meal : mKernel.getDay().getMeals()) {
-            createTabSpec(mTabHost, meal);
+            createTabSpec(builder, meal);
         }
     }
 
-    private void createTabSpec(TabHost tabHost, final Meal meal) {
+    private void createTabSpec(ActionBarViewTabBuilder builder, final Meal meal) {
         final MealView view = new MealView(this, meal, mKernel.getWeightFormater());
-        TabHost.TabSpec tabSpec = tabHost.newTabSpec(meal.getTag());
-        tabSpec.setIndicator(""); // Set by updateTab
-        tabSpec.setContent(new TabHost.TabContentFactory() {
-            @Override
-            public View createTabContent(String tag) {
-                return view;
-            }
-        });
-        final int mealTabIndex = tabHost.getTabWidget().getTabCount();
-        tabHost.addTab(tabSpec);
-        Meal.Listener listener = new Meal.Listener() {
+        ActionBar.Tab tab = builder.addTab(view);
+        tab.setTag(meal.getTag());
 
+        final int mealTabIndex = tab.getPosition();
+        Meal.Listener listener = new Meal.Listener() {
             @Override
             public void onMealChanged() {
                 updateTab(meal, mealTabIndex);
@@ -86,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        mKernel.setCurrentTab(mTabHost.getCurrentTab());
+        mKernel.setCurrentTab(getSupportActionBar().getSelectedTab().getPosition());
     }
 
     @Override
@@ -153,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
         String total = formatter.format(meal.getProteinWeight(), WeightFormatter.UnitFormat.SHORT);
         String title = String.format("%s\n%s", name, total);
 
-        TextView view = (TextView) mTabHost.getTabWidget().getChildAt(tabIndex).findViewById(android.R.id.title);
-        view.setText(title);
+        ActionBar.Tab tab = getSupportActionBar().getTabAt(tabIndex);
+        tab.setText(title);
     }
 }

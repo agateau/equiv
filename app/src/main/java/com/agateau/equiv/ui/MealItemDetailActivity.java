@@ -161,8 +161,8 @@ public class MealItemDetailActivity extends AppCompatActivity {
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         ActionBarViewTabBuilder builder = new ActionBarViewTabBuilder(actionBar, viewPager);
-        builder.addTab(getString(R.string.add_meal_item_tab_all), fullListView);
-        builder.addTab(getString(R.string.add_meal_item_tab_favorites), favoriteListView);
+        builder.addTab(fullListView).setText(R.string.add_meal_item_tab_all);
+        builder.addTab(favoriteListView).setText(R.string.add_meal_item_tab_favorites);
 
         mProductNameView = (TextView) findViewById(R.id.product_name_view);
         mDetailsLayout = (LinearLayout) findViewById(R.id.details_layout);

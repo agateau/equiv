@@ -44,11 +44,11 @@ public class ActionBarViewTabBuilder {
         };
     }
 
-    public void addTab(CharSequence text, View view) {
+    public ActionBar.Tab addTab(View view) {
         ActionBar.Tab tab = mActionBar.newTab()
-                .setText(text)
                 .setTabListener(mTabListener);
         mActionBar.addTab(tab);
         mViewPagerAdapter.addView(view);
+        return tab;
     }
 }
