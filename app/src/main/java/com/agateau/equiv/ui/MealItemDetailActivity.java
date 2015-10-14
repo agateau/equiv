@@ -149,10 +149,18 @@ public class MealItemDetailActivity extends AppCompatActivity {
         ProductListAdapter fullListAdapter = new ProductListAdapter(this, mKernel, mProductList.getItems());
         fullListView.setAdapter(fullListAdapter);
 
-        ListView favoriteListView = new ListView(this);
-        ArrayList<Product> favoriteItems = new ArrayList<>();
+        final ArrayList<Product> favoriteItems = new ArrayList<>();
         favoriteItems.addAll(mProductList.getFavoriteItems());
-        ProductListAdapter favoritesListAdapter = new ProductListAdapter(this, mKernel, favoriteItems);
+        final ProductListAdapter favoritesListAdapter = new ProductListAdapter(this, mKernel, favoriteItems);
+        mProductList.setFavoriteChangedListener(new ProductList.FavoriteChangedListener() {
+            @Override
+            public void onFavoriteChanged() {
+                favoriteItems.clear();
+                favoriteItems.addAll(mProductList.getFavoriteItems());
+                favoritesListAdapter.notifyDataSetChanged();
+            }
+        });
+        ListView favoriteListView = new ListView(this);
         favoriteListView.setAdapter(favoritesListAdapter);
 
         AdapterView.OnItemClickListener listener = new AdapterView.OnItemClickListener() {
