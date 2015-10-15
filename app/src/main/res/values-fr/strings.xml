@@ -43,6 +43,8 @@
     href="{github_url}">GitHub</a>.
 
     </string>
+    <string name="add_meal_item_tab_all">Tous</string>
+    <string name="add_meal_item_tab_favorites">Favoris</string>
     <!--
     \n<a href="{rate_url}">Noter Equiv sur Google Play</a>\n
     -->
