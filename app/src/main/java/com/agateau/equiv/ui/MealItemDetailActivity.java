@@ -91,6 +91,9 @@ public class MealItemDetailActivity extends AppCompatActivity {
             equivTextView.setText(equivText);
 
             CheckBox favoriteCheckBox = (CheckBox) view.findViewById(R.id.product_item_favorite);
+            // Reset onCheckedChangeListener so that mOnFavoriteCheckedChangeListener is not called
+            // when we call setChecked() (can happen when a view is reused)
+            favoriteCheckBox.setOnCheckedChangeListener(null);
             favoriteCheckBox.setChecked(mKernel.getProductList().isFavorite(product));
             favoriteCheckBox.setOnCheckedChangeListener(mOnFavoriteCheckedChangeListener);
             favoriteCheckBox.setTag(product);
