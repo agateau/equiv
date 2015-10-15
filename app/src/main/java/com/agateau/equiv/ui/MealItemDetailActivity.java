@@ -147,7 +147,7 @@ public class MealItemDetailActivity extends AppCompatActivity {
 
     private void setupTabs() {
         ListView fullListView = new ListView(this);
-        ProductListAdapter fullListAdapter = new ProductListAdapter(this, mKernel, mProductList.getItems());
+        final ProductListAdapter fullListAdapter = new ProductListAdapter(this, mKernel, mProductList.getItems());
         fullListView.setAdapter(fullListAdapter);
 
         final ArrayList<Product> favoriteItems = new ArrayList<>();
@@ -159,6 +159,9 @@ public class MealItemDetailActivity extends AppCompatActivity {
                 favoriteItems.clear();
                 favoriteItems.addAll(mProductList.getFavoriteItems());
                 favoritesListAdapter.notifyDataSetChanged();
+
+                // Notify fullListAdapter as well because it must update the state of its checkboxes
+                fullListAdapter.notifyDataSetChanged();
             }
         });
         ListView favoriteListView = new ListView(this);
