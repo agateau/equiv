@@ -173,11 +173,7 @@ public class Kernel {
         if (favorites == null) {
             return;
         }
-        for (Product product : mProductList.getItems()) {
-            if (favorites.contains(product.getUuid())) {
-                mProductList.setFavorite(product, true);
-            }
-        }
+        mProductList.setFavoriteUuids(favorites);
     }
 
     public void writeFavorites(Context context) {
