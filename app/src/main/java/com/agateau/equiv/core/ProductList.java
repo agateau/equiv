@@ -1,6 +1,8 @@
 package com.agateau.equiv.core;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -8,9 +10,17 @@ import java.util.Set;
  * Contains all available products
  */
 public class ProductList {
-    ArrayList<Product> mItems;
-    Set<Product> mFavoriteItems = new HashSet<>();
-    FavoriteChangedListener mFavoriteChangedListener;
+    private ArrayList<Product> mItems;
+    private ArrayList<Product> mFavoriteItems;
+    private Set<Product> mFavoriteItemSet = new HashSet<>();
+    private FavoriteChangedListener mFavoriteChangedListener;
+
+    private Comparator<Product> mComparator = new Comparator<Product>() {
+        @Override
+        public int compare(Product lhs, Product rhs) {
+            return lhs.getName().compareToIgnoreCase(rhs.getName());
+        }
+    };
 
     public interface FavoriteChangedListener {
         void onFavoriteChanged();
@@ -20,27 +30,30 @@ public class ProductList {
         return mItems;
     }
 
-    public Set<Product> getFavoriteItems() {
+    public ArrayList<Product> getFavoriteItems() {
         return mFavoriteItems;
     }
 
     public void setFavorite(Product product, boolean favorite) {
         if (favorite) {
-            mFavoriteItems.add(product);
+            mFavoriteItemSet.add(product);
         } else {
-            mFavoriteItems.remove(product);
+            mFavoriteItemSet.remove(product);
         }
+        updateFavoriteItemList();
         if (mFavoriteChangedListener != null) {
             mFavoriteChangedListener.onFavoriteChanged();
         }
     }
 
     public boolean isFavorite(Product product) {
-        return mFavoriteItems.contains(product);
+        return mFavoriteItemSet.contains(product);
     }
 
     public void setItems(ArrayList<Product> items) {
-        mItems = items;
+        mItems = new ArrayList<>(items);
+        Collections.sort(mItems, mComparator);
+        mFavoriteItems = new ArrayList<>(items.size());
     }
 
     public Product findByUuid(String uuid) {
@@ -63,13 +76,29 @@ public class ProductList {
 
     public Set<String> getFavoriteUuids() {
         Set<String> set = new HashSet<>();
-        for (Product product : mFavoriteItems) {
+        for (Product product : mFavoriteItemSet) {
             set.add(product.getUuid());
         }
         return set;
     }
 
+    public void setFavoriteUuids(Set<String> favoriteUuids) {
+        mFavoriteItemSet.clear();
+        for (Product product : mItems) {
+            if (favoriteUuids.contains(product.getUuid())) {
+                mFavoriteItemSet.add(product);
+            }
+        }
+        updateFavoriteItemList();
+    }
+
     public void setFavoriteChangedListener(FavoriteChangedListener favoriteChangedListener) {
         mFavoriteChangedListener = favoriteChangedListener;
+    }
+
+    private void updateFavoriteItemList() {
+        mFavoriteItems.clear();
+        mFavoriteItems.addAll(mFavoriteItemSet);
+        Collections.sort(mFavoriteItems, mComparator);
     }
 }

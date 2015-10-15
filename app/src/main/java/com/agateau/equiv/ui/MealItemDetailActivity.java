@@ -150,14 +150,10 @@ public class MealItemDetailActivity extends AppCompatActivity {
         final ProductListAdapter fullListAdapter = new ProductListAdapter(this, mKernel, mProductList.getItems());
         fullListView.setAdapter(fullListAdapter);
 
-        final ArrayList<Product> favoriteItems = new ArrayList<>();
-        favoriteItems.addAll(mProductList.getFavoriteItems());
-        final ProductListAdapter favoritesListAdapter = new ProductListAdapter(this, mKernel, favoriteItems);
+        final ProductListAdapter favoritesListAdapter = new ProductListAdapter(this, mKernel, mProductList.getFavoriteItems());
         mProductList.setFavoriteChangedListener(new ProductList.FavoriteChangedListener() {
             @Override
             public void onFavoriteChanged() {
-                favoriteItems.clear();
-                favoriteItems.addAll(mProductList.getFavoriteItems());
                 favoritesListAdapter.notifyDataSetChanged();
 
                 // Notify fullListAdapter as well because it must update the state of its checkboxes
