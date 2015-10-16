@@ -9,7 +9,6 @@ import com.agateau.equiv.core.Consumer;
 import com.agateau.equiv.core.Day;
 import com.agateau.equiv.core.DayJsonIO;
 import com.agateau.equiv.core.Meal;
-import com.agateau.equiv.core.Product;
 import com.agateau.equiv.core.ProductList;
 import com.agateau.equiv.core.ProductListCsvIO;
 import com.agateau.equiv.core.ProteinWeightUnit;
