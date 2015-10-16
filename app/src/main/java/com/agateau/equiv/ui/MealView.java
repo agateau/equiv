@@ -5,7 +5,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -43,14 +42,6 @@ public class MealView extends LinearLayout {
             @Override
             public void onMealChanged() {
                 mAdapter.notifyDataSetChanged();
-            }
-        });
-
-        Button button = (Button) findViewById(R.id.show_add_meal_item_activity_button);
-        button.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MealItemDetailActivity.addMealItem(getContext(), mMeal);
             }
         });
 

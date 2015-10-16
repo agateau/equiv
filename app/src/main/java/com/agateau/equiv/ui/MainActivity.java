@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.agateau.equiv.R;
 import com.agateau.equiv.core.Meal;
@@ -45,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
         for (Meal meal : mKernel.getDay().getMeals()) {
             meal.registerListener(listener);
         }
-
         updateTitle();
     }
 
@@ -150,5 +150,11 @@ public class MainActivity extends AppCompatActivity {
 
         ActionBar.Tab tab = getSupportActionBar().getTabAt(tabIndex);
         tab.setText(title);
+    }
+
+    public void openAddMealItemActivity(View view) {
+        int index = getSupportActionBar().getSelectedNavigationIndex();
+        Meal meal = mKernel.getDay().getMeals().get(index);
+        MealItemDetailActivity.addMealItem(this, meal);
     }
 }
