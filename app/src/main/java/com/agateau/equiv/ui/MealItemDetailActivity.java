@@ -10,11 +10,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
@@ -183,9 +185,20 @@ public class MealItemDetailActivity extends AppCompatActivity {
     }
 
     private void setupMealEditor() {
+        TextView.OnEditorActionListener onEditorActionListener = new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    save();
+                    return true;
+                }
+                return false;
+            }
+        };
         mProductNameView = (TextView) findViewById(R.id.product_name_view);
         mDetailsLayout = (LinearLayout) findViewById(R.id.details_layout);
         mQuantityEdit = (EditText) findViewById(R.id.quantity_edit);
+        mQuantityEdit.setOnEditorActionListener(onEditorActionListener);
         mQuantityEdit.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -204,6 +217,7 @@ public class MealItemDetailActivity extends AppCompatActivity {
         mQuantityUnitView = (TextView) findViewById(R.id.quantity_unit);
 
         mQuantityEquivEdit = (EditText) findViewById(R.id.quantity_equiv_edit);
+        mQuantityEquivEdit.setOnEditorActionListener(onEditorActionListener);
         mQuantityEquivEdit.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
