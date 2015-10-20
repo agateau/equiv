@@ -86,9 +86,9 @@ public class MealItemDetailActivity extends AppCompatActivity {
 
     private void setupTabs() {
         ListView fullListView = new ListView(this);
-        final ProductListAdapter fullListAdapter = new ProductListAdapter(this, mKernel, mProductList.getItems());
-        fullListView.setAdapter(fullListAdapter);
+        ListView favoriteListView = new ListView(this);
 
+        final ProductListAdapter fullListAdapter = new ProductListAdapter(this, mKernel, mProductList.getItems());
         final ProductListAdapter favoritesListAdapter = new ProductListAdapter(this, mKernel, mProductList.getFavoriteItems());
         mProductList.setFavoriteChangedListener(new ProductList.FavoriteChangedListener() {
             @Override
@@ -99,7 +99,8 @@ public class MealItemDetailActivity extends AppCompatActivity {
                 fullListAdapter.notifyDataSetChanged();
             }
         });
-        ListView favoriteListView = new ListView(this);
+
+        fullListView.setAdapter(fullListAdapter);
         favoriteListView.setAdapter(favoritesListAdapter);
 
         AdapterView.OnItemClickListener listener = new AdapterView.OnItemClickListener() {
