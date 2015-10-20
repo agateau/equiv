@@ -3,26 +3,26 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="48dp">
-<TextView
-    android:id="@+id/product_item_text"
-    android:orientation="vertical"
-    android:paddingLeft="16dp"
-    android:layout_gravity="center_vertical"
-    android:layout_width="0dp"
-    android:layout_weight="1"
-    android:layout_height="wrap_content">
-</TextView>
-<TextView
-    android:id="@+id/product_item_equiv_text"
-    android:paddingRight="16dp"
-    android:layout_gravity="center_vertical"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"/>
-<CheckBox
-    android:id="@+id/product_item_favorite"
-    android:paddingRight="16dp"
-    android:focusable="false"
-    android:button="@android:drawable/btn_star"
-    android:layout_gravity="center_vertical"
-    android:layout_width="wrap_content" android:layout_height="match_parent" />
+    <TextView
+        android:id="@+id/product_item_text"
+        android:orientation="vertical"
+        android:paddingLeft="16dp"
+        android:layout_gravity="center_vertical"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content">
+    </TextView>
+    <TextView
+        android:id="@+id/product_item_equiv_text"
+        android:paddingRight="16dp"
+        android:layout_gravity="center_vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <CheckBox
+        android:id="@+id/product_item_favorite"
+        android:paddingRight="16dp"
+        android:focusable="false"
+        android:button="@android:drawable/btn_star"
+        android:layout_gravity="center_vertical"
+        android:layout_width="wrap_content" android:layout_height="match_parent" />
 </LinearLayout>
