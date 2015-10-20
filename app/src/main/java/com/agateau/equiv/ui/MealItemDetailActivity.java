@@ -106,7 +106,7 @@ public class MealItemDetailActivity extends AppCompatActivity {
         AdapterView.OnItemClickListener listener = new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Product product = (Product) view.getTag();
+                Product product = (Product) parent.getAdapter().getItem(position);
                 onSelectProduct(product);
             }
         };
