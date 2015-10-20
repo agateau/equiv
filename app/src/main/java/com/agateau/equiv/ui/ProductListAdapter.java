@@ -1,6 +1,7 @@
 package com.agateau.equiv.ui;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -21,6 +22,13 @@ import java.util.ArrayList;
  */
 class ProductListAdapter extends ArrayAdapter<Product> {
     private final Kernel mKernel;
+    private final Context mContext;
+
+    private static class ViewHolder {
+        TextView mainTextView;
+        TextView equivTextView;
+        CheckBox favoriteCheckBox;
+    }
 
     private final CompoundButton.OnCheckedChangeListener mOnFavoriteCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
         @Override
@@ -31,18 +39,33 @@ class ProductListAdapter extends ArrayAdapter<Product> {
     };
 
     public ProductListAdapter(Context context, Kernel kernel, ArrayList<Product> items) {
-        super(context, R.layout.product_item, R.id.product_item_text, items);
+        super(context, R.layout.product_item, items);
+        mContext = context;
         mKernel = kernel;
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
-        View view = super.getView(position, convertView, parent);
+        View view;
+        ViewHolder vh;
+        if (convertView == null) {
+            LayoutInflater inflater = LayoutInflater.from(mContext);
+            view = inflater.inflate(R.layout.product_item, parent, false);
+            vh = new ViewHolder();
+            vh.mainTextView = (TextView) view.findViewById(R.id.product_item_text);
+            vh.equivTextView = (TextView) view.findViewById(R.id.product_item_equiv_text);
+            vh.favoriteCheckBox = (CheckBox) view.findViewById(R.id.product_item_favorite);
+            view.setTag(vh);
+        } else {
+            view = convertView;
+            vh = (ViewHolder) view.getTag();
+        }
 
         Product product = getItem(position);
-        view.setTag(product);
 
-        TextView equivTextView = (TextView) view.findViewById(R.id.product_item_equiv_text);
+        // mainTextView
+        vh.mainTextView.setText(product.getName());
 
+        // equivTextView
         float proteins = product.getProteins();
 
         WeightFormatter formatter = mKernel.getWeightFormater();
@@ -63,15 +86,15 @@ class ProductListAdapter extends ArrayAdapter<Product> {
                 equivUnit,
                 ref,
                 formatter.getUnitString(WeightFormatter.UnitFormat.FULL));
-        equivTextView.setText(equivText);
+        vh.equivTextView.setText(equivText);
 
-        CheckBox favoriteCheckBox = (CheckBox) view.findViewById(R.id.product_item_favorite);
+        // favoriteCheckBox
         // Reset onCheckedChangeListener so that mOnFavoriteCheckedChangeListener is not called
         // when we call setChecked() (can happen when a view is reused)
-        favoriteCheckBox.setOnCheckedChangeListener(null);
-        favoriteCheckBox.setChecked(mKernel.getProductList().isFavorite(product));
-        favoriteCheckBox.setOnCheckedChangeListener(mOnFavoriteCheckedChangeListener);
-        favoriteCheckBox.setTag(product);
+        vh.favoriteCheckBox.setOnCheckedChangeListener(null);
+        vh.favoriteCheckBox.setChecked(mKernel.getProductList().isFavorite(product));
+        vh.favoriteCheckBox.setOnCheckedChangeListener(mOnFavoriteCheckedChangeListener);
+        vh.favoriteCheckBox.setTag(product);
         return view;
     }
 }
