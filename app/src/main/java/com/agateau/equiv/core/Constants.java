@@ -13,5 +13,5 @@ public class Constants {
     public static final String GPL_URL = "http://gnu.org/licenses/gpl.html";
     public static final String GITHUB_URL = "http://github.com/agateau/equiv";
 
-    public static final String VERSION_NAME = "1.1";
+    public static final String VERSION_NAME = "1.2";
 }
