@@ -19,6 +19,8 @@
 
 - Tag
 
+    git tag -a $newv
+
 - Push
 
 # Publish
