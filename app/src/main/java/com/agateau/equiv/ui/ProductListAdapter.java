@@ -1,18 +1,22 @@
 package com.agateau.equiv.ui;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.agateau.equiv.R;
 import com.agateau.equiv.core.Constants;
 import com.agateau.equiv.core.FormatUtils;
 import com.agateau.equiv.core.Product;
+import com.agateau.equiv.core.ProductCategory;
 import com.agateau.equiv.core.ProteinWeightUnit;
 
 import java.util.ArrayList;
@@ -25,6 +29,7 @@ class ProductListAdapter extends ArrayAdapter<Product> {
     private final Context mContext;
 
     private static class ViewHolder {
+        ImageView categoryImageView;
         TextView mainTextView;
         TextView equivTextView;
         CheckBox favoriteCheckBox;
@@ -51,6 +56,7 @@ class ProductListAdapter extends ArrayAdapter<Product> {
             LayoutInflater inflater = LayoutInflater.from(mContext);
             view = inflater.inflate(R.layout.product_item, parent, false);
             vh = new ViewHolder();
+            vh.categoryImageView = (ImageView) view.findViewById(R.id.product_category_image);
             vh.mainTextView = (TextView) view.findViewById(R.id.product_item_text);
             vh.equivTextView = (TextView) view.findViewById(R.id.product_item_equiv_text);
             vh.favoriteCheckBox = (CheckBox) view.findViewById(R.id.product_item_favorite);
@@ -61,6 +67,9 @@ class ProductListAdapter extends ArrayAdapter<Product> {
         }
 
         Product product = getItem(position);
+
+        // categoryImageView
+        vh.categoryImageView.setImageDrawable(getDrawableForCategory(product.getCategory()));
 
         // mainTextView
         vh.mainTextView.setText(product.getName());
@@ -96,5 +105,13 @@ class ProductListAdapter extends ArrayAdapter<Product> {
         vh.favoriteCheckBox.setOnCheckedChangeListener(mOnFavoriteCheckedChangeListener);
         vh.favoriteCheckBox.setTag(product);
         return view;
+    }
+
+    private Drawable getDrawableForCategory(ProductCategory category) {
+        Resources resources = mContext.getResources();
+        String name = "categories_";
+        name = name.concat(category.getCategoryId());
+        int id = resources.getIdentifier(name, "drawable", mContext.getPackageName());
+        return resources.getDrawable(id);
     }
 }
