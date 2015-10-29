@@ -7,6 +7,7 @@ import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -43,6 +44,8 @@ public class MealItemDetailActivity extends AppCompatActivity {
     private Kernel mKernel;
 
     private ProductList mProductList;
+    private ProductListAdapter mFullListAdapter;
+    private ProductListAdapter mFavoritesListAdapter;
     private Meal mMeal;
     private Product mProduct = null;
     private MenuItem mSaveMenuItem;
@@ -88,20 +91,20 @@ public class MealItemDetailActivity extends AppCompatActivity {
         ListView fullListView = new ListView(this);
         ListView favoriteListView = new ListView(this);
 
-        final ProductListAdapter fullListAdapter = new ProductListAdapter(this, mKernel, mProductList.getItems());
-        final ProductListAdapter favoritesListAdapter = new ProductListAdapter(this, mKernel, mProductList.getFavoriteItems());
+        mFullListAdapter = new ProductListAdapter(this, mKernel, mProductList.getItems());
+        mFavoritesListAdapter = new ProductListAdapter(this, mKernel, mProductList.getFavoriteItems());
         mProductList.setFavoriteChangedListener(new ProductList.FavoriteChangedListener() {
             @Override
             public void onFavoriteChanged() {
-                favoritesListAdapter.notifyDataSetChanged();
+                mFavoritesListAdapter.notifyDataSetChanged();
 
-                // Notify fullListAdapter as well because it must update the state of its checkboxes
-                fullListAdapter.notifyDataSetChanged();
+                // Notify mFullListAdapter as well because it must update the state of its checkboxes
+                mFullListAdapter.notifyDataSetChanged();
             }
         });
 
-        fullListView.setAdapter(fullListAdapter);
-        favoriteListView.setAdapter(favoritesListAdapter);
+        fullListView.setAdapter(mFullListAdapter);
+        favoriteListView.setAdapter(mFavoritesListAdapter);
 
         AdapterView.OnItemClickListener listener = new AdapterView.OnItemClickListener() {
             @Override
@@ -209,6 +212,22 @@ public class MealItemDetailActivity extends AppCompatActivity {
             removeMenuItem.setVisible(false);
         }
         mSaveMenuItem = menu.findItem(R.id.action_save);
+
+        SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                mFullListAdapter.getFilter().filter(newText);
+                mFavoritesListAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+
         updateMenuItems();
         return super.onCreateOptionsMenu(menu);
     }
@@ -221,6 +240,9 @@ public class MealItemDetailActivity extends AppCompatActivity {
             return true;
         } else if (id == R.id.action_remove) {
             remove();
+            return true;
+        } else if (id == R.id.action_search) {
+            boolean ok = onSearchRequested();
             return true;
         }
         return super.onOptionsItemSelected(item);
