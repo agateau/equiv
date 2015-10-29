@@ -8,9 +8,11 @@ public class Product {
     private final String mName;
     private final String mUnit;
     private final float mProteins;
+    private final ProductCategory mCategory;
 
-    public Product(String uuid, String name, String unit, float proteins) {
+    public Product(String uuid, ProductCategory category, String name, String unit, float proteins) {
         mUuid = uuid;
+        mCategory = category;
         mName = name;
         mUnit = unit;
         mProteins = proteins;
@@ -18,6 +20,10 @@ public class Product {
 
     public String getUuid() {
         return mUuid;
+    }
+
+    public ProductCategory getCategory() {
+        return mCategory;
     }
 
     public String getName() {

@@ -18,6 +18,10 @@ public class ProductList {
     private Comparator<Product> mComparator = new Comparator<Product>() {
         @Override
         public int compare(Product lhs, Product rhs) {
+            int res = lhs.getCategory().getCategoryId().compareTo(rhs.getCategory().getCategoryId());
+            if (res != 0) {
+                return res;
+            }
             return lhs.getName().compareToIgnoreCase(rhs.getName());
         }
     };

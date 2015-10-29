@@ -51,4 +51,5 @@
 
     <string name="about_author">By Aurélien Gâteau</string>
     <string name="max_potato_per_day_title">Max potatoes per day</string>
+    <string name="action_search">Search</string>
 </resources>
