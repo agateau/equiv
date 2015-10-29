@@ -6,6 +6,7 @@ import com.agateau.utils.log.NLog;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Load a ProductList from a CSV file
@@ -14,10 +15,11 @@ public class ProductListCsvIO {
     public static ProductList read(InputStream in) throws IOException {
         ProductList productList = new ProductList();
         final ArrayList<Product> items = new ArrayList<>();
+        final HashMap<String, ProductCategory> categorySet = new HashMap<>();
         CsvStreamReader.Listener listener = new CsvStreamReader.Listener() {
             boolean mValid = false;
             String mUuid;
-            String mCategory;
+            String mCategoryId;
             String mName;
             String mUnit;
             float mPotatoWeight;
@@ -26,7 +28,7 @@ public class ProductListCsvIO {
                 if (column == 0) {
                     mUuid = value;
                 } else if (column == 1) {
-                    mCategory = value;
+                    mCategoryId = value;
                 } else if (column == 2) {
                     mName = value;
                 } else if (column == 3) {
@@ -47,8 +49,13 @@ public class ProductListCsvIO {
             @Override
             public void onEndRow(int row) {
                 if (mValid) {
+                    ProductCategory category = categorySet.get(mCategoryId);
+                    if (category == null) {
+                        category = new ProductCategory(mCategoryId);
+                        categorySet.put(mCategoryId, category);
+                    }
                     float protein = Constants.PROTEIN_FOR_POTATO * (100 / mPotatoWeight);
-                    Product product = new Product(mUuid, mName, mUnit, protein);
+                    Product product = new Product(mUuid, category, mName, mUnit, protein);
                     items.add(product);
                 } else {
                     NLog.e("Invalid row %d", row + 1);

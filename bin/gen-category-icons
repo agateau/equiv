@@ -1,0 +1,13 @@
+#!/bin/sh -e
+
+cd $(dirname $0)/..
+
+DST_DIR=app/src/main/res/drawable-xxhdpi
+mkdir -p $DST_DIR
+
+SVG_FILE=icons/categories.svg
+
+cut -d';' -f2  app/src/main/assets/products.csv | sort -u | while read name ; do
+    echo "$name"
+    inkscape --export-id $name --export-png $DST_DIR/categories_${name}.png $SVG_FILE
+done
