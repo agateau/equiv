@@ -1,5 +1,8 @@
 package com.agateau.equiv.core;
 
+import java.text.CollationKey;
+import java.text.Collator;
+
 /**
  * A product from the ProductList
  */
@@ -9,6 +12,7 @@ public class Product {
     private final String mUnit;
     private final float mProteins;
     private final ProductCategory mCategory;
+    private final CollationKey mCollationKey;
 
     public Product(String uuid, ProductCategory category, String name, String unit, float proteins) {
         mUuid = uuid;
@@ -16,6 +20,7 @@ public class Product {
         mName = name;
         mUnit = unit;
         mProteins = proteins;
+        mCollationKey = Collator.getInstance().getCollationKey(mName);
     }
 
     public String getUuid() {
@@ -28,6 +33,10 @@ public class Product {
 
     public String getName() {
         return mName;
+    }
+
+    public CollationKey getCollationKey() {
+        return mCollationKey;
     }
 
     public String getUnit() {
