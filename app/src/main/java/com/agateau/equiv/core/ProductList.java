@@ -22,7 +22,7 @@ public class ProductList {
             if (res != 0) {
                 return res;
             }
-            return lhs.getName().compareToIgnoreCase(rhs.getName());
+            return lhs.getCollationKey().compareTo(rhs.getCollationKey());
         }
     };
 
