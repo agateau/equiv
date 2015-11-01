@@ -23,6 +23,9 @@
 
 - Push
 
+    git push
+    git push --tags
+
 # Publish
 
 - Take screenshots
