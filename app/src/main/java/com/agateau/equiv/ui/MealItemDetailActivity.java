@@ -3,6 +3,7 @@ package com.agateau.equiv.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
@@ -183,7 +184,7 @@ public class MealItemDetailActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onRestoreInstanceState(Bundle bundle) {
+    public void onRestoreInstanceState(@NonNull Bundle bundle) {
         super.onRestoreInstanceState(bundle);
         String productUuid = bundle.getString("productUuid", "");
         if (!TextUtils.equals(productUuid, "")) {
@@ -242,7 +243,7 @@ public class MealItemDetailActivity extends AppCompatActivity {
             remove();
             return true;
         } else if (id == R.id.action_search) {
-            boolean ok = onSearchRequested();
+            onSearchRequested();
             return true;
         }
         return super.onOptionsItemSelected(item);
