@@ -15,9 +15,7 @@ import java.util.UUID;
  */
 public class ProductListCsvIO {
     public static ProductList read(InputStream in) throws IOException {
-        ProductList productList = new ProductList();
-        final ArrayList<Product> items = new ArrayList<>();
-        final HashMap<String, ProductCategory> categorySet = new HashMap<>();
+        final ProductList productList = new ProductList();
         CsvStreamReader.Listener listener = new CsvStreamReader.Listener() {
             boolean mValid = false;
             UUID mUuid;
@@ -56,13 +54,13 @@ public class ProductListCsvIO {
             @Override
             public void onEndRow(int row) {
                 if (mValid) {
-                    ProductCategory category = categorySet.get(mCategoryId);
+                    ProductCategory category = productList.findCategory(mCategoryId);
                     if (category == null) {
                         category = new ProductCategory(mCategoryId);
-                        categorySet.put(mCategoryId, category);
+                        productList.addCategory(category);
                     }
                     Product product = new Product(mUuid, category, mName, mUnit, mProtein);
-                    items.add(product);
+                    productList.add(product);
                 } else {
                     NLog.e("Invalid row %d", row + 1);
                 }
@@ -70,7 +68,7 @@ public class ProductListCsvIO {
         };
         CsvStreamReader reader = new CsvStreamReader(in, listener);
         reader.read();
-        productList.setItems(items);
+        productList.sort();
         return productList;
     }
 }
