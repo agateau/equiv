@@ -35,6 +35,13 @@ public class Product {
         }
     }
 
+    /**
+     * Create a new product with a random id
+     */
+    public Product(ProductCategory category, String name, Unit unit, float proteins) {
+        this(UUID.randomUUID(), category, name, unit, proteins);
+    }
+
     public Product(UUID uuid, ProductCategory category, String name, Unit unit, float proteins) {
         mUuid = uuid;
         mCategory = category;
