@@ -1,5 +1,7 @@
 package com.agateau.equiv.ui;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -31,13 +33,14 @@ import com.agateau.equiv.core.MealItem;
 import com.agateau.equiv.core.Product;
 import com.agateau.equiv.core.ProductList;
 import com.agateau.equiv.core.ProteinWeightUnit;
+import com.agateau.utils.log.NLog;
 import com.agateau.utils.ui.ActionBarViewTabBuilder;
 
 import java.util.Locale;
 import java.util.UUID;
 
 
-public class MealItemDetailActivity extends AppCompatActivity {
+public class MealItemDetailActivity extends AppCompatActivity implements CustomProductFragment.CustomProductListener {
     public static final String EXTRA_MEAL_TAG = "com.agateau.equiv.MEAL_TAG";
     public static final String EXTRA_MEAL_ITEM_POSITION = "com.agateau.equiv.MEAL_ITEM_POSITION";
 
@@ -246,6 +249,9 @@ public class MealItemDetailActivity extends AppCompatActivity {
         } else if (id == R.id.action_search) {
             onSearchRequested();
             return true;
+        } else if (id == R.id.action_add_custom) {
+            showCustomProductDialog();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -260,6 +266,25 @@ public class MealItemDetailActivity extends AppCompatActivity {
         mProduct = product;
         updateDetailsLayout();
         updateMenuItems();
+    }
+
+    private void showCustomProductDialog() {
+        FragmentManager fragmentManager = getFragmentManager();
+        CustomProductFragment newFragment = new CustomProductFragment();
+
+        if (true) {
+            // The device is using a large layout, so show the fragment as a dialog
+            newFragment.show(fragmentManager, "dialog");
+        } else {
+            // The device is smaller, so show the fragment fullscreen
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            // For a little polish, specify a transition animation
+            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+            // To make it fullscreen, use the 'content' root view as the container
+            // for the fragment, which is always the root view for the activity
+            transaction.add(android.R.id.content, newFragment)
+                    .addToBackStack(null).commit();
+        }
     }
 
     private void save() {
@@ -339,5 +364,10 @@ public class MealItemDetailActivity extends AppCompatActivity {
 
         unit = mKernel.getWeightFormater().getUnitString(WeightFormatter.UnitFormat.FULL);
         mQuantityEquivUnitView.setText(unit);
+    }
+
+    @Override
+    public void onProductModified(String productUuid) {
+        NLog.d("productUuid=%s", productUuid);
     }
 }

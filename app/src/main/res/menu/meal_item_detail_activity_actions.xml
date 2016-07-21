@@ -17,4 +17,8 @@
         android:id="@+id/action_save"
         android:title="@string/action_save"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/action_add_custom"
+        android:title="@string/action_add_custom"
+        app:showAsAction="always" />
 </menu>
