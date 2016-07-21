@@ -3,7 +3,10 @@ package com.agateau.equiv.core;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -11,9 +14,10 @@ import java.util.UUID;
  * Contains all available products
  */
 public class ProductList {
-    private ArrayList<Product> mItems;
-    private ArrayList<Product> mFavoriteItems;
-    private Set<Product> mFavoriteItemSet = new HashSet<>();
+    private final ArrayList<Product> mItems = new ArrayList<>();
+    private final ArrayList<Product> mFavoriteItems = new ArrayList<>();
+    private final Set<Product> mFavoriteItemSet = new HashSet<>();
+    private final Map<String, ProductCategory> mCategoryMap = new HashMap<>();
     private FavoriteChangedListener mFavoriteChangedListener;
 
     private Comparator<Product> mComparator = new Comparator<Product>() {
@@ -55,10 +59,12 @@ public class ProductList {
         return mFavoriteItemSet.contains(product);
     }
 
-    public void setItems(ArrayList<Product> items) {
-        mItems = new ArrayList<>(items);
+    public void add(Product product) {
+        mItems.add(product);
+    }
+
+    public void sort() {
         Collections.sort(mItems, mComparator);
-        mFavoriteItems = new ArrayList<>(items.size());
     }
 
     public Product findByUuid(UUID uuid) {
@@ -77,6 +83,20 @@ public class ProductList {
             }
         }
         return null;
+    }
+
+    public ProductCategory findCategory(String id) {
+        return mCategoryMap.get(id);
+    }
+
+    public void addCategory(ProductCategory category) {
+        mCategoryMap.put(category.getCategoryId(), category);
+    }
+
+    public List<ProductCategory> getCategoryList() {
+        List<ProductCategory> lst = new ArrayList<>();
+        lst.addAll(mCategoryMap.values());
+        return lst;
     }
 
     public Set<UUID> getFavoriteUuids() {
