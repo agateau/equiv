@@ -46,7 +46,9 @@
     <string name="add_meal_item_tab_all">Tous</string>
     <string name="add_meal_item_tab_favorites">Favoris</string>
     <string name="action_search">Rechercher</string>
-    <!--
-    \n<a href="{rate_url}">Noter Equiv sur Google Play</a>\n
-    -->
+    <string name="action_add_custom">Nouveau</string>
+
+    <string name="product_category">Catégorie</string>
+    <string name="product_name">Nom</string>
+    <string name="product_proteins">Protéines</string>
 </resources>
