@@ -22,7 +22,7 @@ public class ProductListCsvIO {
             String mCategoryId;
             String mName;
             String mUnit;
-            float mPotatoWeight;
+            float mProtein;
             @Override
             public void onCell(int row, int column, String value) {
                 if (column == 0) {
@@ -32,7 +32,7 @@ public class ProductListCsvIO {
                 } else if (column == 2) {
                     mName = value;
                 } else if (column == 3) {
-                    mPotatoWeight = Float.parseFloat(value);
+                    mProtein = Float.parseFloat(value);
                 } else if (column == 4) {
                     mUnit = value;
                     mValid = true;
@@ -54,8 +54,7 @@ public class ProductListCsvIO {
                         category = new ProductCategory(mCategoryId);
                         categorySet.put(mCategoryId, category);
                     }
-                    float protein = Constants.PROTEIN_FOR_POTATO * (100 / mPotatoWeight);
-                    Product product = new Product(mUuid, category, mName, mUnit, protein);
+                    Product product = new Product(mUuid, category, mName, mUnit, mProtein);
                     items.add(product);
                 } else {
                     NLog.e("Invalid row %d", row + 1);
