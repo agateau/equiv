@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.UUID;
 
 /**
  * Load a ProductList from a CSV file
@@ -19,7 +20,7 @@ public class ProductListCsvIO {
         final HashMap<String, ProductCategory> categorySet = new HashMap<>();
         CsvStreamReader.Listener listener = new CsvStreamReader.Listener() {
             boolean mValid = false;
-            String mUuid;
+            UUID mUuid;
             String mCategoryId;
             String mName;
             Product.Unit mUnit;
@@ -27,7 +28,7 @@ public class ProductListCsvIO {
             @Override
             public void onCell(int row, int column, String value) {
                 if (column == 0) {
-                    mUuid = value;
+                    mUuid = UUID.fromString(value);
                 } else if (column == 1) {
                     mCategoryId = value;
                 } else if (column == 2) {

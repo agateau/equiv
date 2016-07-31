@@ -3,12 +3,13 @@ package com.agateau.equiv.core;
 import java.text.CollationKey;
 import java.text.Collator;
 import java.text.ParseException;
+import java.util.UUID;
 
 /**
  * A product from the ProductList
  */
 public class Product {
-    private final String mUuid;
+    private final UUID mUuid;
     private final String mName;
     private final Unit mUnit;
     private final float mProteins;
@@ -34,7 +35,7 @@ public class Product {
         }
     }
 
-    public Product(String uuid, ProductCategory category, String name, Unit unit, float proteins) {
+    public Product(UUID uuid, ProductCategory category, String name, Unit unit, float proteins) {
         mUuid = uuid;
         mCategory = category;
         mName = name;
@@ -43,7 +44,7 @@ public class Product {
         mCollationKey = Collator.getInstance().getCollationKey(mName);
     }
 
-    public String getUuid() {
+    public UUID getUuid() {
         return mUuid;
     }
 
