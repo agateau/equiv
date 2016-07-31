@@ -80,7 +80,7 @@ class ProductListAdapter extends ArrayAdapter<Product> {
         WeightFormatter formatter = mKernel.getWeightFormater();
 
         float equiv;
-        String equivUnit = product.getUnit();
+        Product.Unit equivUnit = product.getUnit();
         int ref;
         if (mKernel.getProteinUnit() == ProteinWeightUnit.POTATO) {
             equiv = 100 / (proteins / Constants.PROTEIN_FOR_POTATO);
@@ -92,7 +92,7 @@ class ProductListAdapter extends ArrayAdapter<Product> {
 
         String equivText = String.format("%s%s = %d%s",
                 FormatUtils.naturalRound(equiv),
-                equivUnit,
+                equivUnit.toString(),
                 ref,
                 formatter.getUnitString(WeightFormatter.UnitFormat.FULL));
         vh.equivTextView.setText(equivText);
