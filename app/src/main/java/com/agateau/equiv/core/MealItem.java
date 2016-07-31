@@ -29,7 +29,7 @@ public class MealItem {
     }
 
     public String toString() {
-        String unit = mProduct.getUnit();
+        Product.Unit unit = mProduct.getUnit();
         return String.format("%s (%s%s)", mProduct.getName(), FormatUtils.naturalRound(mQuantity), unit);
     }
 }

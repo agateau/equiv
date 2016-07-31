@@ -5,6 +5,7 @@ import com.agateau.utils.log.NLog;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -21,7 +22,7 @@ public class ProductListCsvIO {
             String mUuid;
             String mCategoryId;
             String mName;
-            String mUnit;
+            Product.Unit mUnit;
             float mProtein;
             @Override
             public void onCell(int row, int column, String value) {
@@ -34,10 +35,15 @@ public class ProductListCsvIO {
                 } else if (column == 3) {
                     mProtein = Float.parseFloat(value);
                 } else if (column == 4) {
-                    mUnit = value;
-                    mValid = true;
+                    try {
+                        mUnit = Product.Unit.fromString(value);
+                        mValid = true;
+                    } catch (ParseException exc) {
+                        NLog.e("Row %d: invalid unit %s", row + 1, value);
+                        mValid = false;
+                    }
                 } else {
-                    NLog.e("Row %d: unexpected column %d", row +1, column + 1);
+                    NLog.e("Row %d: unexpected column %d", row + 1, column + 1);
                     mValid = false;
                 }
             }

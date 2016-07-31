@@ -333,7 +333,7 @@ public class MealItemDetailActivity extends AppCompatActivity {
         mProductNameView.setText(mProduct.getName());
 
         mQuantityEdit.setText("");
-        String unit = mProduct.getUnit();
+        String unit = mProduct.getUnit().toString();
         mQuantityUnitView.setText(unit);
 
         unit = mKernel.getWeightFormater().getUnitString(WeightFormatter.UnitFormat.FULL);
