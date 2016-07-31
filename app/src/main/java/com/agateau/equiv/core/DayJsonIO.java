@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.util.UUID;
 
 /**
  * Knows how to serialize/deserialize a Day object to/from JSON
@@ -68,7 +69,7 @@ public class DayJsonIO {
         writer.beginArray();
         for (MealItem mealItem : meal.getItems()) {
             writer.beginObject();
-            writer.name("productUuid").value(mealItem.getProduct().getUuid());
+            writer.name("productUuid").value(mealItem.getProduct().getUuid().toString());
             writer.name("quantity").value(mealItem.getQuantity());
             writer.endObject();
         }
@@ -97,7 +98,7 @@ public class DayJsonIO {
         for (int i = 0; i < mealItemsJs.length(); ++i) {
             JSONObject mealItemJs = mealItemsJs.getJSONObject(i);
 
-            String uuid = mealItemJs.getString("productUuid");
+            UUID uuid = UUID.fromString(mealItemJs.getString("productUuid"));
             Product product = productList.findByUuid(uuid);
             if (product == null) {
                 NLog.e("No product with uuid " + uuid);

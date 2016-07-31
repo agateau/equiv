@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 /**
  * Contains all available products
@@ -60,7 +61,7 @@ public class ProductList {
         mFavoriteItems = new ArrayList<>(items.size());
     }
 
-    public Product findByUuid(String uuid) {
+    public Product findByUuid(UUID uuid) {
         for (Product product : mItems) {
             if (product.getUuid().equals(uuid)) {
                 return product;
@@ -78,15 +79,15 @@ public class ProductList {
         return null;
     }
 
-    public Set<String> getFavoriteUuids() {
-        Set<String> set = new HashSet<>();
+    public Set<UUID> getFavoriteUuids() {
+        Set<UUID> set = new HashSet<>();
         for (Product product : mFavoriteItemSet) {
             set.add(product.getUuid());
         }
         return set;
     }
 
-    public void setFavoriteUuids(Set<String> favoriteUuids) {
+    public void setFavoriteUuids(Set<UUID> favoriteUuids) {
         mFavoriteItemSet.clear();
         for (Product product : mItems) {
             if (favoriteUuids.contains(product.getUuid())) {
