@@ -21,7 +21,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 /**
  * Holds all the data
@@ -168,16 +170,24 @@ public class Kernel {
     }
 
     private void readFavorites(SharedPreferences prefs) {
-        Set<String> favorites = prefs.getStringSet("favorites", null);
-        if (favorites == null) {
+        Set<String> stringSet = prefs.getStringSet("favorites", null);
+        if (stringSet == null) {
             return;
+        }
+        Set<UUID> favorites = new HashSet<>();
+        for (String str : stringSet) {
+            favorites.add(UUID.fromString(str));
         }
         mProductList.setFavoriteUuids(favorites);
     }
 
     public void writeFavorites(Context context) {
-        Set<String> favorites = mProductList.getFavoriteUuids();
+        Set<UUID> favorites = mProductList.getFavoriteUuids();
+        Set<String> stringSet = new HashSet<>();
+        for (UUID uuid : favorites) {
+            stringSet.add(uuid.toString());
+        }
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        prefs.edit().putStringSet("favorites", favorites).apply();
+        prefs.edit().putStringSet("favorites", stringSet).apply();
     }
 }
