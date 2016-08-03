@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 
 import com.agateau.equiv.R;
@@ -108,7 +109,10 @@ public class CustomProductFragment extends DialogFragment {
         edit = (EditText) view.findViewById(R.id.product_proteins);
         float proteins = Float.valueOf(edit.getText().toString());
 
-        Product product = new Product(category, name, "g", proteins);
+        RadioButton button = (RadioButton) view.findViewById(R.id.radio_unit_per_100g);
+        Product.Unit unit = button.isChecked() ? Product.Unit.GRAM : Product.Unit.PORTION;
+
+        Product product = new Product(category, name, unit, proteins);
 
         ProductList productList = Kernel.getExistingInstance().getProductList();
         productList.add(product);
