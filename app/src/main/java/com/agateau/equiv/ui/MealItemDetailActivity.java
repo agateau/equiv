@@ -34,6 +34,7 @@ import com.agateau.equiv.core.ProteinWeightUnit;
 import com.agateau.utils.ui.ActionBarViewTabBuilder;
 
 import java.util.Locale;
+import java.util.UUID;
 
 
 public class MealItemDetailActivity extends AppCompatActivity {
@@ -188,7 +189,7 @@ public class MealItemDetailActivity extends AppCompatActivity {
         super.onRestoreInstanceState(bundle);
         String productUuid = bundle.getString("productUuid", "");
         if (!TextUtils.equals(productUuid, "")) {
-            Product product = mProductList.findByUuid(productUuid);
+            Product product = mProductList.findByUuid(UUID.fromString(productUuid));
             onSelectProduct(product);
             mQuantityEquivEdit.setText(bundle.getString("quantityEquiv"));
         }
@@ -198,7 +199,7 @@ public class MealItemDetailActivity extends AppCompatActivity {
     public void onSaveInstanceState(Bundle bundle) {
         super.onSaveInstanceState(bundle);
         if (mProduct != null) {
-            bundle.putString("productUuid", mProduct.getUuid());
+            bundle.putString("productUuid", mProduct.getUuid().toString());
             bundle.putString("quantityEquiv", mQuantityEquivEdit.getText().toString());
         }
         mKernel.writeFavorites(this);
@@ -333,7 +334,7 @@ public class MealItemDetailActivity extends AppCompatActivity {
         mProductNameView.setText(mProduct.getName());
 
         mQuantityEdit.setText("");
-        String unit = mProduct.getUnit();
+        String unit = mProduct.getUnit().toString();
         mQuantityUnitView.setText(unit);
 
         unit = mKernel.getWeightFormater().getUnitString(WeightFormatter.UnitFormat.FULL);

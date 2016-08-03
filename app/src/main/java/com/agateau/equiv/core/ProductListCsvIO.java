@@ -5,8 +5,10 @@ import com.agateau.utils.log.NLog;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.UUID;
 
 /**
  * Load a ProductList from a CSV file
@@ -18,26 +20,31 @@ public class ProductListCsvIO {
         final HashMap<String, ProductCategory> categorySet = new HashMap<>();
         CsvStreamReader.Listener listener = new CsvStreamReader.Listener() {
             boolean mValid = false;
-            String mUuid;
+            UUID mUuid;
             String mCategoryId;
             String mName;
-            String mUnit;
-            float mPotatoWeight;
+            Product.Unit mUnit;
+            float mProtein;
             @Override
             public void onCell(int row, int column, String value) {
                 if (column == 0) {
-                    mUuid = value;
+                    mUuid = UUID.fromString(value);
                 } else if (column == 1) {
                     mCategoryId = value;
                 } else if (column == 2) {
                     mName = value;
                 } else if (column == 3) {
-                    mPotatoWeight = Float.parseFloat(value);
+                    mProtein = Float.parseFloat(value);
                 } else if (column == 4) {
-                    mUnit = value;
-                    mValid = true;
+                    try {
+                        mUnit = Product.Unit.fromString(value);
+                        mValid = true;
+                    } catch (ParseException exc) {
+                        NLog.e("Row %d: invalid unit %s", row + 1, value);
+                        mValid = false;
+                    }
                 } else {
-                    NLog.e("Row %d: unexpected column %d", row +1, column + 1);
+                    NLog.e("Row %d: unexpected column %d", row + 1, column + 1);
                     mValid = false;
                 }
             }
@@ -54,8 +61,7 @@ public class ProductListCsvIO {
                         category = new ProductCategory(mCategoryId);
                         categorySet.put(mCategoryId, category);
                     }
-                    float protein = Constants.PROTEIN_FOR_POTATO * (100 / mPotatoWeight);
-                    Product product = new Product(mUuid, category, mName, mUnit, protein);
+                    Product product = new Product(mUuid, category, mName, mUnit, mProtein);
                     items.add(product);
                 } else {
                     NLog.e("Invalid row %d", row + 1);
