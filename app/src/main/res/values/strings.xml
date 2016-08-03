@@ -54,4 +54,7 @@
     <string name="product_category">Category</string>
     <string name="product_name">Name</string>
     <string name="product_proteins">Proteins</string>
+    <string name="product_unit">Unit</string>
+    <string name="unit_per_u">Per unit</string>
+    <string name="unit_per_100g">Per 100g</string>
 </resources>
