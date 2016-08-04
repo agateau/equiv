@@ -121,6 +121,5 @@ public class CustomProductFragment extends DialogFragment {
 
         ProductList productList = Kernel.getExistingInstance().getProductList();
         productList.add(product);
-        productList.sort();
     }
 }

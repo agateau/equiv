@@ -98,12 +98,17 @@ public class MealItemDetailActivity extends AppCompatActivity implements CustomP
 
         mFullListAdapter = new ProductListAdapter(this, mKernel, mProductList.getItems());
         mFavoritesListAdapter = new ProductListAdapter(this, mKernel, mProductList.getFavoriteItems());
-        mProductList.setFavoriteChangedListener(new ProductList.FavoriteChangedListener() {
+        mProductList.setProductListChangedListener(new ProductList.ProductListChangedListener() {
             @Override
             public void onFavoriteChanged() {
                 mFavoritesListAdapter.notifyDataSetChanged();
 
                 // Notify mFullListAdapter as well because it must update the state of its checkboxes
+                mFullListAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onItemListChanged() {
                 mFullListAdapter.notifyDataSetChanged();
             }
         });

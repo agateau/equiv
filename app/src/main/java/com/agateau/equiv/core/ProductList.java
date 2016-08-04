@@ -1,6 +1,7 @@
 package com.agateau.equiv.core;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -18,7 +19,7 @@ public class ProductList {
     private final ArrayList<Product> mFavoriteItems = new ArrayList<>();
     private final Set<Product> mFavoriteItemSet = new HashSet<>();
     private final Map<String, ProductCategory> mCategoryMap = new HashMap<>();
-    private FavoriteChangedListener mFavoriteChangedListener;
+    private ProductListChangedListener mProductListChangedListener;
 
     private Comparator<Product> mComparator = new Comparator<Product>() {
         @Override
@@ -31,8 +32,9 @@ public class ProductList {
         }
     };
 
-    public interface FavoriteChangedListener {
+    public interface ProductListChangedListener {
         void onFavoriteChanged();
+        void onItemListChanged();
     }
 
     public ArrayList<Product> getItems() {
@@ -50,8 +52,8 @@ public class ProductList {
             mFavoriteItemSet.remove(product);
         }
         updateFavoriteItemList();
-        if (mFavoriteChangedListener != null) {
-            mFavoriteChangedListener.onFavoriteChanged();
+        if (mProductListChangedListener != null) {
+            mProductListChangedListener.onFavoriteChanged();
         }
     }
 
@@ -61,10 +63,12 @@ public class ProductList {
 
     public void add(Product product) {
         mItems.add(product);
+        finishAdd();
     }
 
-    public void sort() {
-        Collections.sort(mItems, mComparator);
+    public void addAll(Collection<Product> products) {
+        mItems.addAll(products);
+        finishAdd();
     }
 
     public Product findByUuid(UUID uuid) {
@@ -117,13 +121,20 @@ public class ProductList {
         updateFavoriteItemList();
     }
 
-    public void setFavoriteChangedListener(FavoriteChangedListener favoriteChangedListener) {
-        mFavoriteChangedListener = favoriteChangedListener;
+    public void setProductListChangedListener(ProductListChangedListener productListChangedListener) {
+        mProductListChangedListener = productListChangedListener;
     }
 
     private void updateFavoriteItemList() {
         mFavoriteItems.clear();
         mFavoriteItems.addAll(mFavoriteItemSet);
         Collections.sort(mFavoriteItems, mComparator);
+    }
+
+    private void finishAdd() {
+        Collections.sort(mItems, mComparator);
+        if (mProductListChangedListener != null) {
+            mProductListChangedListener.onItemListChanged();
+        }
     }
 }
