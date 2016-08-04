@@ -112,6 +112,11 @@ public class CustomProductFragment extends DialogFragment {
         RadioButton button = (RadioButton) view.findViewById(R.id.radio_unit_per_100g);
         Product.Unit unit = button.isChecked() ? Product.Unit.GRAM : Product.Unit.PORTION;
 
+        if (unit == Product.Unit.GRAM) {
+            // User entered proteins per 100g but we store proteins per 1g
+            proteins /= 100;
+        }
+
         Product product = new Product(category, name, unit, proteins);
 
         ProductList productList = Kernel.getExistingInstance().getProductList();
