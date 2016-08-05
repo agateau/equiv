@@ -1,21 +1,21 @@
 package com.agateau.equiv.core;
 
 import com.agateau.utils.CsvStreamReader;
+import com.agateau.utils.CsvStreamWriter;
 import com.agateau.utils.log.NLog;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.UUID;
 
 /**
  * Load a ProductList from a CSV file
  */
 public class ProductListCsvIO {
-    public static ProductList read(InputStream in) throws IOException {
-        final ProductList productList = new ProductList();
+    public static void read(InputStream in, final ProductList productList) throws IOException {
         final ArrayList<Product> products = new ArrayList<>();
         CsvStreamReader.Listener listener = new CsvStreamReader.Listener() {
             boolean mValid = false;
@@ -70,6 +70,17 @@ public class ProductListCsvIO {
         CsvStreamReader reader = new CsvStreamReader(in, listener);
         reader.read();
         productList.addAll(products);
-        return productList;
+    }
+
+    public static void write(FileOutputStream out, ArrayList<Product> products) throws IOException {
+        CsvStreamWriter writer = new CsvStreamWriter(out);
+        for (Product product : products) {
+            writer.writeCell(product.getUuid().toString());
+            writer.writeCell(product.getCategory().toString());
+            writer.writeCell(product.getName());
+            writer.writeCell(Float.toString(product.getProteins()));
+            writer.writeCell(product.getUnit().toString());
+            writer.endRow();
+        }
     }
 }

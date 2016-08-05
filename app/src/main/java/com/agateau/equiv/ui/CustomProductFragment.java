@@ -122,5 +122,6 @@ public class CustomProductFragment extends DialogFragment {
 
         ProductList productList = Kernel.getExistingInstance().getProductList();
         productList.add(product);
+        Kernel.getExistingInstance().saveCustomProductList(getActivity());
     }
 }

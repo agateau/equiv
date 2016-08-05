@@ -21,6 +21,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -30,6 +31,7 @@ import java.util.UUID;
  */
 public class Kernel {
     private static final String DAY_JSON = "day.json";
+    private static final String CUSTOM_PRODUCTS_CSV = "custom-products.csv";
 
     private static Kernel sInstance = null;
 
@@ -127,15 +129,28 @@ public class Kernel {
 
     private void loadProductList(Context context) {
         InputStream stream;
+        mProductList = new ProductList();
         try {
             stream = context.getAssets().open("products.csv");
         } catch (IOException e) {
             throw new RuntimeException("Failed to open products.csv.", e);
         }
         try {
-            mProductList = ProductListCsvIO.read(stream);
+            ProductListCsvIO.read(stream, mProductList);
         } catch (IOException e) {
             throw new RuntimeException("Failed to read products.csv.", e);
+        }
+
+        try {
+            stream = context.openFileInput(CUSTOM_PRODUCTS_CSV);
+        } catch (FileNotFoundException e) {
+            return;
+        }
+        try {
+            ProductListCsvIO.read(stream, mProductList);
+        } catch (IOException e) {
+            // Do not throw an exception here, the app is still usable even if we failed to load custom products
+            NLog.e("Failed to read custom products from %s: %s.", CUSTOM_PRODUCTS_CSV, e);
         }
     }
 
@@ -163,6 +178,24 @@ public class Kernel {
             maxProtein = maxPerDay;
         }
         mConsumer.setMaxProteinPerDay(maxProtein);
+    }
+
+    public void saveCustomProductList(Context context) {
+        NLog.i("");
+        FileOutputStream stream;
+        try {
+            stream = context.openFileOutput(CUSTOM_PRODUCTS_CSV, Context.MODE_PRIVATE);
+        } catch (FileNotFoundException e) {
+            NLog.e("Failed to open %s for writing: %s", CUSTOM_PRODUCTS_CSV, e);
+            return;
+        }
+        try {
+            ProductListCsvIO.write(stream, mProductList.getCustomItems());
+            stream.flush();
+            stream.close();
+        } catch (IOException e) {
+            NLog.e("Failed to save custom productsto %s: %s", CUSTOM_PRODUCTS_CSV, e);
+        }
     }
 
     public ProteinWeightUnit getProteinUnit() {
