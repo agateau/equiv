@@ -15,6 +15,7 @@ public class Product {
     private final float mProteins;
     private final ProductCategory mCategory;
     private final CollationKey mCollationKey;
+    private boolean mIsCustom = false;
 
     public enum Unit {
         GRAM,
@@ -69,6 +70,14 @@ public class Product {
 
     public Unit getUnit() {
         return mUnit;
+    }
+
+    public boolean isCustom() {
+        return mIsCustom;
+    }
+
+    public void setCustom(boolean custom) {
+        mIsCustom = custom;
     }
 
     public float getProteins() {

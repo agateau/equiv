@@ -32,6 +32,16 @@ public class ProductList {
         }
     };
 
+    public ArrayList<Product> getCustomItems() {
+        ArrayList<Product> list = new ArrayList<>();
+        for (Product item : mItems) {
+            if (item.isCustom()) {
+                list.add(item);
+            }
+        }
+        return list;
+    }
+
     public interface ProductListChangedListener {
         void onFavoriteChanged();
         void onItemListChanged();
