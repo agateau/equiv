@@ -118,6 +118,7 @@ public class CustomProductFragment extends DialogFragment {
         }
 
         Product product = new Product(category, name, unit, proteins);
+        product.setCustom(true);
 
         ProductList productList = Kernel.getExistingInstance().getProductList();
         productList.add(product);
