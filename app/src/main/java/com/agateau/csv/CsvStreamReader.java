@@ -1,4 +1,4 @@
-package com.agateau.utils;
+package com.agateau.csv;
 
 import java.io.BufferedReader;
 import java.io.IOException;

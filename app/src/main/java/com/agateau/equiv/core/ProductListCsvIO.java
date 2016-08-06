@@ -1,7 +1,7 @@
 package com.agateau.equiv.core;
 
-import com.agateau.utils.CsvStreamReader;
-import com.agateau.utils.CsvStreamWriter;
+import com.agateau.csv.CsvStreamReader;
+import com.agateau.csv.CsvStreamWriter;
 import com.agateau.utils.log.NLog;
 
 import java.io.FileOutputStream;
