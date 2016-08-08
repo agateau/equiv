@@ -46,7 +46,7 @@
     <string name="add_meal_item_tab_all">Tous</string>
     <string name="add_meal_item_tab_favorites">Favoris</string>
     <string name="action_search">Rechercher</string>
-    <string name="action_add_custom">Nouveau</string>
+    <string name="action_add_custom">Ajouter un nouveau produit</string>
 
     <string name="product_category">Catégorie</string>
     <string name="product_name">Nom</string>
