@@ -1,8 +1,6 @@
 package com.agateau.equiv.ui;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +14,6 @@ import com.agateau.equiv.R;
 import com.agateau.equiv.core.Constants;
 import com.agateau.equiv.core.FormatUtils;
 import com.agateau.equiv.core.Product;
-import com.agateau.equiv.core.ProductCategory;
 import com.agateau.equiv.core.ProteinWeightUnit;
 
 import java.util.ArrayList;
@@ -68,10 +65,10 @@ class ProductListAdapter extends ArrayAdapter<Product> {
 
         Product product = getItem(position);
 
-        // categoryImageView
-        vh.categoryImageView.setImageDrawable(getDrawableForCategory(product.getCategory()));
+        // imageView
+        vh.categoryImageView.setImageDrawable(ProductCategoryUtils.getDrawableForCategory(mContext, product.getCategory()));
 
-        // mainTextView
+        // textView
         vh.mainTextView.setText(product.getName());
 
         // equivTextView
@@ -107,11 +104,4 @@ class ProductListAdapter extends ArrayAdapter<Product> {
         return view;
     }
 
-    private Drawable getDrawableForCategory(ProductCategory category) {
-        Resources resources = mContext.getResources();
-        String name = "categories_";
-        name = name.concat(category.getCategoryId());
-        int id = resources.getIdentifier(name, "drawable", mContext.getPackageName());
-        return resources.getDrawable(id);
-    }
 }
