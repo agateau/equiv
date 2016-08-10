@@ -57,4 +57,13 @@
     <string name="product_unit">Unit</string>
     <string name="unit_per_u">Per unit</string>
     <string name="unit_per_100g">Per 100g</string>
+
+    <string name="categories_baking_mixes">Baking mixes</string>
+    <string name="categories_cereals">Cereals</string>
+    <string name="categories_chocolates">Chocolates</string>
+    <string name="categories_dairy_products">Dairy products</string>
+    <string name="categories_meat_fish_eggs">Meat / fish / eggs</string>
+    <string name="categories_pastries">Pastries</string>
+    <string name="categories_salted_biscuits">Salted biscuits</string>
+    <string name="categories_starch">Starch</string>
 </resources>
