@@ -17,4 +17,12 @@ public class ProductCategoryUtils {
         int id = resources.getIdentifier(name, "drawable", context.getPackageName());
         return resources.getDrawable(id);
     }
+
+    public static String getTextForCategory(Context context, ProductCategory category) {
+        Resources resources = context.getResources();
+        String name = "categories_";
+        name = name.concat(category.getCategoryId());
+        int id = resources.getIdentifier(name, "string", context.getPackageName());
+        return resources.getString(id);
+    }
 }

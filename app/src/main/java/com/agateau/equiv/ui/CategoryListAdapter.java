@@ -46,7 +46,7 @@ public class CategoryListAdapter extends ArrayAdapter<ProductCategory> {
         vh.imageView.setImageDrawable(ProductCategoryUtils.getDrawableForCategory(getContext(), category));
 
         // textView
-        vh.textView.setText(category.toString());
+        vh.textView.setText(ProductCategoryUtils.getTextForCategory(getContext(), category));
 
         return view;
     }
