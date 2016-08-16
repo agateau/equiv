@@ -47,8 +47,6 @@ def main():
         with open(output_name, 'w') as f:
             skipped_rows = set(args.skip_row)
             skipped_columns = set(args.skip_column)
-            print(skipped_rows)
-            print(skipped_columns)
             write_csv(f, sheet, skipped_rows=skipped_rows, skipped_columns=skipped_columns)
 
     return 0
