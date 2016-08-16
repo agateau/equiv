@@ -6,7 +6,7 @@ import sys
 import pyexcel_ods3
 
 DESCRIPTION = """\
-Turns a .osd file into a set of .csv files.
+Turns a .ods file into a set of .csv files.
 """
 
 CELL_SEPARATOR = ';'
