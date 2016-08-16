@@ -25,6 +25,8 @@
     <string name="about_author">Par Aurélien Gâteau</string>
     <string name="max_potato_per_day_title">Pommes de terre maximum par jour</string>
     <string name="title_activity_about">À propos d\'Equiv</string>
+    <string name="title_activity_custom_product">Ajouter un nouveau produit</string>
+
     <string name="about_description">Equiv vous aide à suivre votre consommation journalière de protéines.\n
 
     \nCette application a été conçue pour aider les personnes atteintes de
@@ -55,12 +57,12 @@
     <string name="unit_per_u">Par unité</string>
     <string name="unit_per_100g">Pour 100g</string>
 
-    <string name="categories_baking_mixes"></string>
-    <string name="categories_cereals"></string>
-    <string name="categories_chocolates"></string>
-    <string name="categories_dairy_products"></string>
-    <string name="categories_meat_fish_eggs"></string>
-    <string name="categories_pastries"></string>
-    <string name="categories_salted_biscuits"></string>
-    <string name="categories_starch"></string>
+    <string name="categories_baking_mixes">Biscuits</string>
+    <string name="categories_cereals">Céréales</string>
+    <string name="categories_chocolates">Chocolats</string>
+    <string name="categories_dairy_products">Produits laitiers</string>
+    <string name="categories_meat_fish_eggs">Viande / Poisson / Oeufs</string>
+    <string name="categories_pastries">Pâtisseries</string>
+    <string name="categories_salted_biscuits">Biscuits salés</string>
+    <string name="categories_starch">Amidon</string>
 </resources>

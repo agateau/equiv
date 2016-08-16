@@ -1,7 +1,5 @@
 package com.agateau.equiv.ui;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -33,14 +31,13 @@ import com.agateau.equiv.core.MealItem;
 import com.agateau.equiv.core.Product;
 import com.agateau.equiv.core.ProductList;
 import com.agateau.equiv.core.ProteinWeightUnit;
-import com.agateau.utils.log.NLog;
 import com.agateau.utils.ui.ActionBarViewTabBuilder;
 
 import java.util.Locale;
 import java.util.UUID;
 
 
-public class MealItemDetailActivity extends AppCompatActivity implements CustomProductFragment.CustomProductListener {
+public class MealItemDetailActivity extends AppCompatActivity {
     public static final String EXTRA_MEAL_TAG = "com.agateau.equiv.MEAL_TAG";
     public static final String EXTRA_MEAL_ITEM_POSITION = "com.agateau.equiv.MEAL_ITEM_POSITION";
 
@@ -84,12 +81,20 @@ public class MealItemDetailActivity extends AppCompatActivity implements CustomP
         mKernel = Kernel.getInstance(this);
         mProductList = mKernel.getProductList();
 
-        String mealTag = getIntent().getStringExtra(EXTRA_MEAL_TAG);
-        mMeal = mKernel.getDay().getMealByTag(mealTag);
-        mMealItemPosition = getIntent().getIntExtra(EXTRA_MEAL_ITEM_POSITION, -1);
+        String mealTag = null;
+        if (savedInstanceState != null) {
+            mealTag = savedInstanceState.getString("meal");
+        }
+        if (TextUtils.isEmpty(mealTag)) {
+            mealTag = getIntent().getStringExtra(EXTRA_MEAL_TAG);
+        }
+        if (!TextUtils.isEmpty(mealTag)) {
+            mMeal = mKernel.getDay().getMealByTag(mealTag);
+            mMealItemPosition = getIntent().getIntExtra(EXTRA_MEAL_ITEM_POSITION, -1);
 
-        setupTabs();
-        setupMealEditor();
+            setupTabs();
+            setupMealEditor();
+        }
     }
 
     private void setupTabs() {
@@ -205,12 +210,13 @@ public class MealItemDetailActivity extends AppCompatActivity implements CustomP
 
     @Override
     public void onSaveInstanceState(Bundle bundle) {
-        super.onSaveInstanceState(bundle);
+        bundle.putString("meal", mMeal.getTag());
         if (mProduct != null) {
             bundle.putString("productUuid", mProduct.getUuid().toString());
             bundle.putString("quantityEquiv", mQuantityEquivEdit.getText().toString());
         }
         mKernel.writeFavorites(this);
+        super.onSaveInstanceState(bundle);
     }
 
     @Override
@@ -274,22 +280,7 @@ public class MealItemDetailActivity extends AppCompatActivity implements CustomP
     }
 
     private void showCustomProductDialog() {
-        FragmentManager fragmentManager = getFragmentManager();
-        CustomProductFragment newFragment = new CustomProductFragment();
-
-        if (true) {
-            // The device is using a large layout, so show the fragment as a dialog
-            newFragment.show(fragmentManager, "dialog");
-        } else {
-            // The device is smaller, so show the fragment fullscreen
-            FragmentTransaction transaction = fragmentManager.beginTransaction();
-            // For a little polish, specify a transition animation
-            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-            // To make it fullscreen, use the 'content' root view as the container
-            // for the fragment, which is always the root view for the activity
-            transaction.add(android.R.id.content, newFragment)
-                    .addToBackStack(null).commit();
-        }
+        CustomProductActivity.startActivity(this);
     }
 
     private void save() {
@@ -369,10 +360,5 @@ public class MealItemDetailActivity extends AppCompatActivity implements CustomP
 
         unit = mKernel.getWeightFormater().getUnitString(WeightFormatter.UnitFormat.FULL);
         mQuantityEquivUnitView.setText(unit);
-    }
-
-    @Override
-    public void onProductModified(String productUuid) {
-        NLog.d("productUuid=%s", productUuid);
     }
 }
