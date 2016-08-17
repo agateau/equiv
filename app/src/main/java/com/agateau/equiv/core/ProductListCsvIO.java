@@ -15,60 +15,35 @@ import java.util.UUID;
  * Load a ProductList from a CSV file
  */
 public class ProductListCsvIO {
-    public static void read(InputStream in, final ProductList productList) throws IOException {
-        final ArrayList<Product> products = new ArrayList<>();
-        CsvStreamReader.Listener listener = new CsvStreamReader.Listener() {
-            boolean mValid = false;
-            UUID mUuid;
-            String mCategoryId;
-            String mName;
-            Product.Unit mUnit;
-            float mProtein;
-            @Override
-            public void onCell(int row, int column, String value) {
-                if (column == 0) {
-                    mUuid = UUID.fromString(value);
-                } else if (column == 1) {
-                    mCategoryId = value;
-                } else if (column == 2) {
-                    mName = value;
-                } else if (column == 3) {
-                    mProtein = Float.parseFloat(value);
-                } else if (column == 4) {
-                    try {
-                        mUnit = Product.Unit.fromString(value);
-                        mValid = true;
-                    } catch (ParseException exc) {
-                        NLog.e("Row %d: invalid unit %s", row + 1, value);
-                        mValid = false;
-                    }
-                } else {
-                    NLog.e("Row %d: unexpected column %d", row + 1, column + 1);
-                    mValid = false;
-                }
-            }
-            @Override
-            public void onStartRow(int row) {
-                mValid = false;
+    public static void read(InputStream in, ProductList productList) throws IOException {
+        CsvStreamReader reader = new CsvStreamReader(in);
+        ArrayList<Product> products = new ArrayList<>();
+
+        while (!reader.atDocumentEnd()) {
+            UUID uuid = UUID.fromString(reader.readCell());
+            String categoryId = reader.readCell();
+            String name = reader.readCell();
+            float protein = reader.readFloatCell();
+            String value = reader.readCell();
+
+            Product.Unit unit;
+            try {
+                unit = Product.Unit.fromString(value);
+            } catch (ParseException exc) {
+                NLog.e("Row %d: invalid unit %s", reader.getRow() + 1, value);
+                return;
             }
 
-            @Override
-            public void onEndRow(int row) {
-                if (mValid) {
-                    ProductCategory category = productList.findCategory(mCategoryId);
-                    if (category == null) {
-                        category = new ProductCategory(mCategoryId);
-                        productList.addCategory(category);
-                    }
-                    Product product = new Product(mUuid, category, mName, mUnit, mProtein);
-                    products.add(product);
-                } else {
-                    NLog.e("Invalid row %d", row + 1);
-                }
+            ProductCategory category = productList.findCategory(categoryId);
+            if (category == null) {
+                category = new ProductCategory(categoryId);
+                productList.addCategory(category);
             }
-        };
-        CsvStreamReader reader = new CsvStreamReader(in, listener);
-        reader.read();
+            Product product = new Product(uuid, category, name, unit, protein);
+            products.add(product);
+            reader.readNextRow();
+        }
+
         productList.addAll(products);
     }
 

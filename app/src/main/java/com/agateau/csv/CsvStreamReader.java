@@ -9,45 +9,73 @@ import java.io.InputStreamReader;
  * Stream through a Csv file
  */
 public class CsvStreamReader {
-    private final InputStream mStream;
-    private final Listener mListener;
     private static final char CELL_SEPARATOR = ';';
 
-    public interface Listener {
-        void onCell(int row, int column, String value);
-        void onStartRow(int row);
-        void onEndRow(int row);
+    private final BufferedReader mReader;
+
+    private int mRow = 0;
+    private int mColumn = 0;
+    private String mCurrentLine;
+    // Current position inside mCurrentLine
+    private int mIdx = 0;
+
+    public CsvStreamReader(InputStream in) throws IOException {
+        mReader = new BufferedReader(new InputStreamReader(in, "UTF-8"));
+        readLine();
     }
 
-    public CsvStreamReader(InputStream in, Listener listener) {
-        mStream = in;
-        mListener = listener;
+    public boolean atDocumentEnd() {
+        return mCurrentLine == null;
     }
 
-    public void read() throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(mStream, "UTF-8"));
-        int row = 0;
-        while (true) {
-            String line = reader.readLine();
-            if (line == null) {
+    public boolean atRowEnd() {
+        return mIdx == mCurrentLine.length();
+    }
+
+    public void readNextRow() throws IOException {
+        readLine();
+        ++mRow;
+    }
+
+    public String readCell() {
+        int start = mIdx;
+        int end = -1;
+        while (mIdx < mCurrentLine.length()) {
+            if (mCurrentLine.charAt(mIdx) == CELL_SEPARATOR) {
+                end = mIdx;
+                ++mColumn;
+                ++mIdx; // Move to skip the separator
                 break;
+            } else {
+                ++mIdx;
             }
-            mListener.onStartRow(row);
-            int start = 0;
-            int idx = 0;
-            int col = 0;
-            while (idx < line.length()) {
-                if (line.charAt(idx) == CELL_SEPARATOR) {
-                    mListener.onCell(row, col, line.substring(start, idx));
-                    start = idx + 1;
-                    ++col;
-                }
-                ++idx;
-            }
-            // Emit last cell (which does not end with CELL_SEPARATOR)
-            mListener.onCell(row, col, line.substring(start, idx));
-            mListener.onEndRow(row);
-            ++row;
         }
+        if (end == -1) {
+            end = mIdx;
+        }
+        return mCurrentLine.substring(start, end);
+    }
+
+    public float readFloatCell() {
+        return Float.parseFloat(readCell());
+    }
+
+    public int readIntCell() {
+        // Go through readFloatCell so that 1.0 can be read as 1
+        return (int) readFloatCell();
+    }
+
+    public int getRow() {
+        return mRow;
+    }
+
+    public int getColumn() {
+        return mColumn;
+    }
+
+    private void readLine() throws IOException {
+        mCurrentLine = mReader.readLine();
+        mIdx = 0;
+        mColumn = 0;
     }
 }
