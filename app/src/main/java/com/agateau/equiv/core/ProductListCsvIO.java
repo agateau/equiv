@@ -20,8 +20,10 @@ public class ProductListCsvIO {
 
     public static void read(InputStream in, ProductList productList) throws IOException {
         CsvStreamReader reader = new CsvStreamReader(in);
+        if (!reader.loadNextRow()) {
+            throw new RuntimeException( "csv is empty");
+        }
         int version = reader.readIntCell();
-        reader.readNextRow();
 
         if (version == 1) {
             readV1(reader, productList);
@@ -33,7 +35,7 @@ public class ProductListCsvIO {
     private static void readV1(CsvStreamReader reader, ProductList productList) throws IOException {
         ArrayList<Product> products = new ArrayList<>();
 
-        while (!reader.atDocumentEnd()) {
+        while (reader.loadNextRow()) {
             UUID uuid = UUID.fromString(reader.readCell());
             String categoryId = reader.readCell();
             String name = reader.readCell();
@@ -55,7 +57,6 @@ public class ProductListCsvIO {
             }
             Product product = new Product(uuid, category, name, unit, protein);
             products.add(product);
-            reader.readNextRow();
         }
 
         productList.addAll(products);

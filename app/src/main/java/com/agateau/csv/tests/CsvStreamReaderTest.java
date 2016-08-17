@@ -17,8 +17,7 @@ public class CsvStreamReaderTest {
         String bla = "a;bc;;def\n";
         InputStream in = new ByteArrayInputStream(bla.getBytes());
         CsvStreamReader reader = new CsvStreamReader(in);
-
-        assertThat(reader.atDocumentEnd(), is(false));
+        assertThat(reader.loadNextRow(), is(true));
 
         String c1 = reader.readCell();
         String c2 = reader.readCell();
@@ -30,8 +29,7 @@ public class CsvStreamReaderTest {
         assertThat(c3, is(""));
         assertThat(c4, is("def"));
 
-        reader.readNextRow();
-        assertThat(reader.atDocumentEnd(), is(true));
+        assertThat(reader.loadNextRow(), is(false));
     }
 
     @Test
@@ -39,6 +37,8 @@ public class CsvStreamReaderTest {
         String bla = "a;bc\nd;ef\n";
         InputStream in = new ByteArrayInputStream(bla.getBytes());
         CsvStreamReader reader = new CsvStreamReader(in);
+        assertThat(reader.loadNextRow(), is(true));
+
         assertThat(reader.getRow(), is(0));
 
         assertThat(reader.readCell(), is("a"));
@@ -47,7 +47,7 @@ public class CsvStreamReaderTest {
         assertThat(reader.readCell(), is("bc"));
         assertThat(reader.atRowEnd(), is(true));
 
-        reader.readNextRow();
+        assertThat(reader.loadNextRow(), is(true));
         assertThat(reader.getRow(), is(1));
 
         assertThat(reader.readCell(), is("d"));
@@ -55,6 +55,8 @@ public class CsvStreamReaderTest {
 
         assertThat(reader.readCell(), is("ef"));
         assertThat(reader.atRowEnd(), is(true));
+
+        assertThat(reader.loadNextRow(), is(false));
     }
 
     @Test
@@ -62,6 +64,7 @@ public class CsvStreamReaderTest {
         String bla = "0;1.0;-2\n";
         InputStream in = new ByteArrayInputStream(bla.getBytes());
         CsvStreamReader reader = new CsvStreamReader(in);
+        assertThat(reader.loadNextRow(), is(true));
 
         assertThat(reader.readIntCell(), is(0));
         assertThat(reader.readIntCell(), is(1));
@@ -73,6 +76,7 @@ public class CsvStreamReaderTest {
         String bla = "0.1;10;-3.14\n";
         InputStream in = new ByteArrayInputStream(bla.getBytes());
         CsvStreamReader reader = new CsvStreamReader(in);
+        assertThat(reader.loadNextRow(), is(true));
 
         assertThat(reader.readFloatCell(), is(0.1f));
         assertThat(reader.readFloatCell(), is(10f));

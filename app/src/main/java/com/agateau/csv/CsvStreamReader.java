@@ -13,7 +13,7 @@ public class CsvStreamReader {
 
     private final BufferedReader mReader;
 
-    private int mRow = 0;
+    private int mRow = -1;
     private int mColumn = 0;
     private String mCurrentLine;
     // Current position inside mCurrentLine
@@ -21,20 +21,23 @@ public class CsvStreamReader {
 
     public CsvStreamReader(InputStream in) throws IOException {
         mReader = new BufferedReader(new InputStreamReader(in, "UTF-8"));
-        readLine();
-    }
-
-    public boolean atDocumentEnd() {
-        return mCurrentLine == null;
     }
 
     public boolean atRowEnd() {
         return mIdx == mCurrentLine.length();
     }
 
-    public void readNextRow() throws IOException {
-        readLine();
+    /**
+     * Loads the next row, returns true on success
+     * @return True if there was a row to read
+     * @throws IOException
+     */
+    public boolean loadNextRow() throws IOException {
+        mCurrentLine = mReader.readLine();
+        mIdx = 0;
+        mColumn = 0;
         ++mRow;
+        return mCurrentLine != null;
     }
 
     public String readCell() {
@@ -71,11 +74,5 @@ public class CsvStreamReader {
 
     public int getColumn() {
         return mColumn;
-    }
-
-    private void readLine() throws IOException {
-        mCurrentLine = mReader.readLine();
-        mIdx = 0;
-        mColumn = 0;
     }
 }
