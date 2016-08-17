@@ -26,6 +26,14 @@ public class CsvStreamWriter {
         mOut.write(value.getBytes());
     }
 
+    public void writeCell(int value) throws IOException {
+        writeCell(Integer.toString(value));
+    }
+
+    public void writeCell(float value) throws IOException {
+        writeCell(Float.toString(value));
+    }
+
     public void endRow() throws IOException {
         mOut.write("\n".getBytes());
         mFirstCell = true;

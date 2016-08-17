@@ -17,11 +17,12 @@ public class CsvStreamWriterTest {
         OutputStream out = new ByteArrayOutputStream();
         CsvStreamWriter writer = new CsvStreamWriter(out);
         writer.writeCell("a");
-        writer.writeCell("b");
+        writer.writeCell(1);
+        writer.writeCell(1.2f);
         writer.endRow();
         out.close();
 
         String str = out.toString();
-        assertThat(str, is("a;b\n"));
+        assertThat(str, is("a;1;1.2\n"));
     }
 }
