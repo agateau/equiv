@@ -9,14 +9,28 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.UUID;
 
 /**
  * Load a ProductList from a CSV file
  */
 public class ProductListCsvIO {
+    private static final int VERSION = 1;
+
     public static void read(InputStream in, ProductList productList) throws IOException {
         CsvStreamReader reader = new CsvStreamReader(in);
+        int version = reader.readIntCell();
+        reader.readNextRow();
+
+        if (version == 1) {
+            readV1(reader, productList);
+        } else {
+            throw new RuntimeException(String.format(Locale.getDefault(), "Don't know how to read product csv version %d", version));
+        }
+    }
+
+    private static void readV1(CsvStreamReader reader, ProductList productList) throws IOException {
         ArrayList<Product> products = new ArrayList<>();
 
         while (!reader.atDocumentEnd()) {
@@ -49,6 +63,8 @@ public class ProductListCsvIO {
 
     public static void write(FileOutputStream out, ArrayList<Product> products) throws IOException {
         CsvStreamWriter writer = new CsvStreamWriter(out);
+        writer.writeCell(VERSION);
+        writer.endRow();
         for (Product product : products) {
             writer.writeCell(product.getUuid().toString());
             writer.writeCell(product.getCategory().toString());
