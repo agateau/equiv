@@ -53,7 +53,7 @@ public class ProductListCsvIO {
             writer.writeCell(product.getUuid().toString());
             writer.writeCell(product.getCategory().toString());
             writer.writeCell(product.getName());
-            writer.writeCell(Float.toString(product.getProteins()));
+            writer.writeCell(product.getProteins());
             writer.writeCell(product.getUnit().toString());
             writer.endRow();
         }
