@@ -73,12 +73,16 @@ public class ProductList {
 
     public void add(Product product) {
         mItems.add(product);
-        finishAdd();
+        onItemListChanged();
     }
 
     public void addAll(Collection<Product> products) {
         mItems.addAll(products);
-        finishAdd();
+        onItemListChanged();
+    }
+
+    public void handleProductUpdate(Product product) {
+        onItemListChanged();
     }
 
     public Product findByUuid(UUID uuid) {
@@ -141,7 +145,7 @@ public class ProductList {
         Collections.sort(mFavoriteItems, mComparator);
     }
 
-    private void finishAdd() {
+    private void onItemListChanged() {
         Collections.sort(mItems, mComparator);
         if (mProductListChangedListener != null) {
             mProductListChangedListener.onItemListChanged();
