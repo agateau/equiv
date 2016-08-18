@@ -61,6 +61,10 @@ public class CustomProductActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.custom_product_activity_actions, menu);
+        if (mProduct == null) {
+            MenuItem removeMenuItem = menu.findItem(R.id.action_remove);
+            removeMenuItem.setVisible(false);
+        }
         return super.onCreateOptionsMenu(menu);
     }
 
