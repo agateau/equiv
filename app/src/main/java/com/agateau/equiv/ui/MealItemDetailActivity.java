@@ -23,6 +23,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.agateau.equiv.R;
 import com.agateau.equiv.core.Constants;
@@ -130,6 +131,27 @@ public class MealItemDetailActivity extends AppCompatActivity {
         };
         fullListView.setOnItemClickListener(listener);
         favoriteListView.setOnItemClickListener(listener);
+
+        AdapterView.OnItemLongClickListener longClickListener = new AdapterView.OnItemLongClickListener() {
+
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Product product = (Product) parent.getItemAtPosition(position);
+                if (product.isCustom()) {
+                    editCustomProduct(product);
+                } else {
+                    Toast toast = Toast.makeText(MealItemDetailActivity.this, R.string.cannot_edit_default_product, Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+                return true;
+            }
+        };
+
+        fullListView.setLongClickable(true);
+        favoriteListView.setLongClickable(true);
+
+        fullListView.setOnItemLongClickListener(longClickListener);
+        favoriteListView.setOnItemLongClickListener(longClickListener);
 
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -261,7 +283,7 @@ public class MealItemDetailActivity extends AppCompatActivity {
             onSearchRequested();
             return true;
         } else if (id == R.id.action_add_custom) {
-            showCustomProductDialog();
+            addCustomProduct();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -279,7 +301,11 @@ public class MealItemDetailActivity extends AppCompatActivity {
         updateMenuItems();
     }
 
-    private void showCustomProductDialog() {
+    private void editCustomProduct(Product product) {
+        CustomProductActivity.startActivityWithProduct(this, product);
+    }
+
+    private void addCustomProduct() {
         CustomProductActivity.startActivity(this);
     }
 
