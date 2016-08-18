@@ -27,7 +27,8 @@
     <string name="protein_weight_unit_title">Reference unit</string>
     <string name="action_about">About</string>
     <string name="title_activity_about">About Equiv</string>
-    <string name="title_activity_custom_product">Add custom product</string>
+    <string name="title_activity_add_custom_product">Add custom product</string>
+    <string name="title_activity_edit_custom_product">Edit custom product</string>
 
     <string name="about_description">Track your protein consumption during the day.\n
 
