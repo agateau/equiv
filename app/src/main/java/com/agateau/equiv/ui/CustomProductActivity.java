@@ -115,6 +115,7 @@ public class CustomProductActivity extends AppCompatActivity {
     }
 
     private void initUiFromProduct() {
+        getSupportActionBar().setTitle(R.string.title_activity_edit_custom_product);
         assert mProduct != null;
 
         Spinner spinner = (Spinner) findViewById(R.id.product_category);

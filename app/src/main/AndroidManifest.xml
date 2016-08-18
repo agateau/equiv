@@ -42,7 +42,7 @@
         </activity>
         <activity
             android:name=".ui.CustomProductActivity"
-            android:label="@string/title_activity_custom_product"
+            android:label="@string/title_activity_add_custom_product"
             android:parentActivityName=".ui.MealItemDetailActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

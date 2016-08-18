@@ -25,7 +25,8 @@
     <string name="about_author">Par Aurélien Gâteau</string>
     <string name="max_potato_per_day_title">Pommes de terre maximum par jour</string>
     <string name="title_activity_about">À propos d\'Equiv</string>
-    <string name="title_activity_custom_product">Ajouter un nouveau produit</string>
+    <string name="title_activity_add_custom_product">Ajouter un nouveau produit</string>
+    <string name="title_activity_edit_custom_product">Modifier un produit</string>
 
     <string name="about_description">Equiv vous aide à suivre votre consommation journalière de protéines.\n
 
