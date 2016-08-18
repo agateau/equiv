@@ -136,7 +136,7 @@ public class Kernel {
             throw new RuntimeException("Failed to open products.csv.", e);
         }
         try {
-            ProductListCsvIO.read(stream, mProductList);
+            ProductListCsvIO.read(stream, mProductList, ProductListCsvIO.ProductSource.DEFAULT);
         } catch (IOException e) {
             throw new RuntimeException("Failed to read products.csv.", e);
         }
@@ -147,7 +147,7 @@ public class Kernel {
             return;
         }
         try {
-            ProductListCsvIO.read(stream, mProductList);
+            ProductListCsvIO.read(stream, mProductList, ProductListCsvIO.ProductSource.CUSTOM);
         } catch (IOException e) {
             // Do not throw an exception here, the app is still usable even if we failed to load custom products
             NLog.e("Failed to read custom products from %s: %s.", CUSTOM_PRODUCTS_CSV, e);
