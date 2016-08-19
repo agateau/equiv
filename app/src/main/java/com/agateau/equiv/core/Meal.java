@@ -63,6 +63,15 @@ public class Meal {
         return mItems.isEmpty();
     }
 
+    public boolean containsProduct(Product product) {
+        for(MealItem item : mItems) {
+            if (item.getProduct() == product) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void registerListener(Listener listener) {
         mListeners.add(listener);
     }

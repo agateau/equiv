@@ -81,6 +81,13 @@ public class ProductList {
         onItemListChanged();
     }
 
+    public void remove(Product product) {
+        mItems.remove(product);
+        mFavoriteItemSet.remove(product);
+        updateFavoriteItemList();
+        onItemListChanged();
+    }
+
     public void handleProductUpdate(Product product) {
         onItemListChanged();
     }
