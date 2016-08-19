@@ -64,8 +64,8 @@ public class CustomProductActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.custom_product_activity_actions, menu);
         if (mProduct == null) {
-            MenuItem removeMenuItem = menu.findItem(R.id.action_remove);
-            removeMenuItem.setVisible(false);
+            MenuItem deleteMenuItem = menu.findItem(R.id.action_delete);
+            deleteMenuItem.setVisible(false);
         }
         return super.onCreateOptionsMenu(menu);
     }
@@ -76,10 +76,8 @@ public class CustomProductActivity extends AppCompatActivity {
             finish();
             return true;
         }
-        if (item.getItemId() == R.id.action_remove) {
-            if (removeProduct()) {
-                finish();
-            }
+        if (item.getItemId() == R.id.action_delete) {
+            deleteProduct();
             return true;
         }
         if (item.getItemId() == R.id.action_save) {
@@ -149,7 +147,7 @@ public class CustomProductActivity extends AppCompatActivity {
         button.setChecked(true);
     }
 
-    private boolean removeProduct() {
+    private void deleteProduct() {
         assert mProduct != null;
         Kernel kernel = Kernel.getExistingInstance();
 
