@@ -19,6 +19,7 @@
     <string name="add_meal_item_tab_favorites">Favorites</string>
     <string name="action_remove">Remove</string>
     <string name="action_delete">Delete</string>
+    <string name="dialog_delete_product_in_use">This product is in use in your meals. Deleting it is going to remove it from these meals. Remove it neverless?</string>
     <string name="title_activity_settings">Settings</string>
     <string name="max_protein_per_day_title">Max protein per day</string>
     <string name="weight_unit">g</string>

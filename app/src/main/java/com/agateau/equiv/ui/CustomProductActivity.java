@@ -1,8 +1,10 @@
 package com.agateau.equiv.ui;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -11,7 +13,6 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.agateau.equiv.R;
 import com.agateau.equiv.core.Day;
@@ -153,12 +154,27 @@ public class CustomProductActivity extends AppCompatActivity {
 
         Day day = kernel.getDay();
         if (day.containsProduct(mProduct)) {
-            Toast toast = Toast.makeText(this, "Product in use", Toast.LENGTH_SHORT);
-            toast.show();
-            return false;
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage(getString(R.string.dialog_delete_product_in_use))
+                .setPositiveButton(R.string.action_delete, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    doDeleteProduct();
+                }
+            })
+                .setNegativeButton(android.R.string.cancel, null)
+                .setCancelable(true)
+                .show();
+        } else {
+            doDeleteProduct();
         }
+    }
+
+    private void doDeleteProduct() {
+        Kernel kernel = Kernel.getExistingInstance();
+        kernel.getDay().removeProduct(mProduct);
         kernel.getProductList().remove(mProduct);
         kernel.saveCustomProductList(this);
-        return true;
+        finish();
     }
 }

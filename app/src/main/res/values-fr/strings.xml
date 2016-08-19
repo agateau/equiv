@@ -16,6 +16,7 @@
     <string name="edit_meal_item_title">Modifier un produit</string>
     <string name="action_remove">Retirer</string>
     <string name="action_delete">Supprimer</string>
+    <string name="dialog_delete_product_in_use">Ce produit est utilisé dans des repas. Le supprimer le retirera de ces repas. Voulez-vous vraiment le supprimer ?</string>
     <string name="title_activity_settings">Réglages</string>
     <string name="max_protein_per_day_title">Protéines maximum par jour</string>
     <string name="potato_weight_unit">g PDT</string>

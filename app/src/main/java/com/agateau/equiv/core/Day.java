@@ -59,4 +59,10 @@ public class Day {
         }
         return false;
     }
+
+    public void removeProduct(Product product) {
+        for (Meal meal: mMeals) {
+            meal.removeProduct(product);
+        }
+    }
 }
