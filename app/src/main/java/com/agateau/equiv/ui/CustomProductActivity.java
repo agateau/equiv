@@ -11,8 +11,10 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.agateau.equiv.R;
+import com.agateau.equiv.core.Day;
 import com.agateau.equiv.core.FormatUtils;
 import com.agateau.equiv.core.Product;
 import com.agateau.equiv.core.ProductCategory;
@@ -72,6 +74,12 @@ public class CustomProductActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             finish();
+            return true;
+        }
+        if (item.getItemId() == R.id.action_remove) {
+            if (removeProduct()) {
+                finish();
+            }
             return true;
         }
         if (item.getItemId() == R.id.action_save) {
@@ -139,5 +147,20 @@ public class CustomProductActivity extends AppCompatActivity {
         int radioButtonId = mProduct.getUnit() == Product.Unit.GRAM ? R.id.radio_unit_per_100g : R.id.radio_unit_per_u;
         RadioButton button = (RadioButton) findViewById(radioButtonId);
         button.setChecked(true);
+    }
+
+    private boolean removeProduct() {
+        assert mProduct != null;
+        Kernel kernel = Kernel.getExistingInstance();
+
+        Day day = kernel.getDay();
+        if (day.containsProduct(mProduct)) {
+            Toast toast = Toast.makeText(this, "Product in use", Toast.LENGTH_SHORT);
+            toast.show();
+            return false;
+        }
+        kernel.getProductList().remove(mProduct);
+        kernel.saveCustomProductList(this);
+        return true;
     }
 }

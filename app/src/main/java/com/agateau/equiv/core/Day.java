@@ -50,4 +50,13 @@ public class Day {
         }
         return true;
     }
+
+    public boolean containsProduct(Product product) {
+        for (Meal meal: mMeals) {
+            if (meal.containsProduct(product)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
