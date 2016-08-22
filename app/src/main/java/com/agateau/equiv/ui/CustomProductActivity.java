@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -29,6 +31,7 @@ public class CustomProductActivity extends AppCompatActivity {
 
     private Product mProduct = null;
     private CategoryListAdapter mCategoryListAdapter;
+    private MenuItem mSaveMenuItem = null;
 
     public static void startActivity(Context context) {
         Intent intent = new Intent(context, CustomProductActivity.class);
@@ -53,6 +56,25 @@ public class CustomProductActivity extends AppCompatActivity {
         Spinner spinner = (Spinner) findViewById(R.id.product_category);
         spinner.setAdapter(mCategoryListAdapter);
 
+        TextWatcher updateMenuItemsWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                updateMenuItems();
+            }
+        };
+        EditText editName = (EditText) findViewById(R.id.product_name);
+        EditText editProteins = (EditText) findViewById(R.id.product_proteins);
+        editName.addTextChangedListener(updateMenuItemsWatcher);
+        editProteins.addTextChangedListener(updateMenuItemsWatcher);
+
         String uuid = getIntent().getStringExtra(EXTRA_PRODUCT_UUID);
         if (!TextUtils.isEmpty(uuid)) {
             mProduct = productList.findByUuid(UUID.fromString(uuid));
@@ -68,6 +90,8 @@ public class CustomProductActivity extends AppCompatActivity {
             MenuItem deleteMenuItem = menu.findItem(R.id.action_delete);
             deleteMenuItem.setVisible(false);
         }
+        mSaveMenuItem = menu.findItem(R.id.action_save);
+        updateMenuItems();
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -86,6 +110,7 @@ public class CustomProductActivity extends AppCompatActivity {
             finish();
             return true;
         }
+        updateMenuItems();
         return super.onOptionsItemSelected(item);
     }
 
@@ -176,5 +201,17 @@ public class CustomProductActivity extends AppCompatActivity {
         kernel.getProductList().remove(mProduct);
         kernel.saveCustomProductList(this);
         finish();
+    }
+
+    private void updateMenuItems() {
+        if (mSaveMenuItem == null) {
+            return;
+        }
+        EditText editName = (EditText) findViewById(R.id.product_name);
+        EditText editProteins = (EditText) findViewById(R.id.product_proteins);
+        mSaveMenuItem.setEnabled(
+                !TextUtils.isEmpty(editName.getText())
+                && !TextUtils.isEmpty(editProteins.getText())
+        );
     }
 }
