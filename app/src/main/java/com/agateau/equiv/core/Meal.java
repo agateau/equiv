@@ -46,6 +46,20 @@ public class Meal {
         notifyChanged();
     }
 
+    public void removeProduct(Product product) {
+        boolean changed = false;
+        for (int idx = mItems.size() - 1; idx >= 0; --idx) {
+            MealItem item = mItems.get(idx);
+            if (item.getProduct() == product) {
+                changed = true;
+                mItems.remove(idx);
+            }
+        }
+        if (changed) {
+            notifyChanged();
+        }
+    }
+
     public float getProteinWeight() {
         float weight = 0;
         for(MealItem item : mItems) {
@@ -61,6 +75,15 @@ public class Meal {
 
     public boolean isEmpty() {
         return mItems.isEmpty();
+    }
+
+    public boolean containsProduct(Product product) {
+        for(MealItem item : mItems) {
+            if (item.getProduct() == product) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void registerListener(Listener listener) {

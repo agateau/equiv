@@ -10,11 +10,12 @@ import java.util.UUID;
  */
 public class Product {
     private final UUID mUuid;
-    private final String mName;
-    private final Unit mUnit;
-    private final float mProteins;
-    private final ProductCategory mCategory;
-    private final CollationKey mCollationKey;
+    private String mName;
+    private Unit mUnit;
+    private float mProteins;
+    private ProductCategory mCategory;
+    private CollationKey mCollationKey;
+    private boolean mIsCustom = false;
 
     public enum Unit {
         GRAM,
@@ -35,13 +36,19 @@ public class Product {
         }
     }
 
+    /**
+     * Create a new product with a random id
+     */
+    public Product(ProductCategory category, String name, Unit unit, float proteins) {
+        this(UUID.randomUUID(), category, name, unit, proteins);
+    }
+
     public Product(UUID uuid, ProductCategory category, String name, Unit unit, float proteins) {
         mUuid = uuid;
         mCategory = category;
-        mName = name;
+        setName(name);
         mUnit = unit;
         mProteins = proteins;
-        mCollationKey = Collator.getInstance().getCollationKey(mName);
     }
 
     public UUID getUuid() {
@@ -52,8 +59,17 @@ public class Product {
         return mCategory;
     }
 
+    public void setCategory(ProductCategory category) {
+        mCategory = category;
+    }
+
     public String getName() {
         return mName;
+    }
+
+    public void setName(String name) {
+        mName = name;
+        mCollationKey = Collator.getInstance().getCollationKey(mName);
     }
 
     public CollationKey getCollationKey() {
@@ -64,8 +80,24 @@ public class Product {
         return mUnit;
     }
 
+    public void setUnit(Unit unit) {
+        mUnit = unit;
+    }
+
+    public boolean isCustom() {
+        return mIsCustom;
+    }
+
+    public void setCustom(boolean custom) {
+        mIsCustom = custom;
+    }
+
     public float getProteins() {
         return mProteins;
+    }
+
+    public void setProteins(float proteins) {
+        mProteins = proteins;
     }
 
     public String toString() {

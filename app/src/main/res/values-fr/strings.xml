@@ -14,7 +14,9 @@
     <string name="start_new_day_button">Effacer tout</string>
     <string name="action_save">Enregis.</string>
     <string name="edit_meal_item_title">Modifier un produit</string>
-    <string name="action_remove">Suppr.</string>
+    <string name="action_remove">Retirer</string>
+    <string name="action_delete">Supprimer</string>
+    <string name="dialog_delete_product_in_use">Ce produit est utilisé dans des repas. Le supprimer le retirera de ces repas. Voulez-vous vraiment le supprimer ?</string>
     <string name="title_activity_settings">Réglages</string>
     <string name="max_protein_per_day_title">Protéines maximum par jour</string>
     <string name="potato_weight_unit">g PDT</string>
@@ -25,6 +27,9 @@
     <string name="about_author">Par Aurélien Gâteau</string>
     <string name="max_potato_per_day_title">Pommes de terre maximum par jour</string>
     <string name="title_activity_about">À propos d\'Equiv</string>
+    <string name="title_activity_add_custom_product">Ajouter un nouveau produit</string>
+    <string name="title_activity_edit_custom_product">Modifier un produit</string>
+
     <string name="about_description">Equiv vous aide à suivre votre consommation journalière de protéines.\n
 
     \nCette application a été conçue pour aider les personnes atteintes de
@@ -46,7 +51,22 @@
     <string name="add_meal_item_tab_all">Tous</string>
     <string name="add_meal_item_tab_favorites">Favoris</string>
     <string name="action_search">Rechercher</string>
-    <!--
-    \n<a href="{rate_url}">Noter Equiv sur Google Play</a>\n
-    -->
+    <string name="action_add_custom">Ajouter un nouveau produit</string>
+
+    <string name="product_category">Catégorie</string>
+    <string name="product_name">Nom</string>
+    <string name="product_proteins">Protéines</string>
+    <string name="product_unit">Unité</string>
+    <string name="unit_per_u">Par unité</string>
+    <string name="unit_per_100g">Pour 100g</string>
+    <string name="cannot_edit_default_product">Impossible d\'éditer un produit par défaut</string>
+
+    <string name="categories_baking_mixes">Biscuits</string>
+    <string name="categories_cereals">Céréales</string>
+    <string name="categories_chocolates">Chocolats</string>
+    <string name="categories_dairy_products">Produits laitiers</string>
+    <string name="categories_meat_fish_eggs">Viande / Poisson / Oeufs</string>
+    <string name="categories_pastries">Pâtisseries</string>
+    <string name="categories_salted_biscuits">Biscuits salés</string>
+    <string name="categories_starch">Amidon</string>
 </resources>
