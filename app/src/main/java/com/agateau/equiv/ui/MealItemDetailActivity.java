@@ -23,6 +23,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.agateau.equiv.R;
 import com.agateau.equiv.core.Constants;
@@ -81,12 +82,20 @@ public class MealItemDetailActivity extends AppCompatActivity {
         mKernel = Kernel.getInstance(this);
         mProductList = mKernel.getProductList();
 
-        String mealTag = getIntent().getStringExtra(EXTRA_MEAL_TAG);
-        mMeal = mKernel.getDay().getMealByTag(mealTag);
-        mMealItemPosition = getIntent().getIntExtra(EXTRA_MEAL_ITEM_POSITION, -1);
+        String mealTag = null;
+        if (savedInstanceState != null) {
+            mealTag = savedInstanceState.getString("meal");
+        }
+        if (TextUtils.isEmpty(mealTag)) {
+            mealTag = getIntent().getStringExtra(EXTRA_MEAL_TAG);
+        }
+        if (!TextUtils.isEmpty(mealTag)) {
+            mMeal = mKernel.getDay().getMealByTag(mealTag);
+            mMealItemPosition = getIntent().getIntExtra(EXTRA_MEAL_ITEM_POSITION, -1);
 
-        setupTabs();
-        setupMealEditor();
+            setupTabs();
+            setupMealEditor();
+        }
     }
 
     private void setupTabs() {
@@ -95,12 +104,17 @@ public class MealItemDetailActivity extends AppCompatActivity {
 
         mFullListAdapter = new ProductListAdapter(this, mKernel, mProductList.getItems());
         mFavoritesListAdapter = new ProductListAdapter(this, mKernel, mProductList.getFavoriteItems());
-        mProductList.setFavoriteChangedListener(new ProductList.FavoriteChangedListener() {
+        mProductList.setProductListChangedListener(new ProductList.ProductListChangedListener() {
             @Override
             public void onFavoriteChanged() {
                 mFavoritesListAdapter.notifyDataSetChanged();
 
                 // Notify mFullListAdapter as well because it must update the state of its checkboxes
+                mFullListAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onItemListChanged() {
                 mFullListAdapter.notifyDataSetChanged();
             }
         });
@@ -117,6 +131,27 @@ public class MealItemDetailActivity extends AppCompatActivity {
         };
         fullListView.setOnItemClickListener(listener);
         favoriteListView.setOnItemClickListener(listener);
+
+        AdapterView.OnItemLongClickListener longClickListener = new AdapterView.OnItemLongClickListener() {
+
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Product product = (Product) parent.getItemAtPosition(position);
+                if (product.isCustom()) {
+                    editCustomProduct(product);
+                } else {
+                    Toast toast = Toast.makeText(MealItemDetailActivity.this, R.string.cannot_edit_default_product, Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+                return true;
+            }
+        };
+
+        fullListView.setLongClickable(true);
+        favoriteListView.setLongClickable(true);
+
+        fullListView.setOnItemLongClickListener(longClickListener);
+        favoriteListView.setOnItemLongClickListener(longClickListener);
 
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -197,12 +232,13 @@ public class MealItemDetailActivity extends AppCompatActivity {
 
     @Override
     public void onSaveInstanceState(Bundle bundle) {
-        super.onSaveInstanceState(bundle);
+        bundle.putString("meal", mMeal.getTag());
         if (mProduct != null) {
             bundle.putString("productUuid", mProduct.getUuid().toString());
             bundle.putString("quantityEquiv", mQuantityEquivEdit.getText().toString());
         }
         mKernel.writeFavorites(this);
+        super.onSaveInstanceState(bundle);
     }
 
     @Override
@@ -246,6 +282,9 @@ public class MealItemDetailActivity extends AppCompatActivity {
         } else if (id == R.id.action_search) {
             onSearchRequested();
             return true;
+        } else if (id == R.id.action_add_custom) {
+            addCustomProduct();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -260,6 +299,14 @@ public class MealItemDetailActivity extends AppCompatActivity {
         mProduct = product;
         updateDetailsLayout();
         updateMenuItems();
+    }
+
+    private void editCustomProduct(Product product) {
+        CustomProductActivity.startActivityWithProduct(this, product);
+    }
+
+    private void addCustomProduct() {
+        CustomProductActivity.startActivity(this);
     }
 
     private void save() {

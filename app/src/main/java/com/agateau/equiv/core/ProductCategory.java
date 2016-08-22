@@ -13,4 +13,8 @@ public class ProductCategory {
     public String getCategoryId() {
         return mCategoryId;
     }
+
+    public String toString() {
+        return mCategoryId;
+    }
 }
