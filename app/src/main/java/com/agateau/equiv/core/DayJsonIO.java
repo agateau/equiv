@@ -43,9 +43,9 @@ import java.util.UUID;
  * }
  */
 public class DayJsonIO {
-    public static void read(InputStream stream, Day day, ProductList productList) throws IOException, JSONException {
+    public static void read(InputStream stream, Day day, ProductStore productStore) throws IOException, JSONException {
         String string = FileUtils.readUtf8(stream);
-        fromString(string, day, productList);
+        fromString(string, day, productStore);
     }
 
     public static void write(OutputStream stream, Day day) throws IOException {
@@ -78,7 +78,7 @@ public class DayJsonIO {
     }
 
 
-    public static void fromString(String string, Day day, ProductList productList) throws JSONException {
+    public static void fromString(String string, Day day, ProductStore productStore) throws JSONException {
         day.clear();
         JSONObject obj = new JSONObject(string);
 
@@ -90,16 +90,16 @@ public class DayJsonIO {
         for (int i = 0; i < mealsJs.length(); ++i) {
             JSONArray mealItemsJs = mealsJs.getJSONObject(i).getJSONArray("items");
             Meal meal = day.getMeals().get(i);
-            initMeal(mealItemsJs, meal, productList);
+            initMeal(mealItemsJs, meal, productStore);
         }
     }
 
-    private static void initMeal(JSONArray mealItemsJs, Meal meal, ProductList productList) throws JSONException {
+    private static void initMeal(JSONArray mealItemsJs, Meal meal, ProductStore productStore) throws JSONException {
         for (int i = 0; i < mealItemsJs.length(); ++i) {
             JSONObject mealItemJs = mealItemsJs.getJSONObject(i);
 
             UUID uuid = UUID.fromString(mealItemJs.getString("productUuid"));
-            Product product = productList.findByUuid(uuid);
+            Product product = productStore.findByUuid(uuid);
             if (product == null) {
                 NLog.e("No product with uuid " + uuid);
                 continue;

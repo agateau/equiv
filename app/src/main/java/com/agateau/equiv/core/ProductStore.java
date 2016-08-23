@@ -14,12 +14,12 @@ import java.util.UUID;
 /**
  * Contains all available products
  */
-public class ProductList {
+public class ProductStore {
     private final ArrayList<Product> mItems = new ArrayList<>();
     private final ArrayList<Product> mFavoriteItems = new ArrayList<>();
     private final Set<Product> mFavoriteItemSet = new HashSet<>();
     private final Map<String, ProductCategory> mCategoryMap = new HashMap<>();
-    private ProductListChangedListener mProductListChangedListener;
+    private OnProductStoreChangedListener mOnProductStoreChangedListener;
 
     private Comparator<Product> mComparator = new Comparator<Product>() {
         @Override
@@ -42,7 +42,7 @@ public class ProductList {
         return list;
     }
 
-    public interface ProductListChangedListener {
+    public interface OnProductStoreChangedListener {
         void onFavoriteChanged();
         void onItemListChanged();
     }
@@ -62,8 +62,8 @@ public class ProductList {
             mFavoriteItemSet.remove(product);
         }
         updateFavoriteItemList();
-        if (mProductListChangedListener != null) {
-            mProductListChangedListener.onFavoriteChanged();
+        if (mOnProductStoreChangedListener != null) {
+            mOnProductStoreChangedListener.onFavoriteChanged();
         }
     }
 
@@ -142,8 +142,8 @@ public class ProductList {
         updateFavoriteItemList();
     }
 
-    public void setProductListChangedListener(ProductListChangedListener productListChangedListener) {
-        mProductListChangedListener = productListChangedListener;
+    public void setOnProductStoreChangedListener(OnProductStoreChangedListener onProductStoreChangedListener) {
+        mOnProductStoreChangedListener = onProductStoreChangedListener;
     }
 
     private void updateFavoriteItemList() {
@@ -154,8 +154,8 @@ public class ProductList {
 
     private void onItemListChanged() {
         Collections.sort(mItems, mComparator);
-        if (mProductListChangedListener != null) {
-            mProductListChangedListener.onItemListChanged();
+        if (mOnProductStoreChangedListener != null) {
+            mOnProductStoreChangedListener.onItemListChanged();
         }
     }
 }

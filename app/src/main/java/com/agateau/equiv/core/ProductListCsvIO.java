@@ -13,7 +13,7 @@ import java.util.Locale;
 import java.util.UUID;
 
 /**
- * Load a ProductList from a CSV file
+ * Load a ProductStore from a CSV file
  */
 public class ProductListCsvIO {
     private static final int VERSION = 1;
@@ -23,7 +23,7 @@ public class ProductListCsvIO {
         CUSTOM
     }
 
-    public static void read(InputStream in, ProductList productList, ProductSource source) throws IOException {
+    public static void read(InputStream in, ProductStore productStore, ProductSource source) throws IOException {
         CsvStreamReader reader = new CsvStreamReader(in);
         if (!reader.loadNextRow()) {
             throw new RuntimeException( "csv is empty");
@@ -31,13 +31,13 @@ public class ProductListCsvIO {
         int version = reader.readIntCell();
 
         if (version == 1) {
-            readV1(reader, productList, source);
+            readV1(reader, productStore, source);
         } else {
             throw new RuntimeException(String.format(Locale.getDefault(), "Don't know how to read product csv version %d", version));
         }
     }
 
-    private static void readV1(CsvStreamReader reader, ProductList productList, ProductSource source) throws IOException {
+    private static void readV1(CsvStreamReader reader, ProductStore productStore, ProductSource source) throws IOException {
         ArrayList<Product> products = new ArrayList<>();
 
         while (reader.loadNextRow()) {
@@ -55,10 +55,10 @@ public class ProductListCsvIO {
                 return;
             }
 
-            ProductCategory category = productList.findCategory(categoryId);
+            ProductCategory category = productStore.findCategory(categoryId);
             if (category == null) {
                 category = new ProductCategory(categoryId);
-                productList.addCategory(category);
+                productStore.addCategory(category);
             }
             Product product = new Product(uuid, category, name, unit, protein);
             if (source == ProductSource.CUSTOM) {
@@ -67,7 +67,7 @@ public class ProductListCsvIO {
             products.add(product);
         }
 
-        productList.addAll(products);
+        productStore.addAll(products);
     }
 
     public static void write(FileOutputStream out, ArrayList<Product> products) throws IOException {

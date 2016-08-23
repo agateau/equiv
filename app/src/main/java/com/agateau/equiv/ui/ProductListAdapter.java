@@ -36,7 +36,7 @@ class ProductListAdapter extends ArrayAdapter<Product> {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             Product product = (Product) buttonView.getTag();
-            mKernel.getProductList().setFavorite(product, isChecked);
+            mKernel.getProductStore().setFavorite(product, isChecked);
         }
     };
 
@@ -98,7 +98,7 @@ class ProductListAdapter extends ArrayAdapter<Product> {
         // Reset onCheckedChangeListener so that mOnFavoriteCheckedChangeListener is not called
         // when we call setChecked() (can happen when a view is reused)
         vh.favoriteCheckBox.setOnCheckedChangeListener(null);
-        vh.favoriteCheckBox.setChecked(mKernel.getProductList().isFavorite(product));
+        vh.favoriteCheckBox.setChecked(mKernel.getProductStore().isFavorite(product));
         vh.favoriteCheckBox.setOnCheckedChangeListener(mOnFavoriteCheckedChangeListener);
         vh.favoriteCheckBox.setTag(product);
         return view;

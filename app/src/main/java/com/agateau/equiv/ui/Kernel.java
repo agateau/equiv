@@ -9,7 +9,7 @@ import com.agateau.equiv.core.Consumer;
 import com.agateau.equiv.core.Day;
 import com.agateau.equiv.core.DayJsonIO;
 import com.agateau.equiv.core.Meal;
-import com.agateau.equiv.core.ProductList;
+import com.agateau.equiv.core.ProductStore;
 import com.agateau.equiv.core.ProductListCsvIO;
 import com.agateau.equiv.core.ProteinWeightUnit;
 import com.agateau.utils.log.NLog;
@@ -21,7 +21,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -37,7 +36,7 @@ public class Kernel {
 
     private final Consumer mConsumer = new Consumer();
     private final Day mDay = new Day();
-    private ProductList mProductList = null;
+    private ProductStore mProductStore = null;
     private int mCurrentTab = -1;
     private ProteinWeightUnit mProteinUnit = ProteinWeightUnit.POTATO;
     private final WeightFormatter mWeightFormater;
@@ -82,7 +81,7 @@ public class Kernel {
             return;
         }
         try {
-            DayJsonIO.read(stream, mDay, mProductList);
+            DayJsonIO.read(stream, mDay, mProductStore);
             stream.close();
         } catch (IOException | JSONException e) {
             NLog.e("Failed to load day: %s", e);
@@ -115,8 +114,8 @@ public class Kernel {
         return mDay;
     }
 
-    public ProductList getProductList() {
-        return mProductList;
+    public ProductStore getProductStore() {
+        return mProductStore;
     }
 
     public int getCurrentTab() {
@@ -129,14 +128,14 @@ public class Kernel {
 
     private void loadProductList(Context context) {
         InputStream stream;
-        mProductList = new ProductList();
+        mProductStore = new ProductStore();
         try {
             stream = context.getAssets().open("products.csv");
         } catch (IOException e) {
             throw new RuntimeException("Failed to open products.csv.", e);
         }
         try {
-            ProductListCsvIO.read(stream, mProductList, ProductListCsvIO.ProductSource.DEFAULT);
+            ProductListCsvIO.read(stream, mProductStore, ProductListCsvIO.ProductSource.DEFAULT);
         } catch (IOException e) {
             throw new RuntimeException("Failed to read products.csv.", e);
         }
@@ -147,7 +146,7 @@ public class Kernel {
             return;
         }
         try {
-            ProductListCsvIO.read(stream, mProductList, ProductListCsvIO.ProductSource.CUSTOM);
+            ProductListCsvIO.read(stream, mProductStore, ProductListCsvIO.ProductSource.CUSTOM);
         } catch (IOException e) {
             // Do not throw an exception here, the app is still usable even if we failed to load custom products
             NLog.e("Failed to read custom products from %s: %s.", CUSTOM_PRODUCTS_CSV, e);
@@ -190,7 +189,7 @@ public class Kernel {
             return;
         }
         try {
-            ProductListCsvIO.write(stream, mProductList.getCustomItems());
+            ProductListCsvIO.write(stream, mProductStore.getCustomItems());
             stream.flush();
             stream.close();
         } catch (IOException e) {
@@ -211,11 +210,11 @@ public class Kernel {
         for (String str : stringSet) {
             favorites.add(UUID.fromString(str));
         }
-        mProductList.setFavoriteUuids(favorites);
+        mProductStore.setFavoriteUuids(favorites);
     }
 
     public void writeFavorites(Context context) {
-        Set<UUID> favorites = mProductList.getFavoriteUuids();
+        Set<UUID> favorites = mProductStore.getFavoriteUuids();
         Set<String> stringSet = new HashSet<>();
         for (UUID uuid : favorites) {
             stringSet.add(uuid.toString());

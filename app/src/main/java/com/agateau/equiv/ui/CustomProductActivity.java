@@ -21,7 +21,7 @@ import com.agateau.equiv.core.Day;
 import com.agateau.equiv.core.FormatUtils;
 import com.agateau.equiv.core.Product;
 import com.agateau.equiv.core.ProductCategory;
-import com.agateau.equiv.core.ProductList;
+import com.agateau.equiv.core.ProductStore;
 
 import java.util.List;
 import java.util.UUID;
@@ -49,8 +49,8 @@ public class CustomProductActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_custom_product);
 
-        ProductList productList = Kernel.getExistingInstance().getProductList();
-        List<ProductCategory> categoryList = productList.getCategoryList();
+        ProductStore productStore = Kernel.getExistingInstance().getProductStore();
+        List<ProductCategory> categoryList = productStore.getCategoryList();
         mCategoryListAdapter = new CategoryListAdapter(this, categoryList);
 
         Spinner spinner = (Spinner) findViewById(R.id.product_category);
@@ -77,7 +77,7 @@ public class CustomProductActivity extends AppCompatActivity {
 
         String uuid = getIntent().getStringExtra(EXTRA_PRODUCT_UUID);
         if (!TextUtils.isEmpty(uuid)) {
-            mProduct = productList.findByUuid(UUID.fromString(uuid));
+            mProduct = productStore.findByUuid(UUID.fromString(uuid));
             initUiFromProduct();
         }
     }
@@ -132,19 +132,19 @@ public class CustomProductActivity extends AppCompatActivity {
             proteins /= 100;
         }
 
-        ProductList productList = Kernel.getExistingInstance().getProductList();
+        ProductStore productStore = Kernel.getExistingInstance().getProductStore();
         if (mProduct == null) {
             // Add
             mProduct = new Product(category, name, unit, proteins);
             mProduct.setCustom(true);
-            productList.add(mProduct);
+            productStore.add(mProduct);
         } else {
             // Edit
             mProduct.setCategory(category);
             mProduct.setName(name);
             mProduct.setUnit(unit);
             mProduct.setProteins(proteins);
-            productList.handleProductUpdate(mProduct);
+            productStore.handleProductUpdate(mProduct);
         }
 
         Kernel.getExistingInstance().saveCustomProductList(this);
@@ -198,7 +198,7 @@ public class CustomProductActivity extends AppCompatActivity {
     private void doDeleteProduct() {
         Kernel kernel = Kernel.getExistingInstance();
         kernel.getDay().removeProduct(mProduct);
-        kernel.getProductList().remove(mProduct);
+        kernel.getProductStore().remove(mProduct);
         kernel.saveCustomProductList(this);
         finish();
     }
