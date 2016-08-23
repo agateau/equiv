@@ -30,7 +30,7 @@ import com.agateau.equiv.core.Constants;
 import com.agateau.equiv.core.Meal;
 import com.agateau.equiv.core.MealItem;
 import com.agateau.equiv.core.Product;
-import com.agateau.equiv.core.ProductList;
+import com.agateau.equiv.core.ProductStore;
 import com.agateau.equiv.core.ProteinWeightUnit;
 import com.agateau.utils.ui.ActionBarViewTabBuilder;
 
@@ -46,7 +46,7 @@ public class MealItemDetailActivity extends AppCompatActivity {
 
     private Kernel mKernel;
 
-    private ProductList mProductList;
+    private ProductStore mProductStore;
     private ProductListAdapter mFullListAdapter;
     private ProductListAdapter mFavoritesListAdapter;
     private Meal mMeal;
@@ -80,7 +80,7 @@ public class MealItemDetailActivity extends AppCompatActivity {
         setContentView(R.layout.meal_item_detail_activity);
 
         mKernel = Kernel.getInstance(this);
-        mProductList = mKernel.getProductList();
+        mProductStore = mKernel.getProductStore();
 
         String mealTag = null;
         if (savedInstanceState != null) {
@@ -102,9 +102,9 @@ public class MealItemDetailActivity extends AppCompatActivity {
         ListView fullListView = new ListView(this);
         ListView favoriteListView = new ListView(this);
 
-        mFullListAdapter = new ProductListAdapter(this, mKernel, mProductList.getItems());
-        mFavoritesListAdapter = new ProductListAdapter(this, mKernel, mProductList.getFavoriteItems());
-        mProductList.setProductListChangedListener(new ProductList.ProductListChangedListener() {
+        mFullListAdapter = new ProductListAdapter(this, mKernel, mProductStore.getItems());
+        mFavoritesListAdapter = new ProductListAdapter(this, mKernel, mProductStore.getFavoriteItems());
+        mProductStore.setOnProductStoreChangedListener(new ProductStore.OnProductStoreChangedListener() {
             @Override
             public void onFavoriteChanged() {
                 mFavoritesListAdapter.notifyDataSetChanged();
@@ -224,7 +224,7 @@ public class MealItemDetailActivity extends AppCompatActivity {
         super.onRestoreInstanceState(bundle);
         String productUuid = bundle.getString("productUuid", "");
         if (!TextUtils.equals(productUuid, "")) {
-            Product product = mProductList.findByUuid(UUID.fromString(productUuid));
+            Product product = mProductStore.findByUuid(UUID.fromString(productUuid));
             onSelectProduct(product);
             mQuantityEquivEdit.setText(bundle.getString("quantityEquiv"));
         }

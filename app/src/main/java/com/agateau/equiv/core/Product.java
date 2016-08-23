@@ -6,7 +6,7 @@ import java.text.ParseException;
 import java.util.UUID;
 
 /**
- * A product from the ProductList
+ * A product from the ProductStore
  */
 public class Product {
     private final UUID mUuid;
