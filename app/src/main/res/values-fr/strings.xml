@@ -57,8 +57,8 @@
     <string name="product_name">Nom</string>
     <string name="product_proteins">Protéines</string>
     <string name="product_unit">Unité</string>
-    <string name="unit_per_u">Par unité</string>
-    <string name="unit_per_100g">Pour 100g</string>
+    <string name="unit_per_u">g par unité</string>
+    <string name="unit_per_100g">g pour 100g</string>
     <string name="cannot_edit_default_product">Impossible d\'éditer un produit par défaut</string>
 
     <string name="categories_baking_mixes">Biscuits</string>
