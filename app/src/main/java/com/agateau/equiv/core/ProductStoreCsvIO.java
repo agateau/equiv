@@ -13,9 +13,9 @@ import java.util.Locale;
 import java.util.UUID;
 
 /**
- * Load a ProductStore from a CSV file
+ * Load and save product lists to/from CSV files
  */
-public class ProductListCsvIO {
+public class ProductStoreCsvIO {
     private static final int VERSION = 1;
 
     public enum ProductSource {
