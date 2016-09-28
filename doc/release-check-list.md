@@ -26,10 +26,14 @@
     git push
     git push --tags
 
+# Publish beta
+
+- Upload to Google Play
+
 # Publish
 
 - Take screenshots
 
-- Upload on Google Play
+- Publish beta version
 
 - Write changelog
