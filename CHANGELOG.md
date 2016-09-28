@@ -2,9 +2,13 @@
 
 ## [1.4] - 2016-09-28
 ### Added
-- It is now possible to define new products
+- It is now possible to define custom products
 
 ## [1.3] - 2015-11-01
+### Added
+- Added ability to search for products
+- Products are now grouped by categories
+
 ### Changed
 - Made product sorting locale-aware
 - Use Material icons
