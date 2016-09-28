@@ -15,6 +15,8 @@
 
 - Smoke test
 
+- Update CHANGELOG.md
+
 - Commit
 
 - Tag
@@ -36,4 +38,4 @@
 
 - Publish beta version
 
-- Write changelog
+- Write store changelog
