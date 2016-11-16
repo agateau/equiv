@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.agateau.equiv.R;
 import com.agateau.equiv.core.Constants;
+import com.agateau.equiv.core.FormatUtils;
 import com.agateau.equiv.core.Meal;
 import com.agateau.equiv.core.MealItem;
 import com.agateau.equiv.core.Product;
@@ -368,7 +369,7 @@ public class MealItemDetailActivity extends AppCompatActivity {
                 to.setText("");
                 return;
             }
-            String txt = String.format(Locale.ENGLISH, "%.2f", quantity * ratio);
+            String txt = FormatUtils.naturalRound(Locale.ENGLISH, quantity * ratio);
             to.setText(txt);
         } finally {
             updateMenuItems();

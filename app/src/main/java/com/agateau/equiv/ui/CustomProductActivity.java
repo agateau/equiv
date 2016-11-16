@@ -24,6 +24,7 @@ import com.agateau.equiv.core.ProductCategory;
 import com.agateau.equiv.core.ProductStore;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 public class CustomProductActivity extends AppCompatActivity {
@@ -166,7 +167,7 @@ public class CustomProductActivity extends AppCompatActivity {
         if (mProduct.getUnit() == Product.Unit.GRAM) {
             proteins *= 100;
         }
-        edit.setText(FormatUtils.naturalRound(proteins));
+        edit.setText(FormatUtils.naturalRound(Locale.ENGLISH, proteins));
 
         int radioButtonId = mProduct.getUnit() == Product.Unit.GRAM ? R.id.radio_unit_per_100g : R.id.radio_unit_per_u;
         RadioButton button = (RadioButton) findViewById(radioButtonId);
