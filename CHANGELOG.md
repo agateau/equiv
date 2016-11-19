@@ -1,5 +1,9 @@
 # Change Log
 
+## [1.4.1] - 2016-11-19
+### Fixed
+- Fix crash when editing a custom product if protein weight number was not an integer
+
 ## [1.4] - 2016-09-28
 ### Added
 - It is now possible to define custom products
