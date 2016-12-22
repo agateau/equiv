@@ -41,8 +41,7 @@
 
     \nContact : <a href="mailto:{email}">{email}</a>\n
 
-    \nEquiv est publiée sous la licence <a href="{gpl_url}">GNU GPL v3 ou
-    plus</a>.\n
+    \nEquiv est publiée sous la licence <a href="{license_url}">Apache 2.0</a>.\n
 
     \nVous trouverez les sources de l\'application sur <a
     href="{github_url}">GitHub</a>.
