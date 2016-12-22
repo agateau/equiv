@@ -44,8 +44,7 @@
         available in France. If you are interested in contributing a product
         list for your country, contact me: <a href="mailto:{email}">{email}</a>.\n
 
-        \nEquiv is licensed under the <a href="{gpl_url}">GNU GPL v3 or
-        later</a> license.\n
+        \nEquiv is licensed under the <a href="{license_url}">Apache 2.0</a> license.\n
 
         \nYou can fork the project on <a href="{github_url}">GitHub</a>.
     </string>

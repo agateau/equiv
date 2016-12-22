@@ -18,4 +18,4 @@ Aurélien Gâteau
 
 ## License
 
-[GPL-v3](LICENSE) or later
+[Apache 2.0](LICENSE)
