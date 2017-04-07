@@ -53,6 +53,7 @@
     <string name="max_potato_per_day_title">Max potatoes per day</string>
     <string name="action_search">Search</string>
     <string name="action_add_custom">Add custom product</string>
+    <string name="action_share">Share custom products</string>
 
     <string name="product_category">Category</string>
     <string name="product_name">Name</string>
@@ -61,6 +62,8 @@
     <string name="unit_per_u">g per unit</string>
     <string name="unit_per_100g">g per 100g</string>
     <string name="cannot_edit_default_product">Cannot edit default product</string>
+    <string name="share_via">Share via</string>
+    <string name="no_custom_products">No custom product</string>
 
     <string name="categories_baking_mixes">Baking mixes</string>
     <string name="categories_cereals">Cereals</string>

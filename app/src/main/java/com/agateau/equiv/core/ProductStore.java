@@ -57,6 +57,16 @@ public class ProductStore {
         return list;
     }
 
+    public boolean hasCustomItems() {
+        ArrayList<Product> list = new ArrayList<>();
+        for (Product item : mItems) {
+            if (item.isCustom()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public interface OnProductStoreChangedListener {
         void onFavoriteChanged();
         void onItemListChanged();
