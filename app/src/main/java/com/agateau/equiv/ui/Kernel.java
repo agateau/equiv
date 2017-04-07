@@ -16,9 +16,13 @@ limitations under the License.
 package com.agateau.equiv.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.support.v4.content.FileProvider;
 
+import com.agateau.equiv.R;
 import com.agateau.equiv.core.Constants;
 import com.agateau.equiv.core.Consumer;
 import com.agateau.equiv.core.Day;
@@ -31,6 +35,7 @@ import com.agateau.utils.log.NLog;
 
 import org.json.JSONException;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -210,6 +215,20 @@ public class Kernel {
         } catch (IOException e) {
             NLog.e("Failed to save custom productsto %s: %s", CUSTOM_PRODUCTS_CSV, e);
         }
+    }
+
+    public void shareCustomProductList(Context context) {
+        File file = context.getFileStreamPath(CUSTOM_PRODUCTS_CSV);
+        Uri contentUri = FileProvider.getUriForFile(context, "com.agateau.equiv.fileprovider", file);
+
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_SEND);
+        intent.setType("*/*");
+        intent.putExtra(Intent.EXTRA_SUBJECT, "Equiv product list");
+        intent.putExtra(Intent.EXTRA_STREAM, contentUri);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+        context.startActivity(Intent.createChooser(intent, context.getResources().getString(R.string.share_via)));
     }
 
     public ProteinWeightUnit getProteinUnit() {
