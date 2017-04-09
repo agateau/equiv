@@ -1,0 +1,28 @@
+#!/bin/sh -e
+
+cd $(dirname $0)/..
+
+RES_DIR=app/src/main/res
+
+SVG_FILE=icons/misc.svg
+ICONS="label weight"
+
+RESOLUTIONS=\
+"24 mdpi\n \
+36 hdpi\n \
+48 xhdpi\n \
+72 xxhdpi\n \
+96 xxxhdpi"
+
+for name in $ICONS ; do
+    echo $RESOLUTIONS | while read size bucket ; do
+        echo "$name => $bucket ($size x $size)"
+        dst_dir=$RES_DIR/drawable-$bucket
+        mkdir -p $dst_dir
+        inkscape \
+            --export-id $name \
+            --export-png $dst_dir/ic_${name}_black_24dp.png \
+            --export-width $size --export-height $size \
+            $SVG_FILE
+    done
+done
