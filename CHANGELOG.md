@@ -1,5 +1,12 @@
 # Change Log
 
+## [1.5.0] - 2017-04-11
+### Added
+- Added a "Share custom products" entry to the menu which shares your custom product list with the author so that your work can be integrated in Equiv itself
+
+### Changed
+- Improved layout of the "custom product" screen
+
 ## [1.4.1] - 2016-11-19
 ### Fixed
 - Fix crash when editing a custom product if protein weight number was not an integer

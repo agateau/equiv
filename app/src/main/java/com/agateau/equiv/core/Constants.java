@@ -28,6 +28,6 @@ public class Constants {
     public static final String LICENSE_URL = "http://www.apache.org/licenses/LICENSE-2.0";
     public static final String GITHUB_URL = "http://github.com/agateau/equiv";
 
-    public static final String VERSION_NAME = "1.4.1";
+    public static final String VERSION_NAME = "1.5.0";
     public static final String CUSTOM_PRODUCTS_EMAIL = "equiv@agateau.com";
 }
