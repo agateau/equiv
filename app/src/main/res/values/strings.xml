@@ -63,7 +63,8 @@
     <string name="unit_per_100g">g per 100g</string>
     <string name="cannot_edit_default_product">Cannot edit default product</string>
     <string name="share_via">Share via</string>
-    <string name="no_custom_products">No custom product</string>
+    <string name="share_email_subject">Equiv product list</string>
+    <string name="no_custom_products">No custom products</string>
 
     <string name="categories_baking_mixes">Baking mixes</string>
     <string name="categories_cereals">Cereals</string>

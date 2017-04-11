@@ -18,6 +18,7 @@ package com.agateau.equiv.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.v4.content.FileProvider;
@@ -220,15 +221,16 @@ public class Kernel {
     public void shareCustomProductList(Context context) {
         File file = context.getFileStreamPath(CUSTOM_PRODUCTS_CSV);
         Uri contentUri = FileProvider.getUriForFile(context, "com.agateau.equiv.fileprovider", file);
+        final Resources res = context.getResources();
 
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_SEND);
+        Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("*/*");
-        intent.putExtra(Intent.EXTRA_SUBJECT, "Equiv product list");
+        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{Constants.CUSTOM_PRODUCTS_EMAIL});
+        intent.putExtra(Intent.EXTRA_SUBJECT, res.getString(R.string.share_email_subject));
         intent.putExtra(Intent.EXTRA_STREAM, contentUri);
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
-        context.startActivity(Intent.createChooser(intent, context.getResources().getString(R.string.share_via)));
+        context.startActivity(Intent.createChooser(intent, res.getString(R.string.share_via)));
     }
 
     public ProteinWeightUnit getProteinUnit() {
