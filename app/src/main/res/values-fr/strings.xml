@@ -51,6 +51,7 @@
     <string name="add_meal_item_tab_favorites">Favoris</string>
     <string name="action_search">Rechercher</string>
     <string name="action_add_custom">Ajouter un nouveau produit</string>
+    <string name="action_share">Partager les produits ajoutés</string>
 
     <string name="product_category">Catégorie</string>
     <string name="product_name">Nom</string>
@@ -59,6 +60,9 @@
     <string name="unit_per_u">g par unité</string>
     <string name="unit_per_100g">g pour 100g</string>
     <string name="cannot_edit_default_product">Impossible d\'éditer un produit par défaut</string>
+    <string name="share_via">Partager via</string>
+    <string name="share_email_subject">Liste de produits Equiv</string>
+    <string name="no_custom_products">Aucun produit ajouté à partager</string>
 
     <string name="categories_baking_mixes">Biscuits</string>
     <string name="categories_cereals">Céréales</string>

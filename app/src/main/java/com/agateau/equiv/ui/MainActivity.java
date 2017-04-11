@@ -26,6 +26,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.agateau.equiv.R;
 import com.agateau.equiv.core.Meal;
@@ -119,6 +120,9 @@ public class MainActivity extends AppCompatActivity {
         } else if (id == R.id.action_new_day) {
             onNewDay();
             return true;
+        } else if (id == R.id.action_share) {
+            shareCustomProductList();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -142,6 +146,14 @@ public class MainActivity extends AppCompatActivity {
                 })
                 .setNegativeButton(android.R.string.cancel, null)
                 .show();
+    }
+
+    private void shareCustomProductList() {
+        if (!mKernel.getProductStore().hasCustomItems()) {
+            Toast.makeText(this, R.string.no_custom_products, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        mKernel.shareCustomProductList(this);
     }
 
     private void updateTitle() {
