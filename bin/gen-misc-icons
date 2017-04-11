@@ -5,7 +5,7 @@ cd $(dirname $0)/..
 RES_DIR=app/src/main/res
 
 SVG_FILE=icons/misc.svg
-ICONS="label weight"
+ICONS="weight"
 
 RESOLUTIONS=\
 "24 mdpi\n \
