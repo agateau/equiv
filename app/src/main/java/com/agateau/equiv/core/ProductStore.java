@@ -58,7 +58,6 @@ public class ProductStore {
     }
 
     public boolean hasCustomItems() {
-        ArrayList<Product> list = new ArrayList<>();
         for (Product item : mItems) {
             if (item.isCustom()) {
                 return true;
@@ -120,15 +119,6 @@ public class ProductStore {
     public Product findByUuid(UUID uuid) {
         for (Product product : mItems) {
             if (product.getUuid().equals(uuid)) {
-                return product;
-            }
-        }
-        return null;
-    }
-
-    public Product findByName(String productName) {
-        for (Product product : mItems) {
-            if (product.getName().equals(productName)) {
                 return product;
             }
         }
