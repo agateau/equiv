@@ -149,17 +149,15 @@ public class CustomProductActivity extends AppCompatActivity {
         }
 
         ProductStore productStore = Kernel.getExistingInstance().getProductStore();
+        Product.Details details = new Product.Details(category, name, unit, proteins);
         if (mProduct == null) {
             // Add
-            mProduct = new Product(category, name, unit, proteins);
-            mProduct.setCustom(true);
+            mProduct = new Product();
+            mProduct.setCustomDetails(details);
             productStore.add(mProduct);
         } else {
             // Edit
-            mProduct.setCategory(category);
-            mProduct.setName(name);
-            mProduct.setUnit(unit);
-            mProduct.setProteins(proteins);
+            mProduct.setCustomDetails(details);
             productStore.handleProductUpdate(mProduct);
         }
 

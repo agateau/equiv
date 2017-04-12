@@ -16,7 +16,6 @@ limitations under the License.
 package com.agateau.equiv.core;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -95,13 +94,27 @@ public class ProductStore {
         return mFavoriteItemSet.contains(product);
     }
 
-    public void add(Product product) {
-        mItems.add(product);
+    public void load(UUID uuid, Product.Details details, Product.Source source) {
+        Product product;
+        if (source == Product.Source.CUSTOM) {
+            product = findByUuid(uuid);
+            if (product == null) {
+                product = new Product(uuid, null);
+                mItems.add(product);
+            }
+            product.setCustomDetails(details);
+        } else {
+            product = new Product(uuid, details);
+            mItems.add(product);
+        }
+    }
+
+    public void finishLoad() {
         onItemListChanged();
     }
 
-    public void addAll(Collection<Product> products) {
-        mItems.addAll(products);
+    public void add(Product product) {
+        mItems.add(product);
         onItemListChanged();
     }
 

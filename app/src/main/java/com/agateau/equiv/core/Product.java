@@ -25,12 +25,8 @@ import java.util.UUID;
  */
 public class Product {
     private final UUID mUuid;
-    private String mName;
-    private Unit mUnit;
-    private float mProteins;
-    private ProductCategory mCategory;
-    private CollationKey mCollationKey;
-    private boolean mIsCustom = false;
+    private Details mDefaultDetails = null;
+    private Details mCustomDetails = null;
 
     public enum Unit {
         GRAM,
@@ -51,68 +47,73 @@ public class Product {
         }
     }
 
+    public enum Source {
+        DEFAULT,
+        CUSTOM
+    }
+
+    public static class Details {
+        public final String name;
+        public final Unit unit;
+        public final float proteins;
+        public final ProductCategory category;
+        public final CollationKey collationKey;
+
+        public Details(ProductCategory category, String name, Unit unit, float proteins) {
+            this.category = category;
+            this.name = name;
+            this.unit = unit;
+            this.proteins = proteins;
+            this.collationKey = Collator.getInstance().getCollationKey(name);
+        }
+    }
+
     /**
      * Create a new product with a random id
      */
-    public Product(ProductCategory category, String name, Unit unit, float proteins) {
-        this(UUID.randomUUID(), category, name, unit, proteins);
+    public Product() {
+        this(UUID.randomUUID(), null);
     }
 
-    public Product(UUID uuid, ProductCategory category, String name, Unit unit, float proteins) {
+    public Product(UUID uuid, Details details) {
         mUuid = uuid;
-        mCategory = category;
-        setName(name);
-        mUnit = unit;
-        mProteins = proteins;
+        mDefaultDetails = details;
+    }
+
+    public void setCustomDetails(Details details) {
+        mCustomDetails = details;
     }
 
     public UUID getUuid() {
         return mUuid;
     }
 
-    public ProductCategory getCategory() {
-        return mCategory;
+    public Details getDetails() {
+        return mCustomDetails != null ? mCustomDetails : mDefaultDetails;
     }
 
-    public void setCategory(ProductCategory category) {
-        mCategory = category;
+    public ProductCategory getCategory() {
+        return getDetails().category;
     }
 
     public String getName() {
-        return mName;
-    }
-
-    public void setName(String name) {
-        mName = name;
-        mCollationKey = Collator.getInstance().getCollationKey(mName);
+        return getDetails().name;
     }
 
     public CollationKey getCollationKey() {
-        return mCollationKey;
+        return getDetails().collationKey;
     }
 
     public Unit getUnit() {
-        return mUnit;
-    }
-
-    public void setUnit(Unit unit) {
-        mUnit = unit;
+        return getDetails().unit;
     }
 
     public boolean isCustom() {
-        return mIsCustom;
-    }
-
-    public void setCustom(boolean custom) {
-        mIsCustom = custom;
+        return mCustomDetails != null;
     }
 
     public float getProteins() {
-        return mProteins;
-    }
-
-    public void setProteins(float proteins) {
-        mProteins = proteins;
+        return getDetails().proteins;
     }
 
     public String toString() {

@@ -29,6 +29,7 @@ import com.agateau.equiv.core.Consumer;
 import com.agateau.equiv.core.Day;
 import com.agateau.equiv.core.DayJsonIO;
 import com.agateau.equiv.core.Meal;
+import com.agateau.equiv.core.Product;
 import com.agateau.equiv.core.ProductStore;
 import com.agateau.equiv.core.ProductStoreCsvIO;
 import com.agateau.equiv.core.ProteinWeightUnit;
@@ -156,7 +157,7 @@ public class Kernel {
             throw new RuntimeException("Failed to open products.csv.", e);
         }
         try {
-            ProductStoreCsvIO.read(stream, mProductStore, ProductStoreCsvIO.ProductSource.DEFAULT);
+            ProductStoreCsvIO.read(stream, mProductStore, Product.Source.DEFAULT);
         } catch (IOException e) {
             throw new RuntimeException("Failed to read products.csv.", e);
         }
@@ -167,7 +168,7 @@ public class Kernel {
             return;
         }
         try {
-            ProductStoreCsvIO.read(stream, mProductStore, ProductStoreCsvIO.ProductSource.CUSTOM);
+            ProductStoreCsvIO.read(stream, mProductStore, Product.Source.CUSTOM);
         } catch (IOException e) {
             // Do not throw an exception here, the app is still usable even if we failed to load custom products
             NLog.e("Failed to read custom products from %s: %s.", CUSTOM_PRODUCTS_CSV, e);

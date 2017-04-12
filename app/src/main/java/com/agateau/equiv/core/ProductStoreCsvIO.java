@@ -33,12 +33,7 @@ import java.util.UUID;
 public class ProductStoreCsvIO {
     private static final int VERSION = 1;
 
-    public enum ProductSource {
-        DEFAULT,
-        CUSTOM
-    }
-
-    public static void read(InputStream in, ProductStore productStore, ProductSource source) throws IOException {
+    public static void read(InputStream in, ProductStore productStore, Product.Source source) throws IOException {
         CsvStreamReader reader = new CsvStreamReader(in);
         if (!reader.loadNextRow()) {
             throw new RuntimeException( "csv is empty");
@@ -52,9 +47,7 @@ public class ProductStoreCsvIO {
         }
     }
 
-    private static void readV1(CsvStreamReader reader, ProductStore productStore, ProductSource source) throws IOException {
-        ArrayList<Product> products = new ArrayList<>();
-
+    private static void readV1(CsvStreamReader reader, ProductStore productStore, Product.Source source) throws IOException {
         while (reader.loadNextRow()) {
             UUID uuid = UUID.fromString(reader.readCell());
             String categoryId = reader.readCell();
@@ -75,14 +68,11 @@ public class ProductStoreCsvIO {
                 category = new ProductCategory(categoryId);
                 productStore.addCategory(category);
             }
-            Product product = new Product(uuid, category, name, unit, protein);
-            if (source == ProductSource.CUSTOM) {
-                product.setCustom(true);
-            }
-            products.add(product);
+            Product.Details details = new Product.Details(category, name, unit, protein);
+            productStore.load(uuid, details, source);
         }
 
-        productStore.addAll(products);
+        productStore.finishLoad();
     }
 
     public static void write(FileOutputStream out, ArrayList<Product> products) throws IOException {
