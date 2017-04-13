@@ -225,7 +225,7 @@ public class Kernel {
         final Resources res = context.getResources();
 
         Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("*/*");
+        intent.setType("message/rfc822");
         intent.putExtra(Intent.EXTRA_EMAIL, new String[]{Constants.CUSTOM_PRODUCTS_EMAIL});
         intent.putExtra(Intent.EXTRA_SUBJECT, res.getString(R.string.share_email_subject));
         intent.putExtra(Intent.EXTRA_STREAM, contentUri);
