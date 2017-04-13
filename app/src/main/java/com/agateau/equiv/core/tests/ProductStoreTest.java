@@ -71,7 +71,7 @@ public class ProductStoreTest {
 
         Product product = products.get(0);
         assertThat(product.getDetails(), is(details));
-        assertThat(product.isCustom(), is(true));
+        assertThat(product.hasCustomDetails(), is(true));
     }
 
     @Test
@@ -93,6 +93,6 @@ public class ProductStoreTest {
 
         Product product = products.get(0);
         assertThat(product.getDetails(), is(userDetails));
-        assertThat(product.isCustom(), is(true));
+        assertThat(product.hasCustomDetails(), is(true));
     }
 }

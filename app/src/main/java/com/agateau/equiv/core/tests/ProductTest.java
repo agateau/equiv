@@ -57,13 +57,13 @@ public class ProductTest {
         Product product = new Product(UUID.randomUUID(), d1);
 
         assertThat(product.getName(), is("d1"));
-        assertThat(product.isCustom(), is(false));
+        assertThat(product.hasCustomDetails(), is(false));
 
         Product.Details d2 = new Product.Details(category, "d2", Product.Unit.GRAM, 1);
         product.setCustomDetails(d2);
 
         assertThat(product.getName(), is("d2"));
-        assertThat(product.isCustom(), is(true));
+        assertThat(product.hasCustomDetails(), is(true));
     }
 
     @Test
@@ -75,12 +75,29 @@ public class ProductTest {
         product.setCustomDetails(d2);
 
         assertThat(product.getName(), is("custom"));
-        assertThat(product.isCustom(), is(true));
+        assertThat(product.hasCustomDetails(), is(true));
 
         Product.Details d3 = new Product.Details(category, "default", Product.Unit.GRAM, 1);
         product.setCustomDetails(d3);
 
         assertThat(product.getName(), is("default"));
-        assertThat(product.isCustom(), is(false));
+        assertThat(product.hasCustomDetails(), is(false));
+    }
+
+    @Test
+    public void testHasDefaultDetails() {
+        ProductCategory category = new ProductCategory("bla");
+        Product product = new Product(UUID.randomUUID(), null);
+        product.setCustomDetails(new Product.Details(category, "custom", Product.Unit.GRAM, 1));
+        assertThat(product.hasDefaultDetails(), is(false));
+        assertThat(product.hasCustomDetails(), is(true));
+
+        product = new Product(UUID.randomUUID(), new Product.Details(category, "default", Product.Unit.GRAM, 1));
+        assertThat(product.hasDefaultDetails(), is(true));
+        assertThat(product.hasCustomDetails(), is(false));
+
+        product.setCustomDetails(new Product.Details(category, "custom", Product.Unit.GRAM, 1));
+        assertThat(product.hasDefaultDetails(), is(true));
+        assertThat(product.hasCustomDetails(), is(true));
     }
 }

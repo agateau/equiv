@@ -49,7 +49,7 @@ public class ProductStore {
     public ArrayList<Product> getCustomItems() {
         ArrayList<Product> list = new ArrayList<>();
         for (Product item : mItems) {
-            if (item.isCustom()) {
+            if (item.hasCustomDetails()) {
                 list.add(item);
             }
         }
@@ -58,7 +58,7 @@ public class ProductStore {
 
     public boolean hasCustomItems() {
         for (Product item : mItems) {
-            if (item.isCustom()) {
+            if (item.hasCustomDetails()) {
                 return true;
             }
         }

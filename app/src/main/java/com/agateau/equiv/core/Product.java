@@ -144,7 +144,11 @@ public class Product {
         return getDetails().unit;
     }
 
-    public boolean isCustom() {
+    public boolean hasDefaultDetails() {
+        return mDefaultDetails != null;
+    }
+
+    public boolean hasCustomDetails() {
         return mCustomDetails != null;
     }
 
