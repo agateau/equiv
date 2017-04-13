@@ -53,6 +53,7 @@ public class Product {
     }
 
     public static class Details {
+        private static final float PROTEIN_EPSILON = 0.01f;
         public final String name;
         public final Unit unit;
         public final float proteins;
@@ -65,6 +66,32 @@ public class Product {
             this.unit = unit;
             this.proteins = proteins;
             this.collationKey = Collator.getInstance().getCollationKey(name);
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+
+            Details details = (Details) o;
+            return Math.abs(details.proteins - proteins) < PROTEIN_EPSILON
+                    && name.equals(details.name)
+                    && unit == details.unit
+                    && category.equals(details.category);
+
+        }
+
+        @Override
+        public int hashCode() {
+            int result = name.hashCode();
+            result = 31 * result + unit.hashCode();
+            result = 31 * result + (proteins != +0.0f ? Float.floatToIntBits(proteins) : 0);
+            result = 31 * result + category.hashCode();
+            return result;
         }
     }
 
@@ -80,8 +107,17 @@ public class Product {
         mDefaultDetails = details;
     }
 
+    /**
+     * Set custom details. Setting the same details as the defaults resets the product to its
+     * default state
+     * @param details The details to set
+     */
     public void setCustomDetails(Details details) {
-        mCustomDetails = details;
+        if (details.equals(mDefaultDetails)) {
+            mCustomDetails = null;
+        } else {
+            mCustomDetails = details;
+        }
     }
 
     public UUID getUuid() {
