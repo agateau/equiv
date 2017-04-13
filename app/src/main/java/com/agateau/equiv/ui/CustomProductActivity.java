@@ -102,7 +102,8 @@ public class CustomProductActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.custom_product_activity_actions, menu);
-        if (mProduct == null) {
+        if (mProduct == null || mProduct.hasDefaultDetails()) {
+            // Do not allow deleting if we are adding a product or if we are editing a default product
             MenuItem deleteMenuItem = menu.findItem(R.id.action_delete);
             deleteMenuItem.setVisible(false);
         }

@@ -149,16 +149,10 @@ public class MealItemDetailActivity extends AppCompatActivity {
         favoriteListView.setOnItemClickListener(listener);
 
         AdapterView.OnItemLongClickListener longClickListener = new AdapterView.OnItemLongClickListener() {
-
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 Product product = (Product) parent.getItemAtPosition(position);
-                if (product.isCustom()) {
-                    editCustomProduct(product);
-                } else {
-                    Toast toast = Toast.makeText(MealItemDetailActivity.this, R.string.cannot_edit_default_product, Toast.LENGTH_SHORT);
-                    toast.show();
-                }
+                editCustomProduct(product);
                 return true;
             }
         };

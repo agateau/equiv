@@ -59,7 +59,6 @@
     <string name="product_unit">Unité</string>
     <string name="unit_per_u">g par unité</string>
     <string name="unit_per_100g">g pour 100g</string>
-    <string name="cannot_edit_default_product">Impossible d\'éditer un produit par défaut</string>
     <string name="share_via">Partager via</string>
     <string name="share_email_subject">Liste de produits Equiv</string>
     <string name="no_custom_products">Aucun produit ajouté à partager</string>
