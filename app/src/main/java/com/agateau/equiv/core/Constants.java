@@ -20,7 +20,7 @@ package com.agateau.equiv.core;
  */
 public class Constants {
     // g of protein for 1g of potato
-    // 100g pdt = 2g P => 1g pdt = 0.02g P
+    // 100g potato = 2g P => 1g potato = 0.02g P
     public static final float PROTEIN_FOR_POTATO = 0.02f;
 
     public static final String AUTHOR_EMAIL = "mail@agateau.com";
