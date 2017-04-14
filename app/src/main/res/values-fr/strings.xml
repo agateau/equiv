@@ -62,6 +62,11 @@
     <string name="share_via">Partager via</string>
     <string name="share_email_subject">Liste de produits Equiv</string>
     <string name="no_custom_products">Aucun produit ajouté à partager</string>
+    <string name="dialog_share_custom_products">Vous avez ajouté ou modifié des produits dans Equiv.
+        Voulez vous les partager avec nous pour qu\'ils soient inclus dans la prochaine version ?
+        \n\nSi vous continuez un email contenant vos changements va être créé.
+    </string>
+    <string name="dialog_share_custom_products_confirm">Partager</string>
 
     <string name="categories_baking_mixes">Biscuits</string>
     <string name="categories_cereals">Céréales</string>

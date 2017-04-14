@@ -153,7 +153,18 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, R.string.no_custom_products, Toast.LENGTH_SHORT).show();
             return;
         }
-        mKernel.shareCustomProductList(this);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(getString(R.string.dialog_share_custom_products))
+                .setPositiveButton(R.string.dialog_share_custom_products_confirm, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        mKernel.shareCustomProductList(MainActivity.this);
+                    }
+                })
+                .setNegativeButton(android.R.string.cancel, null)
+                .setCancelable(true)
+                .show();
     }
 
     private void updateTitle() {

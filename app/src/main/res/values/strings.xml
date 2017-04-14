@@ -64,6 +64,10 @@
     <string name="share_via">Share via</string>
     <string name="share_email_subject">Equiv product list</string>
     <string name="no_custom_products">No custom products to share</string>
+    <string name="dialog_share_custom_products">You added or modified some products in Equiv. Do you want to share them with us
+        so that we can include them in the next version?\n\nIf you continue an email containing your changes is going to be created.
+    </string>
+    <string name="dialog_share_custom_products_confirm">Share</string>
 
     <string name="categories_baking_mixes">Baking mixes</string>
     <string name="categories_cereals">Cereals</string>
