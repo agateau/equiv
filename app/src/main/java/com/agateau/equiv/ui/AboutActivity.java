@@ -17,6 +17,8 @@ package com.agateau.equiv.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.LinkMovementMethod;
@@ -45,10 +47,22 @@ public class AboutActivity extends AppCompatActivity {
                 .put("github_url", Constants.GITHUB_URL);
 
         TextView view = (TextView) findViewById(R.id.descriptionTextView);
+        assert view != null;
         view.setText(template.toSpanned());
         view.setMovementMethod(LinkMovementMethod.getInstance());
 
         view = (TextView) findViewById(R.id.versionTextView);
-        view.setText(Constants.VERSION_NAME);
+        assert view != null;
+        view.setText(getVersion());
+    }
+
+    private String getVersion() {
+        PackageInfo info;
+        try {
+            info = getPackageManager().getPackageInfo(getPackageName(), 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            throw new RuntimeException("Failed to get package info", e);
+        }
+        return String.format("%s-%s", info.versionName, info.versionCode);
     }
 }

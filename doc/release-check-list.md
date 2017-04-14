@@ -7,7 +7,6 @@
 - Bump version numbers:
     app/build.gradle versionCode
     app/build.gradle versionName
-    Constants
 
 - Check translations are up to date
 
