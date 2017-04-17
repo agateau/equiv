@@ -68,6 +68,10 @@
         so that we can include them in the next version?\n\nIf you continue an email containing your changes is going to be created.
     </string>
     <string name="dialog_share_custom_products_confirm">Share</string>
+    <string name="dialog_edit_default_product">You are about to customize a product from Equiv default product list.\n
+        \nAre you sure you want to do this?
+    </string>
+    <string name="dialog_continue">Continue</string>
 
     <string name="categories_baking_mixes">Baking mixes</string>
     <string name="categories_cereals">Cereals</string>

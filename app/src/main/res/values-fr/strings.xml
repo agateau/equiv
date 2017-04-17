@@ -67,6 +67,10 @@
         \n\nSi vous continuez un email contenant vos changements va être créé.
     </string>
     <string name="dialog_share_custom_products_confirm">Partager</string>
+    <string name="dialog_edit_default_product">Vous êtes sur le point de modifier un produit de la liste des produits fournis par Equiv.\n
+        \nEtes-vous sûr ?
+    </string>
+    <string name="dialog_continue">Continuer</string>
 
     <string name="categories_baking_mixes">Biscuits</string>
     <string name="categories_cereals">Céréales</string>

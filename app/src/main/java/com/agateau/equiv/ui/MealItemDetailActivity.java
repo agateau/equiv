@@ -16,12 +16,14 @@ limitations under the License.
 package com.agateau.equiv.ui;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.text.Editable;
@@ -311,7 +313,26 @@ public class MealItemDetailActivity extends AppCompatActivity {
         updateMenuItems();
     }
 
-    private void editCustomProduct(Product product) {
+    private void editCustomProduct(final Product product) {
+        if (product.hasDefaultDetails() && !product.hasCustomDetails()) {
+            // About to edit a default product for the first time, warn the user
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage(getString(R.string.dialog_edit_default_product))
+                    .setPositiveButton(R.string.dialog_continue, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            doEditCustomProduct(product);
+                        }
+                    })
+                    .setNegativeButton(android.R.string.cancel, null)
+                    .setCancelable(true)
+                    .show();
+        } else {
+            doEditCustomProduct(product);
+        }
+    }
+
+    private void doEditCustomProduct(Product product) {
         CustomProductActivity.startActivityWithProduct(this, product);
     }
 
