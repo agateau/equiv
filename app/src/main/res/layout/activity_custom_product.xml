@@ -52,7 +52,7 @@
 
         <ImageView
             android:id="@+id/weight_icon"
-            android:src="@drawable/ic_weight_black_24dp"
+            android:src="@drawable/ic_weight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/product_category"

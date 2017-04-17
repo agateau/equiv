@@ -42,6 +42,7 @@ class ProductListAdapter extends ArrayAdapter<Product> {
 
     private static class ViewHolder {
         ImageView categoryImageView;
+        ImageView badgeImageView;
         TextView mainTextView;
         TextView equivTextView;
         CheckBox favoriteCheckBox;
@@ -69,6 +70,7 @@ class ProductListAdapter extends ArrayAdapter<Product> {
             view = inflater.inflate(R.layout.product_item, parent, false);
             vh = new ViewHolder();
             vh.categoryImageView = (ImageView) view.findViewById(R.id.product_category_image);
+            vh.badgeImageView = (ImageView) view.findViewById(R.id.product_badge);
             vh.mainTextView = (TextView) view.findViewById(R.id.product_item_text);
             vh.equivTextView = (TextView) view.findViewById(R.id.product_item_equiv_text);
             vh.favoriteCheckBox = (CheckBox) view.findViewById(R.id.product_item_favorite);
@@ -82,6 +84,20 @@ class ProductListAdapter extends ArrayAdapter<Product> {
 
         // imageView
         vh.categoryImageView.setImageDrawable(ProductCategoryUtils.getDrawableForCategory(mContext, product.getCategory()));
+
+        // badge
+        if (product.hasCustomDetails()) {
+            int drawableId;
+            if (product.hasDefaultDetails()) {
+                drawableId = R.drawable.ic_modified_badge;
+            } else {
+                drawableId = R.drawable.ic_added_badge;
+            }
+            vh.badgeImageView.setVisibility(View.VISIBLE);
+            vh.badgeImageView.setImageDrawable(mContext.getResources().getDrawable(drawableId));
+        } else {
+            vh.badgeImageView.setVisibility(View.GONE);
+        }
 
         // textView
         vh.mainTextView.setText(product.getName());

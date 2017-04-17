@@ -1,38 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="48dp">
     <ImageView
         android:id="@+id/product_category_image"
+        android:layout_centerVertical="true"
         android:layout_width="wrap_content"
-        android:layout_height="32dp"
+        android:layout_height="48dp"
         android:paddingLeft="16dp"
         android:paddingRight="8dp"
-        android:layout_gravity="center_vertical"
-        android:src="@drawable/ic_star_white_24dp" />
+        android:src="@drawable/categories_baking_mixes" />
+    <ImageView
+        android:id="@+id/product_badge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/product_category_image"
+        android:layout_alignEnd="@id/product_category_image"
+        android:src="@drawable/ic_added_badge" android:paddingEnd="4dp"
+        android:paddingBottom="4dp" />
     <LinearLayout
         android:orientation="vertical"
+        android:layout_toRightOf="@id/product_category_image" android:layout_centerVertical="true"
         android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        >
+        android:layout_height="wrap_content" android:layout_toLeftOf="@+id/product_item_favorite">
         <TextView
             android:id="@+id/product_item_text"
             android:textStyle="bold"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:text="bla"
+        />
         <TextView
             android:id="@+id/product_item_equiv_text"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:text="subtext"
+        />
     </LinearLayout>
     <CheckBox
         style="@style/FavoriteCheckBox"
         android:id="@+id/product_item_favorite"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
         android:paddingRight="16dp"
         android:focusable="false"
-        android:layout_gravity="center_vertical"
-        android:layout_width="wrap_content" android:layout_height="match_parent" />
-</LinearLayout>
+    />
+</RelativeLayout>

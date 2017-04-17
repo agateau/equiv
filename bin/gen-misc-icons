@@ -1,28 +1,48 @@
-#!/bin/sh -e
+#!/usr/bin/env python3
+import os
+import subprocess
+import sys
 
-cd $(dirname $0)/..
+RES_DIR = 'app/src/main/res'
 
-RES_DIR=app/src/main/res
+SVG_FILE = 'icons/misc.svg'
 
-SVG_FILE=icons/misc.svg
-ICONS="weight"
+RESOLUTIONS = (
+    (1, 'mdpi'),
+    (1.5, 'hdpi'),
+    (2, 'xhdpi'),
+    (3, 'xxhdpi'),
+    (4, 'xxxhdpi'),
+)
 
-RESOLUTIONS=\
-"24 mdpi\n \
-36 hdpi\n \
-48 xhdpi\n \
-72 xxhdpi\n \
-96 xxxhdpi"
 
-for name in $ICONS ; do
-    echo $RESOLUTIONS | while read size bucket ; do
-        echo "$name => $bucket ($size x $size)"
-        dst_dir=$RES_DIR/drawable-$bucket
-        mkdir -p $dst_dir
-        inkscape \
-            --export-id $name \
-            --export-png $dst_dir/ic_${name}_black_24dp.png \
-            --export-width $size --export-height $size \
-            $SVG_FILE
-    done
-done
+def main():
+    os.chdir(os.path.dirname(sys.argv[0]) + '/..')
+
+    out = subprocess.check_output(['inkscape', '--query-all', SVG_FILE])
+    for line in out.splitlines():
+        name, _, _, width, height = line.decode('utf-8').split(',')
+        if not name.startswith('ic_'):
+            continue
+        width = float(width)
+        height = float(height)
+
+        for ratio, bucket in RESOLUTIONS:
+            scaled_width = width * ratio
+            scaled_height = height * ratio
+            print('{} => {} ({} x {})'.format(name, bucket, scaled_width,
+                                              scaled_height))
+            dst_dir = os.path.join(RES_DIR, 'drawable-{}'.format(bucket))
+            os.makedirs(dst_dir, exist_ok=True)
+
+            png_path = os.path.join(dst_dir, name + '.png')
+
+            subprocess.check_output(['inkscape', '--export-id', name,
+                                     '--export-png', png_path,
+                                     '--export-width', str(scaled_width),
+                                     '--export-height', str(scaled_height),
+                                     SVG_FILE])
+
+
+if __name__ == '__main__':
+    main()
