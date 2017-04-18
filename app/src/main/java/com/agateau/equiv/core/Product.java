@@ -68,6 +68,10 @@ public class Product {
             this.collationKey = Collator.getInstance().getCollationKey(name);
         }
 
+        public static boolean proteinEquals(float p1, float p2) {
+            return Math.abs(p1 - p2) < PROTEIN_EPSILON;
+        }
+
         @Override
         public boolean equals(Object o) {
             if (this == o) {
@@ -78,7 +82,7 @@ public class Product {
             }
 
             Details details = (Details) o;
-            return Math.abs(details.proteins - proteins) < PROTEIN_EPSILON
+            return proteinEquals(proteins, details.proteins)
                     && name.equals(details.name)
                     && unit == details.unit
                     && category.equals(details.category);
@@ -122,6 +126,10 @@ public class Product {
 
     public UUID getUuid() {
         return mUuid;
+    }
+
+    public Details getDefaultDetails() {
+        return mDefaultDetails;
     }
 
     public Details getDetails() {

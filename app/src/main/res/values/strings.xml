@@ -72,6 +72,8 @@
         \nAre you sure you want to do this?
     </string>
     <string name="dialog_continue">Continue</string>
+    <string name="default_product_modified">You have modified Equiv definition of this product. If there is an error in Equiv, you can share your changes with us so we can include your corrections.\nYour changes:</string>
+    <string name="default_product_property_change">%1$s: from %2$s to %3$s</string>
 
     <string name="categories_baking_mixes">Baking mixes</string>
     <string name="categories_cereals">Cereals</string>

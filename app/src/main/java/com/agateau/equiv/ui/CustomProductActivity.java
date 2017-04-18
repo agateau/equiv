@@ -27,9 +27,11 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.agateau.equiv.R;
 import com.agateau.equiv.core.Day;
@@ -92,9 +94,11 @@ public class CustomProductActivity extends AppCompatActivity {
         editProteins.addTextChangedListener(updateMenuItemsWatcher);
 
         String uuid = getIntent().getStringExtra(EXTRA_PRODUCT_UUID);
-        if (!TextUtils.isEmpty(uuid)) {
+        if (TextUtils.isEmpty(uuid)) {
+            initUiForAddition();
+        } else {
             mProduct = productStore.findByUuid(UUID.fromString(uuid));
-            initUiFromProduct();
+            initUiForEdition();
         }
     }
 
@@ -165,7 +169,25 @@ public class CustomProductActivity extends AppCompatActivity {
         Kernel.getExistingInstance().saveCustomProductList(this);
     }
 
-    private void initUiFromProduct() {
+    private String formatChange(int captionId, String original, String newValue) {
+        String caption = getString(captionId);
+        String details = getString(R.string.default_product_property_change, caption, original, newValue);
+        return String.format("• %s\n", details);
+    }
+
+    private String formatWeight(float protein, Product.Unit unit) {
+        if (unit == Product.Unit.GRAM) {
+            protein *= 100;
+        }
+        int unitStringId = unit == Product.Unit.GRAM ? R.string.unit_per_100g : R.string.unit_per_u;
+        return FormatUtils.naturalRound(protein) + getString(unitStringId);
+    }
+
+    private void initUiForAddition() {
+        hideWarningLayout();
+    }
+
+    private void initUiForEdition() {
         getSupportActionBar().setTitle(R.string.title_activity_edit_custom_product);
         assert mProduct != null;
 
@@ -186,6 +208,38 @@ public class CustomProductActivity extends AppCompatActivity {
         int radioButtonId = mProduct.getUnit() == Product.Unit.GRAM ? R.id.radio_unit_per_100g : R.id.radio_unit_per_u;
         RadioButton button = (RadioButton) findViewById(radioButtonId);
         button.setChecked(true);
+
+        // Warning on modification of a default product
+        Product.Details defaultDetails = mProduct.getDefaultDetails();
+        if (defaultDetails != null && mProduct.hasCustomDetails()) {
+            // Modifying an already modified default product, show the differences
+            Product.Details customDetails = mProduct.getDetails();
+            String text = getString(R.string.default_product_modified) + "\n";
+            if (!TextUtils.equals(defaultDetails.name, customDetails.name)) {
+                text += formatChange(R.string.product_name, defaultDetails.name, customDetails.name);
+            }
+            if (defaultDetails.category != customDetails.category) {
+                text += formatChange(R.string.product_category, ProductCategoryUtils.getTextForCategory(this, defaultDetails.category),
+                        ProductCategoryUtils.getTextForCategory(this, customDetails.category));
+            }
+            if (!Product.Details.proteinEquals(defaultDetails.proteins, customDetails.proteins)
+                    || defaultDetails.unit != customDetails.unit) {
+                text += formatChange(R.string.product_proteins,
+                        formatWeight(defaultDetails.proteins, defaultDetails.unit),
+                        formatWeight(customDetails.proteins, customDetails.unit));
+            }
+            TextView warningTextView = (TextView) findViewById(R.id.modified_default_product_warning_text);
+            assert warningTextView != null;
+            warningTextView.setText(text);
+        } else {
+            hideWarningLayout();
+        }
+    }
+
+    private void hideWarningLayout() {
+        View view = findViewById(R.id.modified_default_product_warning_layout);
+        assert view != null;
+        view.setVisibility(View.GONE);
     }
 
     private void deleteProduct() {
