@@ -1,6 +1,19 @@
 # Change Log
 
-## [1.5.0] - 2017-04-11
+## [1.5.0-8] - 2017-04-19
+### Added
+- It is now possible to edit Equiv default products
+- Added a bunch of new products
+- Badges are shown over category icons of modified or added products
+
+### Changed
+- Get version number and code from the application manifest
+- Improved the "weight" icon
+
+### Fixed
+- Make sure only email clients are listed when sharing custom products
+
+## [1.5.0-7] - 2017-04-11
 ### Added
 - Added a "Share custom products" entry to the menu which shares your custom product list with the author so that your work can be integrated in Equiv itself
 
