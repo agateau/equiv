@@ -15,13 +15,16 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            applicationVariants.all { variant ->
-                renameApk(variant, defaultConfig, 'release')
-            }
         }
         debug {
-            applicationVariants.all { variant ->
-                renameApk(variant, defaultConfig, 'debug')
+        }
+        // Inspired from http://stackoverflow.com/a/40017734/20107
+        applicationVariants.all { variant ->
+            variant.outputs.each { output ->
+                def dirName = output.packageApplication.outputFile.parent
+                def buildType = variant.variantData.variantConfiguration.buildType.name
+                def fileName = applicationName + '-' + defaultConfig.versionName + '-' + defaultConfig.versionCode + '-' + buildType + '.apk'
+                output.packageApplication.outputFile = new File(dirName, fileName)
             }
         }
     }
@@ -33,14 +36,4 @@ dependencies {
     compile 'com.android.support:design:23.2.1'
     testCompile 'junit:junit:4.12'
     compile 'junit:junit:4.12'
-}
-
-// Inspired from https://stackoverflow.com/questions/33775160
-def renameApk(variant, defaultConfig, buildType) {
-    variant.outputs.each { output ->
-        def date = new Date().format('yyyyMMdd')
-        def dirName = output.packageApplication.outputFile.parent
-        def fileName = applicationName + '-' + date + '-' + defaultConfig.versionName + '-' + defaultConfig.versionCode + '-' + buildType + '.apk'
-        output.packageApplication.outputFile = new File(dirName, fileName)
-    }
 }
