@@ -63,7 +63,7 @@
     <string name="share_email_subject">Liste de produits Equiv</string>
     <string name="no_custom_products">Aucun produit personnalisé à partager</string>
     <string name="dialog_share_custom_products">Vous avez ajouté ou modifié des produits dans Equiv.
-        Voulez vous les partager avec nous pour qu\'ils soient inclus dans la prochaine version ?
+        Voulez-vous les partager avec nous pour qu\'ils soient inclus dans la prochaine version ?
         \n\nSi vous continuez un email contenant vos changements va être créé.
     </string>
     <string name="dialog_share_custom_products_confirm">Partager</string>
@@ -71,7 +71,7 @@
         \nEtes-vous sûr ?
     </string>
     <string name="dialog_continue">Continuer</string>
-    <string name="default_product_modified">Vous avez modifié la définition Equiv de ce produit. Si il y a une erreur dans Equiv, vous pouvez partager vos changements avec nous pour que nous intégrions vos corrections.\nVos changements :</string>
+    <string name="default_product_modified">Vous avez modifié la définition Equiv de ce produit. Si il y a une erreur dans Equiv, vous pouvez partager vos changements pour qu\'ils soient intégrés dans la prochaine version.\n\nVos changements :</string>
     <string name="default_product_property_change">%1$s : de %2$s vers %3$s</string>
 
     <string name="categories_baking_mixes">Biscuits</string>
