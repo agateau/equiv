@@ -105,7 +105,7 @@ class ProductListAdapter extends ArrayAdapter<Product> {
         // equivTextView
         float proteins = product.getProteins();
 
-        WeightFormatter formatter = mKernel.getWeightFormater();
+        WeightFormatter formatter = mKernel.getWeightFormatter();
 
         float equiv;
         Product.Unit equivUnit = product.getUnit();

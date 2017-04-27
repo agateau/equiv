@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements Meal.Listener {
     }
 
     private void createTabSpec(ActionBarViewTabBuilder builder, final Meal meal) {
-        final MealView view = new MealView(this, meal, mKernel.getWeightFormater());
+        final MealView view = new MealView(this, meal, mKernel.getWeightFormatter());
         ActionBar.Tab tab = builder.addTab(view);
         tab.setTag(meal.getTag());
         updateTabText(tab, meal);
@@ -176,7 +176,7 @@ public class MainActivity extends AppCompatActivity implements Meal.Listener {
         if (bar == null) {
             return;
         }
-        WeightFormatter formatter = mKernel.getWeightFormater();
+        WeightFormatter formatter = mKernel.getWeightFormatter();
         String total = formatter.format(mKernel.getDay().getProteinWeight(), WeightFormatter.UnitFormat.NONE);
         String maxAllowed = formatter.format(mKernel.getConsumer().getMaxProteinPerDay());
         String title = String.format("Equiv %s / %s", total, maxAllowed);
@@ -186,7 +186,7 @@ public class MainActivity extends AppCompatActivity implements Meal.Listener {
     private void updateTabText(ActionBar.Tab tab, Meal meal) {
         int nameId = getResources().getIdentifier("meal_name_" + meal.getTag(), "string", getPackageName());
         String name = getString(nameId);
-        WeightFormatter formatter = mKernel.getWeightFormater();
+        WeightFormatter formatter = mKernel.getWeightFormatter();
         String total = formatter.format(meal.getProteinWeight(), WeightFormatter.UnitFormat.SHORT);
         String title = String.format("%s\n%s", name, total);
         tab.setText(title);

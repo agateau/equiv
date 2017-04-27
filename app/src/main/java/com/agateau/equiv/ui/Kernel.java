@@ -61,11 +61,11 @@ public class Kernel {
     private ProductStore mProductStore = null;
     private int mCurrentTab = -1;
     private ProteinWeightUnit mProteinUnit = ProteinWeightUnit.POTATO;
-    private final WeightFormatter mWeightFormater;
+    private final WeightFormatter mWeightFormatter;
 
     Kernel(Context context) {
         setupDay();
-        mWeightFormater = new WeightFormatter(context.getResources());
+        mWeightFormatter = new WeightFormatter(context.getResources());
     }
 
     public static Kernel getInstance(Context context) {
@@ -84,14 +84,14 @@ public class Kernel {
         return sInstance;
     }
 
-    public WeightFormatter getWeightFormater() {
-        return mWeightFormater;
+    public WeightFormatter getWeightFormatter() {
+        return mWeightFormatter;
     }
 
     public void updateFromPreferences(SharedPreferences prefs) {
         mProteinUnit = PreferenceUtils.getProteinWeightUnit(prefs, "protein_weight_unit", ProteinWeightUnit.PROTEIN);
         loadConsumer(prefs);
-        mWeightFormater.setProteinFormat(mProteinUnit);
+        mWeightFormatter.setProteinFormat(mProteinUnit);
     }
 
     private void loadDay(Context context) {

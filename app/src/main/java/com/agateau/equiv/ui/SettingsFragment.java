@@ -91,7 +91,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
             mMaxPerDayPreference.setTitle(R.string.max_protein_per_day_title);
         }
         float maxProtein = kernel.getConsumer().getMaxProteinPerDay();
-        summary = kernel.getWeightFormater().format(maxProtein, WeightFormatter.UnitFormat.SHORT);
+        summary = kernel.getWeightFormatter().format(maxProtein, WeightFormatter.UnitFormat.SHORT);
         mMaxPerDayPreference.setSummary(summary);
     }
 }

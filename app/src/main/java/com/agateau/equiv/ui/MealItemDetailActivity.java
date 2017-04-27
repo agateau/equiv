@@ -40,7 +40,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.agateau.equiv.R;
 import com.agateau.equiv.core.Constants;
@@ -415,7 +414,7 @@ public class MealItemDetailActivity extends AppCompatActivity {
         String unit = mProduct.getUnit().toString();
         mQuantityUnitView.setText(unit);
 
-        unit = mKernel.getWeightFormater().getUnitString(WeightFormatter.UnitFormat.FULL);
+        unit = mKernel.getWeightFormatter().getUnitString(WeightFormatter.UnitFormat.FULL);
         mQuantityEquivUnitView.setText(unit);
     }
 }
