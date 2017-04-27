@@ -31,7 +31,7 @@ import com.agateau.equiv.core.MealItem;
 /**
  * Shows the meal items for a view
  */
-public class MealView extends LinearLayout {
+public class MealView extends LinearLayout implements Meal.Listener {
     private final Meal mMeal;
     private final ArrayAdapter<MealItem> mAdapter;
 
@@ -53,18 +53,28 @@ public class MealView extends LinearLayout {
         ListView listView = (ListView) findViewById(R.id.meal_list_view);
         listView.setAdapter(mAdapter);
 
-        mMeal.registerListener(new Meal.Listener() {
-            @Override
-            public void onMealChanged() {
-                mAdapter.notifyDataSetChanged();
-            }
-        });
-
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 MealItemDetailActivity.editMealItem(getContext(), mMeal, position);
             }
         });
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        mMeal.registerListener(this);
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        mMeal.unregisterListener(this);
+        super.onDetachedFromWindow();
+    }
+
+    @Override
+    public void onMealChanged(Meal meal) {
+        mAdapter.notifyDataSetChanged();
     }
 }

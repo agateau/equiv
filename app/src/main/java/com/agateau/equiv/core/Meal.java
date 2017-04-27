@@ -27,7 +27,7 @@ public class Meal {
     private LinkedList<Listener> mListeners = new LinkedList<>();
 
     public interface Listener {
-        void onMealChanged();
+        void onMealChanged(Meal meal);
     }
 
     public Meal(String tag) {
@@ -111,7 +111,7 @@ public class Meal {
 
     private void notifyChanged() {
         for (Listener listener : mListeners) {
-            listener.onMealChanged();
+            listener.onMealChanged(this);
         }
     }
 }

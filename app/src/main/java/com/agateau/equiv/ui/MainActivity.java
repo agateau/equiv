@@ -34,7 +34,7 @@ import com.agateau.utils.log.NLog;
 import com.agateau.utils.ui.ActionBarViewTabBuilder;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements Meal.Listener {
     private Kernel mKernel;
 
     @Override
@@ -52,17 +52,18 @@ public class MainActivity extends AppCompatActivity {
             getSupportActionBar().getTabAt(tab).select();
         }
 
-        Meal.Listener listener = new Meal.Listener() {
-            @Override
-            public void onMealChanged() {
-                updateTitle();
-                mKernel.saveDay(MainActivity.this);
-            }
-        };
         for (Meal meal : mKernel.getDay().getMeals()) {
-            meal.registerListener(listener);
+            meal.registerListener(this);
         }
         updateTitle();
+    }
+
+    @Override
+    protected void onDestroy() {
+        for (Meal meal : mKernel.getDay().getMeals()) {
+            meal.unregisterListener(this);
+        }
+        super.onDestroy();
     }
 
     private void setupTabs() {
@@ -81,16 +82,7 @@ public class MainActivity extends AppCompatActivity {
         final MealView view = new MealView(this, meal, mKernel.getWeightFormater());
         ActionBar.Tab tab = builder.addTab(view);
         tab.setTag(meal.getTag());
-
-        final int mealTabIndex = tab.getPosition();
-        Meal.Listener listener = new Meal.Listener() {
-            @Override
-            public void onMealChanged() {
-                updateTab(meal, mealTabIndex);
-            }
-        };
-        meal.registerListener(listener);
-        updateTab(meal, mealTabIndex);
+        updateTabText(tab, meal);
     }
 
 
@@ -125,6 +117,18 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onMealChanged(Meal meal) {
+        mKernel.saveDay(this);
+        updateTitle();
+        int tabPosition = mKernel.getDay().getMeals().indexOf(meal);
+        if (tabPosition == -1) {
+            throw new RuntimeException("Meal " + meal + " not in meals");
+        }
+        ActionBar.Tab tab = getSupportActionBar().getTabAt(tabPosition);
+        updateTabText(tab, meal);
     }
 
     private void showSettings() {
@@ -179,14 +183,12 @@ public class MainActivity extends AppCompatActivity {
         bar.setTitle(title);
     }
 
-    private void updateTab(Meal meal, int tabIndex) {
+    private void updateTabText(ActionBar.Tab tab, Meal meal) {
         int nameId = getResources().getIdentifier("meal_name_" + meal.getTag(), "string", getPackageName());
         String name = getString(nameId);
         WeightFormatter formatter = mKernel.getWeightFormater();
         String total = formatter.format(meal.getProteinWeight(), WeightFormatter.UnitFormat.SHORT);
         String title = String.format("%s\n%s", name, total);
-
-        ActionBar.Tab tab = getSupportActionBar().getTabAt(tabIndex);
         tab.setText(title);
     }
 
