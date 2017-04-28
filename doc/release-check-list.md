@@ -12,11 +12,11 @@
 
 - Generate signed .apk
 
-- Smoke test
-
 - Update CHANGELOG.md
 
     Follow this format: <https://raw.githubusercontent.com/olivierlacan/keep-a-changelog/master/CHANGELOG.md>
+
+- Smoke test
 
 - Commit
 
@@ -33,12 +33,12 @@
 
 - Upload to Google Play
 
-    <https://play.google.com/apps/publish/?dev_acc=12107822308363902567#ApkPlace:p=com.agateau.equiv>
+    <https://play.google.com/apps/publish/?dev_acc=12107822308363902567#ManageReleasesPlace:p=com.agateau.equiv>
 
 # Publish
 
 - Take screenshots
 
-- Publish beta version
+- Promote beta to stable version
 
 - Write store changelog

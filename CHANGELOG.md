@@ -1,5 +1,11 @@
 # Change Log
 
+## [1.5.0.9] - 2017-04-28
+
+### Fixed
+- Fix crash when adding a second meal item
+
+
 ## [1.5.0-8] - 2017-04-19
 ### Added
 - It is now possible to edit Equiv default products
