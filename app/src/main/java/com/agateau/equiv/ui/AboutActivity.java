@@ -63,6 +63,6 @@ public class AboutActivity extends AppCompatActivity {
         } catch (PackageManager.NameNotFoundException e) {
             throw new RuntimeException("Failed to get package info", e);
         }
-        return String.format("%s-%s", info.versionName, info.versionCode);
+        return info.versionName;
     }
 }
