@@ -59,7 +59,6 @@ public class Kernel {
     private final Consumer mConsumer = new Consumer();
     private final Day mDay = new Day();
     private ProductStore mProductStore = null;
-    private int mCurrentTab = -1;
     private ProteinWeightUnit mProteinUnit = ProteinWeightUnit.POTATO;
     private final WeightFormatter mWeightFormatter;
 
@@ -138,14 +137,6 @@ public class Kernel {
 
     public ProductStore getProductStore() {
         return mProductStore;
-    }
-
-    public int getCurrentTab() {
-        return mCurrentTab;
-    }
-
-    public void setCurrentTab(int currentTab) {
-        mCurrentTab = currentTab;
     }
 
     private void loadProductList(Context context) {

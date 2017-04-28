@@ -37,6 +37,13 @@ import com.agateau.utils.ui.ActionBarViewTabBuilder;
 public class MainActivity extends AppCompatActivity implements Meal.Listener {
     private Kernel mKernel;
 
+    // Home-made state saving, because when the user clicks on Back from the MealItemDetailActivity,
+    // onCreate is always called with a null savedInstanceState, so we can't restore the state.
+    private static class UiState {
+        int currentTabPosition = 0;
+    };
+    private static UiState sUiState = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,9 +54,8 @@ public class MainActivity extends AppCompatActivity implements Meal.Listener {
         setContentView(R.layout.activity_main);
 
         setupTabs();
-        int tab = mKernel.getCurrentTab();
-        if (tab >= 0) {
-            getSupportActionBar().getTabAt(tab).select();
+        if (sUiState != null) {
+            getSupportActionBar().getTabAt(sUiState.currentTabPosition).select();
         }
 
         for (Meal meal : mKernel.getDay().getMeals()) {
@@ -88,8 +94,11 @@ public class MainActivity extends AppCompatActivity implements Meal.Listener {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
+        if (sUiState == null) {
+            sUiState = new UiState();
+        }
+        sUiState.currentTabPosition = getSupportActionBar().getSelectedTab().getPosition();
         super.onSaveInstanceState(outState);
-        mKernel.setCurrentTab(getSupportActionBar().getSelectedTab().getPosition());
     }
 
     @Override
