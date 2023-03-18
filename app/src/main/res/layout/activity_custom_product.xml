@@ -23,7 +23,6 @@
             android:layout_alignParentTop="true"
             android:layout_marginTop="32dp"
             tools:ignore="ContentDescription"
-            android:tint="@color/hint_foreground_material_light" android:tintMode="src_in"
             android:src="@drawable/ic_create_black_24dp" />
 
         <EditText
@@ -58,7 +57,7 @@
             android:layout_below="@+id/product_category"
             android:layout_marginTop="48dp"
             tools:ignore="ContentDescription"
-            android:tint="@color/hint_foreground_material_light" android:tintMode="src_in" />
+            />
 
         <EditText
             android:id="@+id/product_proteins"
