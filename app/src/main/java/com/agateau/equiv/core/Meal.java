@@ -24,7 +24,7 @@ import java.util.LinkedList;
 public class Meal {
     final String mTag;
     final ArrayList<MealItem> mItems = new ArrayList<>();
-    private LinkedList<Listener> mListeners = new LinkedList<>();
+    private final LinkedList<Listener> mListeners = new LinkedList<>();
 
     public interface Listener {
         void onMealChanged(Meal meal);

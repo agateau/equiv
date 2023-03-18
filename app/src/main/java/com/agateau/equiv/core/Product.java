@@ -25,7 +25,7 @@ import java.util.UUID;
  */
 public class Product {
     private final UUID mUuid;
-    private Details mDefaultDetails = null;
+    private final Details mDefaultDetails;
     private Details mCustomDetails = null;
 
     public enum Unit {
@@ -93,7 +93,7 @@ public class Product {
         public int hashCode() {
             int result = name.hashCode();
             result = 31 * result + unit.hashCode();
-            result = 31 * result + (proteins != +0.0f ? Float.floatToIntBits(proteins) : 0);
+            result = 31 * result + (proteins != 0.0f ? Float.floatToIntBits(proteins) : 0);
             result = 31 * result + category.hashCode();
             return result;
         }

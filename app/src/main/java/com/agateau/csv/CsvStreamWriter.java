@@ -15,7 +15,6 @@ limitations under the License.
 */
 package com.agateau.csv;
 
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 

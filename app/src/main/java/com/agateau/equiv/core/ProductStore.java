@@ -35,15 +35,12 @@ public class ProductStore {
     private final Map<String, ProductCategory> mCategoryMap = new HashMap<>();
     private OnProductStoreChangedListener mOnProductStoreChangedListener;
 
-    private Comparator<Product> mComparator = new Comparator<Product>() {
-        @Override
-        public int compare(Product lhs, Product rhs) {
-            int res = lhs.getCategory().getCategoryId().compareTo(rhs.getCategory().getCategoryId());
-            if (res != 0) {
-                return res;
-            }
-            return lhs.getCollationKey().compareTo(rhs.getCollationKey());
+    private final Comparator<Product> mComparator = (lhs, rhs) -> {
+        int res = lhs.getCategory().getCategoryId().compareTo(rhs.getCategory().getCategoryId());
+        if (res != 0) {
+            return res;
         }
+        return lhs.getCollationKey().compareTo(rhs.getCollationKey());
     };
 
     public ArrayList<Product> getCustomItems() {
@@ -147,9 +144,7 @@ public class ProductStore {
     }
 
     public List<ProductCategory> getCategoryList() {
-        List<ProductCategory> lst = new ArrayList<>();
-        lst.addAll(mCategoryMap.values());
-        return lst;
+        return new ArrayList<>(mCategoryMap.values());
     }
 
     public Set<UUID> getFavoriteUuids() {
