@@ -5,7 +5,7 @@ Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
 
-    http://www.apache.org/licenses/LICENSE-2.0
+    https://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
@@ -25,7 +25,7 @@ import java.util.UUID;
  */
 public class Product {
     private final UUID mUuid;
-    private Details mDefaultDetails = null;
+    private final Details mDefaultDetails;
     private Details mCustomDetails = null;
 
     public enum Unit {
@@ -93,7 +93,7 @@ public class Product {
         public int hashCode() {
             int result = name.hashCode();
             result = 31 * result + unit.hashCode();
-            result = 31 * result + (proteins != +0.0f ? Float.floatToIntBits(proteins) : 0);
+            result = 31 * result + (proteins != 0.0f ? Float.floatToIntBits(proteins) : 0);
             result = 31 * result + category.hashCode();
             return result;
         }

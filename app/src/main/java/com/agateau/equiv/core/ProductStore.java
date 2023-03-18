@@ -5,7 +5,7 @@ Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
 
-    http://www.apache.org/licenses/LICENSE-2.0
+    https://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
@@ -35,15 +35,12 @@ public class ProductStore {
     private final Map<String, ProductCategory> mCategoryMap = new HashMap<>();
     private OnProductStoreChangedListener mOnProductStoreChangedListener;
 
-    private Comparator<Product> mComparator = new Comparator<Product>() {
-        @Override
-        public int compare(Product lhs, Product rhs) {
-            int res = lhs.getCategory().getCategoryId().compareTo(rhs.getCategory().getCategoryId());
-            if (res != 0) {
-                return res;
-            }
-            return lhs.getCollationKey().compareTo(rhs.getCollationKey());
+    private final Comparator<Product> mComparator = (lhs, rhs) -> {
+        int res = lhs.getCategory().getCategoryId().compareTo(rhs.getCategory().getCategoryId());
+        if (res != 0) {
+            return res;
         }
+        return lhs.getCollationKey().compareTo(rhs.getCollationKey());
     };
 
     public ArrayList<Product> getCustomItems() {
@@ -147,9 +144,7 @@ public class ProductStore {
     }
 
     public List<ProductCategory> getCategoryList() {
-        List<ProductCategory> lst = new ArrayList<>();
-        lst.addAll(mCategoryMap.values());
-        return lst;
+        return new ArrayList<>(mCategoryMap.values());
     }
 
     public Set<UUID> getFavoriteUuids() {
