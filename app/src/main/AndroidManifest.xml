@@ -48,7 +48,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.MealItemDetailActivity" />
         </activity>
-        <provider android:name="android.support.v4.content.FileProvider"
+        <provider android:name="androidx.core.content.FileProvider"
             android:authorities="com.agateau.equiv.fileprovider" android:exported="false"
             android:grantUriPermissions="true">
             <meta-data android:name="android.support.FILE_PROVIDER_PATHS"
