@@ -1,44 +1,65 @@
 # Create .apk
 
-- Check current branch is master
+- [ ] Check current branch is master and working tree is clean
 
-- Check working tree is clean
+    git checkout master
+    git pull
+    git status
+    git checkout -b prepare-release
 
-- Bump version numbers:
-    app/build.gradle versionCode
-    app/build.gradle versionName
+- [ ] Bump version numbers (versionCode and versionName):
 
-- Check translations are up to date
+    vi app/build.gradle
 
-- Generate signed .apk
+- [ ] Check translations are up to date
 
-- Update CHANGELOG.md
+- [ ] Generate signed .apk
 
-    Follow this format: <https://raw.githubusercontent.com/olivierlacan/keep-a-changelog/master/CHANGELOG.md>
+    if [ -f app/signing.gradle ] ; then
+        ./gradlew assembleRelease
+    else
+        echo "app/signing.gradle does not exist"
+    fi
 
 - Smoke test
 
-- Commit
+- Update CHANGELOG.md. Follow this format: <https://raw.githubusercontent.com/olivierlacan/keep-a-changelog/master/CHANGELOG.md>
 
-- Tag
+    vi CHANGELOG.md
 
-    git tag -a $newv
+- [ ] Commit
 
-- Push
+    git add .
+    git commit -m "Preparing $VERSION"
 
-    git push
+- [ ] Push
+
+    git push -u origin prepare-release
+    gh pr create --fill
+    gh pr merge --auto -dm
+
+# Tag
+
+- [ ] Tag
+
+    git checkout master
+    git pull
+    git tag -a $VERSION -m "Release $VERSION"
     git push --tags
+    git push -d origin prepare-release
 
 # Publish beta
 
-- Upload to Google Play
+- [ ] Upload to Google Play
 
-    <https://play.google.com/apps/publish/?dev_acc=12107822308363902567#ManageReleasesPlace:p=com.agateau.equiv>
+- [ ] Wait for Google Play to be happy
 
 # Publish
 
-- Take screenshots
+- [ ] Take screenshots
 
-- Promote beta to stable version
+- [ ] Publish beta version
 
-- Write store changelog
+- [ ] Write store changelog
+
+- [ ] Create GitHub release
