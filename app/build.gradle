@@ -1,14 +1,17 @@
 apply plugin: 'com.android.application'
 
 android {
+    Properties versionProps = new Properties()
+    versionProps.load(new FileInputStream(file('../version.properties')))
+
     compileSdk 33
 
     defaultConfig {
         applicationId "com.agateau.equiv"
         minSdkVersion 17
         targetSdkVersion 33
-        versionCode 9
-        versionName "1.5.0.9"
+        versionCode versionProps['VERSION_CODE'].toInteger()
+        versionName versionProps['VERSION']
     }
     signingConfigs {
         release {

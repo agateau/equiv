@@ -9,19 +9,17 @@
 
 - [ ] Bump version numbers (versionCode and versionName):
 
-    vi app/build.gradle
+    vi version.properties
 
 - [ ] Check translations are up to date
 
 - [ ] Generate signed .apk
 
-    if [ -f app/signing.gradle ] ; then
-        ./gradlew assembleRelease
-    else
-        echo "app/signing.gradle does not exist"
-    fi
+    make signed-apk
 
 - Smoke test
+
+    make test-signed-apk
 
 - Update CHANGELOG.md. Follow this format: <https://raw.githubusercontent.com/olivierlacan/keep-a-changelog/master/CHANGELOG.md>
 
