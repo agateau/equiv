@@ -13,10 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-package com.agateau.equiv.core.tests;
-
-import com.agateau.equiv.core.Product;
-import com.agateau.equiv.core.ProductCategory;
+package com.agateau.equiv.core;
 
 import org.junit.Test;
 
