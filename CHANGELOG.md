@@ -1,5 +1,10 @@
 # Change Log
 
+## [1.6.0.0] - 2023-03-25
+
+### Changed
+- Updated to latest Android SDK so that the app is still available on Google Play
+
 ## [1.5.0.9] - 2017-04-28
 
 ### Fixed
