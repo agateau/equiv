@@ -47,3 +47,6 @@ test-signed-apk:
 	adb uninstall $(ANDROID_PACKAGE_NAME) || true
 	adb install -f $(ARCHIVE_DIR)/$(APK_NAME)
 	adb shell am start -n $(ANDROID_PACKAGE_NAME)/com.agateau.equiv.ui.MainActivity
+
+gh-upload:
+	gh release create --draft $(VERSION) $(ARCHIVE_DIR)/$(APK_NAME)

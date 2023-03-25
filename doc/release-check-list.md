@@ -60,3 +60,12 @@
 - [ ] Write store changelog
 
 - [ ] Create GitHub release
+
+    make gh-upload
+
+- [ ] Publish GitHub release
+
+    - Go to https://github.com/agateau/equiv/releases
+    - Select the release
+    - Fill the notes
+    - Publish the release
