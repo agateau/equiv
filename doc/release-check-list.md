@@ -17,11 +17,11 @@
 
     make signed-apk
 
-- Smoke test
+- [ ] Smoke test
 
     make test-signed-apk
 
-- Update CHANGELOG.md. Follow this format: <https://raw.githubusercontent.com/olivierlacan/keep-a-changelog/master/CHANGELOG.md>
+- [ ] Update CHANGELOG.md. Follow this format: <https://raw.githubusercontent.com/olivierlacan/keep-a-changelog/master/CHANGELOG.md>
 
     vi CHANGELOG.md
 
