@@ -44,7 +44,6 @@
     git pull
     git tag -a $VERSION -m "Release $VERSION"
     git push --tags
-    git push -d origin prepare-release
 
 # Publish beta
 
