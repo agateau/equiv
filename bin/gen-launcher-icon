@@ -1,4 +1,5 @@
-#!/bin/sh -e
+#!/bin/bash
+set -euo pipefail
 
 cd $(dirname $0)/..
 
@@ -16,7 +17,11 @@ while read size dir ; do
     echo
     size_args="--export-width $size --export-height $size"
     mkdir -p $dir
-    inkscape --export-area $EXPORT_AREA $size_args --export-png $dir/$NAME $SVG_FILE
+    inkscape \
+        --export-area $EXPORT_AREA $size_args \
+        --export-filename $dir/$NAME \
+        --export-overwrite \
+        $SVG_FILE
 done <<EOF
  48 $RES_DIR/mipmap-mdpi
  72 $RES_DIR/mipmap-hdpi
